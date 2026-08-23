@@ -69,6 +69,9 @@ function App() {
   const [selected, setSelected] = useState<string[]>([])
   const [message, setMessage] = useState('')
   const [attempts, setAttempts] = useState(0)
+  const [firstIslandCompleted, setFirstIslandCompleted] = useState(
+    () => localStorage.getItem('ilha-dos-conjuntos-progress') === '1',
+  )
   const challenge = challenges[challengeIndex]
   const progress = screen === 'result' ? 100 : (challengeIndex / challenges.length) * 100
 
@@ -100,6 +103,7 @@ function App() {
     }
     if (challengeIndex === challenges.length - 1) {
       localStorage.setItem('ilha-dos-conjuntos-progress', '1')
+      setFirstIslandCompleted(true)
       setScreen('result')
       return
     }
@@ -137,9 +141,9 @@ function App() {
             </div>
           </section>
           <section className="trail-section" aria-labelledby="trail-title">
-            <div className="section-heading"><div><span className="section-kicker">SEU MAPA DE AVENTURAS</span><h2 id="trail-title">Uma descoberta de cada vez</h2></div><span className="progress-label">1 de 6 ilhas abertas</span></div>
+            <div className="section-heading"><div><span className="section-kicker">SEU MAPA DE AVENTURAS</span><h2 id="trail-title">Uma descoberta de cada vez</h2></div><span className="progress-label">{firstIslandCompleted ? '1 ilha concluída' : '1 de 6 ilhas abertas'}</span></div>
             <div className="stage-grid">
-              <article className="stage-card active"><span className="stage-number">01</span><div className="stage-icon yellow">🧺</div><span className="status-tag">PRONTO PARA JOGAR</span><h3>O que é um conjunto?</h3><p>Agrupe objetos que possuem algo em comum.</p><button onClick={startLesson}>Explorar esta ilha <span>→</span></button></article>
+              <article className={`stage-card active ${firstIslandCompleted ? 'completed' : ''}`}><span className="stage-number">01</span><div className="stage-icon yellow">{firstIslandCompleted ? '★' : '🧺'}</div><span className="status-tag">{firstIslandCompleted ? 'ILHA CONCLUÍDA' : 'PRONTO PARA JOGAR'}</span><h3>O que é um conjunto?</h3><p>Agrupe objetos que possuem algo em comum.</p><button onClick={startLesson}>{firstIslandCompleted ? 'Jogar novamente' : 'Explorar esta ilha'} <span>→</span></button></article>
               <article className="stage-card locked"><span className="stage-number">02</span><div className="stage-icon coral">∈</div><span className="status-tag">PRÓXIMA ILHA</span><h3>Quem pertence?</h3><p>Descubra a relação de pertinência.</p></article>
               <article className="stage-card locked"><span className="stage-number">03</span><div className="stage-icon blue">⊂</div><span className="status-tag">EM BREVE</span><h3>Conjuntos dentro de conjuntos</h3><p>Conheça subconjuntos e inclusão.</p></article>
             </div>

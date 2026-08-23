@@ -69,6 +69,8 @@ h1, h2, h3 { font-family: 'Baloo 2', sans-serif; color: var(--ink); margin-top: 
 .stage-grid { max-width: 1200px; margin: auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
 .stage-card { min-height: 295px; position: relative; padding: 25px; border: 1px solid var(--line); border-radius: 22px; background: #fff; overflow: hidden; }
 .stage-card.active { border: 2px solid var(--green); box-shadow: 0 14px 34px rgba(22, 111, 95, .1); }.stage-card.locked { background: #fafcfb; opacity: .72; }
+.stage-card.completed { background: linear-gradient(145deg, #fff 55%, #ecf8f2); }
+.stage-card.completed .stage-icon { color: #9c6c08; }
 .stage-number { position: absolute; right: 18px; top: 9px; font-family: 'Baloo 2'; font-size: 52px; color: #eef3ef; font-weight: 900; }
 .stage-icon { width: 55px; height: 55px; display: grid; place-items: center; border-radius: 17px; font-family: 'Baloo 2'; font-size: 29px; margin-bottom: 18px; }
 .stage-icon.yellow { background: #fff0bd; }.stage-icon.coral { background: #ffe4df; color: #cf5a46; }.stage-icon.blue { background: #dceff4; color: #2e7990; }
