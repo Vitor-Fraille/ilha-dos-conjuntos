@@ -39,7 +39,7 @@ npm run build
 
 Antes de desenvolver uma atividade, abra uma issue descrevendo o objetivo pedagógico e os critérios de aceite. Crie uma branch curta, como `feature/ilha-pertinencia`, e envie a alteração por pull request.
 
-Consulte [CONTRIBUTING.md](CONTRIBUTING.md) e a [proposta pedagógica](docs/proposta-pedagogica.md).
+Consulte [CONTRIBUTING.md](CONTRIBUTING.md), a [proposta pedagógica](docs/proposta-pedagogica.md) e o [guia de colaboração para o Codex](docs/Guia_Colaboracao_Codex_Ilha_dos_Conjuntos.docx).
 
 ## Publicação
 
