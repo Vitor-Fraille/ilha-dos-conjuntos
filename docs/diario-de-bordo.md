@@ -17,9 +17,9 @@ Resultado: primeira versão jogável e compilável, pronta para validação da e
 ## 23/08/2026 — Organização da colaboração
 
 - confirmação das permissões de escrita dos colaboradores;
-- proteção da branch `main` com Pull Request e uma aprovação obrigatória;
-- bloqueio de force-push e exclusão da `main`;
+- liberação da branch `main` para commits e merges diretos da equipe;
+- definição de branches e Pull Requests como recursos opcionais;
 - criação do `AGENTS.md` com instruções automáticas para o Codex;
 - criação do guia compartilhável de contexto e fluxo de trabalho.
 
-Resultado: repositório preparado para contribuições revisadas e rastreáveis da equipe.
+Resultado: repositório preparado para contribuições livres e rastreáveis, coordenadas pela comunicação diária da equipe.

@@ -4,15 +4,15 @@
 
 Este repositório contém um jogo web educativo sobre conjuntos matemáticos para estudantes de 10 e 11 anos do 5º ano. Preserve linguagem simples, feedback educativo, acessibilidade e funcionamento em celular.
 
-## Fluxo obrigatório
+## Fluxo de colaboração
 
-- Nunca desenvolver diretamente na branch `main`.
-- Antes de começar, atualizar a `main` e criar uma branch curta: `feature/...`, `fix/...`, `docs/...`, `test/...` ou `style/...`.
+- Os colaboradores têm liberdade para desenvolver e enviar commits diretamente para a branch `main`.
+- Branches e Pull Requests são opcionais e podem ser usados quando ajudarem a organizar mudanças maiores.
+- Antes de começar, atualizar a `main` e combinar com a equipe qual parte será alterada.
 - Fazer commits pequenos no padrão Conventional Commits.
 - Executar `npm run build` antes de enviar alterações.
-- Abrir Pull Request para `main` e solicitar revisão de outro integrante.
-- A `main` exige uma aprovação, conversas resolvidas e aprovação posterior ao último push.
-- Não usar force-push e não excluir a `main`.
+- Manter comunicação diária para evitar que duas pessoas editem a mesma parte ao mesmo tempo.
+- Evitar force-push e exclusões desnecessárias, mesmo sem bloqueio técnico.
 
 ## Arquitetura atual
 
@@ -36,7 +36,7 @@ Este repositório contém um jogo web educativo sobre conjuntos matemáticos par
 
 ## Publicação
 
-Somente pushes e merges na `main` acionam o GitHub Pages. Branches de trabalho não alteram o jogo público. Link: https://vitor-fraille.github.io/ilha-dos-conjuntos/
+Qualquer push direto ou merge na `main` aciona o GitHub Pages. Branches de trabalho não alteram o jogo público. Link: https://vitor-fraille.github.io/ilha-dos-conjuntos/
 
 ## Ao receber uma tarefa no Codex
 
