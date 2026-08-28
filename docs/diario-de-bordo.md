@@ -35,3 +35,14 @@ Resultado: repositório preparado para contribuições livres e rastreáveis, co
 - correção da posição de rolagem ao trocar de tela.
 
 Resultado: Ilha 2 jogável e compilável. Permanece pendente a validação do conteúdo e da linguagem com um professor do ensino fundamental.
+
+## 27/08/2026 — Desenvolvimento da Ilha 3
+
+- implementação de três desafios sobre inclusão entre conjuntos;
+- criação da interação de mover conjuntos menores para dentro e para fora de um conjunto maior;
+- apresentação da regra de que todos os elementos do conjunto menor precisam pertencer ao conjunto maior;
+- introdução progressiva do termo subconjunto e dos símbolos `⊂` e `⊄`;
+- inclusão de feedback explicativo, controles acessíveis e salvamento local do progresso;
+- atualização do mapa para liberar a terceira ilha após a conclusão da segunda.
+
+Resultado: Ilha 3 jogável e compilável. Permanece pendente a validação do conteúdo e da linguagem com um professor do ensino fundamental.

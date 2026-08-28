@@ -4,7 +4,7 @@ Jogo web educativo criado como projeto de extensão para apoiar estudantes do 5�
 
 ## Versão atual
 
-O jogo apresenta duas ilhas jogáveis. A primeira trabalha a formação de conjuntos em três desafios:
+O jogo apresenta três ilhas jogáveis. A primeira trabalha a formação de conjuntos em três desafios:
 
 - formação de conjuntos por características em comum;
 - identificação de elementos que pertencem a um conjunto;
@@ -15,6 +15,12 @@ A segunda ilha trabalha a relação de pertinência em três etapas:
 - organização visual de elementos dentro e fora de um conjunto;
 - associação das ideias de pertencer e não pertencer;
 - leitura dos símbolos `∈` e `∉` em situações concretas.
+
+A terceira ilha trabalha a inclusão entre conjuntos em três etapas:
+
+- identificação visual de conjuntos que cabem por inteiro em um conjunto maior;
+- apresentação simples da ideia de subconjunto;
+- leitura dos símbolos `⊂` e `⊄` depois da compreensão visual.
 
 A experiência não possui cronômetro, oferece explicações após tentativas incorretas e salva a conclusão de cada ilha localmente no dispositivo.
 

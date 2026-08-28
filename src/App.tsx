@@ -1,8 +1,9 @@
 import { useMemo, useState } from 'react'
 
 type Screen = 'home' | 'lesson' | 'result'
-type Island = 1 | 2
+type Island = 1 | 2 | 3
 type Item = { id: string; symbol: string; label: string }
+type SetGroup = { id: string; name: string; label: string; elements: Item[] }
 type Challenge = {
   eyebrow: string
   title: string
@@ -16,9 +17,22 @@ type MembershipChallenge = Challenge & {
   rule: string
   showNotation: boolean
 }
+type InclusionChallenge = {
+  eyebrow: string
+  title: string
+  instruction: string
+  outerName: string
+  outerRule: string
+  groups: SetGroup[]
+  answers: string[]
+  tip: string
+  concept: string
+  showNotation: boolean
+}
 
 const INTRO_PROGRESS_KEY = 'ilha-dos-conjuntos-progress'
 const MEMBERSHIP_PROGRESS_KEY = 'ilha-dos-conjuntos-membership-progress'
+const INCLUSION_PROGRESS_KEY = 'ilha-dos-conjuntos-inclusion-progress'
 
 const challenges: Challenge[] = [
   {
@@ -128,6 +142,156 @@ const membershipChallenges: MembershipChallenge[] = [
   },
 ]
 
+const inclusionChallenges: InclusionChallenge[] = [
+  {
+    eyebrow: 'Desafio 1 de 3',
+    title: 'Quais conjuntos cabem aqui?',
+    instruction: 'Mova para dentro de Alimentos os conjuntos em que todos os elementos são alimentos.',
+    outerName: 'Alimentos',
+    outerRule: 'tudo o que pode ser comido',
+    groups: [
+      {
+        id: 'fruits',
+        name: 'F',
+        label: 'Frutas',
+        elements: [
+          { id: 'apple', symbol: '🍎', label: 'maçã' },
+          { id: 'banana', symbol: '🍌', label: 'banana' },
+        ],
+      },
+      {
+        id: 'snacks',
+        name: 'L',
+        label: 'Lanches',
+        elements: [
+          { id: 'bread', symbol: '🍞', label: 'pão' },
+          { id: 'cheese', symbol: '🧀', label: 'queijo' },
+        ],
+      },
+      {
+        id: 'toys',
+        name: 'B',
+        label: 'Brinquedos',
+        elements: [
+          { id: 'ball', symbol: '⚽', label: 'bola' },
+          { id: 'kite', symbol: '🪁', label: 'pipa' },
+        ],
+      },
+      {
+        id: 'mixed-food',
+        name: 'M',
+        label: 'Misturado',
+        elements: [
+          { id: 'grape', symbol: '🍇', label: 'uva' },
+          { id: 'book', symbol: '📕', label: 'livro' },
+        ],
+      },
+    ],
+    answers: ['fruits', 'snacks'],
+    tip: 'Frutas e Lanches cabem em Alimentos porque todos os seus elementos podem ser comidos. Brinquedos e Misturado têm elementos que não são alimentos.',
+    concept: 'Um conjunto menor só pode ficar dentro de outro quando todos os seus elementos seguem a regra do conjunto maior.',
+    showNotation: false,
+  },
+  {
+    eyebrow: 'Desafio 2 de 3',
+    title: 'Encontre os subconjuntos',
+    instruction: 'Coloque dentro de Seres vivos os conjuntos formados somente por seres vivos.',
+    outerName: 'Seres vivos',
+    outerRule: 'seres que nascem e crescem',
+    groups: [
+      {
+        id: 'animals',
+        name: 'A',
+        label: 'Animais',
+        elements: [
+          { id: 'cat', symbol: '🐱', label: 'gato' },
+          { id: 'fish', symbol: '🐟', label: 'peixe' },
+        ],
+      },
+      {
+        id: 'plants',
+        name: 'P',
+        label: 'Plantas',
+        elements: [
+          { id: 'tree', symbol: '🌳', label: 'árvore' },
+          { id: 'flower', symbol: '🌻', label: 'flor' },
+        ],
+      },
+      {
+        id: 'school-objects',
+        name: 'E',
+        label: 'Materiais escolares',
+        elements: [
+          { id: 'pencil', symbol: '✏️', label: 'lápis' },
+          { id: 'notebook', symbol: '📓', label: 'caderno' },
+        ],
+      },
+      {
+        id: 'mixed-life',
+        name: 'M',
+        label: 'Misturado',
+        elements: [
+          { id: 'butterfly', symbol: '🦋', label: 'borboleta' },
+          { id: 'ruler', symbol: '📏', label: 'régua' },
+        ],
+      },
+    ],
+    answers: ['animals', 'plants'],
+    tip: 'Animais e Plantas são subconjuntos de Seres vivos. Materiais escolares não têm seres vivos, e Misturado contém uma régua.',
+    concept: 'Chamamos de subconjunto um conjunto menor cujos elementos também pertencem ao conjunto maior.',
+    showNotation: false,
+  },
+  {
+    eyebrow: 'Desafio 3 de 3',
+    title: 'Leia os símbolos ⊂ e ⊄',
+    instruction: 'Coloque dentro de P os conjuntos formados somente por números pares menores que 10.',
+    outerName: 'P = { pares menores que 10 }',
+    outerRule: 'números 2, 4, 6 e 8',
+    groups: [
+      {
+        id: 'even-low',
+        name: 'A',
+        label: 'Conjunto A',
+        elements: [
+          { id: '2', symbol: '2', label: 'dois' },
+          { id: '4', symbol: '4', label: 'quatro' },
+        ],
+      },
+      {
+        id: 'even-high',
+        name: 'B',
+        label: 'Conjunto B',
+        elements: [
+          { id: '6', symbol: '6', label: 'seis' },
+          { id: '8', symbol: '8', label: 'oito' },
+        ],
+      },
+      {
+        id: 'odd',
+        name: 'C',
+        label: 'Conjunto C',
+        elements: [
+          { id: '1', symbol: '1', label: 'um' },
+          { id: '3', symbol: '3', label: 'três' },
+        ],
+      },
+      {
+        id: 'mixed-numbers',
+        name: 'D',
+        label: 'Conjunto D',
+        elements: [
+          { id: '2', symbol: '2', label: 'dois' },
+          { id: '5', symbol: '5', label: 'cinco' },
+        ],
+      },
+    ],
+    answers: ['even-low', 'even-high'],
+    tip: 'A e B estão contidos em P porque usam apenas 2, 4, 6 e 8. C tem números ímpares, e D contém o número 5.',
+    concept: 'O símbolo ⊂ significa “está contido”. O símbolo ⊄ significa “não está contido”.',
+    showNotation: true,
+  },
+]
+
 function selectionsMatch(selected: string[], answers: string[]) {
   return [...selected].sort().join(',') === [...answers].sort().join(',')
 }
@@ -145,10 +309,18 @@ function App() {
   const [secondIslandCompleted, setSecondIslandCompleted] = useState(
     () => localStorage.getItem(MEMBERSHIP_PROGRESS_KEY) === '1',
   )
+  const [thirdIslandCompleted, setThirdIslandCompleted] = useState(
+    () => localStorage.getItem(INCLUSION_PROGRESS_KEY) === '1',
+  )
 
   const challenge = challenges[challengeIndex]
   const membershipChallenge = membershipChallenges[challengeIndex]
-  const activeChallengesLength = activeIsland === 1 ? challenges.length : membershipChallenges.length
+  const inclusionChallenge = inclusionChallenges[challengeIndex]
+  const activeChallengesLength = activeIsland === 1
+    ? challenges.length
+    : activeIsland === 2
+      ? membershipChallenges.length
+      : inclusionChallenges.length
   const progress = screen === 'result' ? 100 : (challengeIndex / activeChallengesLength) * 100
 
   const selectedLabels = useMemo(
@@ -163,9 +335,19 @@ function App() {
     () => membershipChallenge?.items.filter((item) => !selected.includes(item.id)) ?? [],
     [membershipChallenge, selected],
   )
+  const insideInclusionGroups = useMemo(
+    () => inclusionChallenge?.groups.filter((group) => selected.includes(group.id)) ?? [],
+    [inclusionChallenge, selected],
+  )
+  const outsideInclusionGroups = useMemo(
+    () => inclusionChallenge?.groups.filter((group) => !selected.includes(group.id)) ?? [],
+    [inclusionChallenge, selected],
+  )
 
-  const mapProgressLabel = secondIslandCompleted
-    ? '2 ilhas concluídas'
+  const mapProgressLabel = thirdIslandCompleted
+    ? '3 ilhas concluídas'
+    : secondIslandCompleted
+      ? '3 de 6 ilhas abertas'
     : firstIslandCompleted
       ? '2 de 6 ilhas abertas'
       : '1 de 6 ilhas abertas'
@@ -181,6 +363,7 @@ function App() {
 
   function startIsland(island: Island) {
     if (island === 2 && !firstIslandCompleted) return
+    if (island === 3 && !secondIslandCompleted) return
     setActiveIsland(island)
     setChallengeIndex(0)
     setSelected([])
@@ -203,13 +386,24 @@ function App() {
     window.requestAnimationFrame(() => document.getElementById(`membership-item-${item.id}`)?.focus())
   }
 
+  function moveInclusionGroup(group: SetGroup) {
+    const movingInside = !selected.includes(group.id)
+    setMessage('')
+    setSelected((current) => movingInside ? [...current, group.id] : current.filter((id) => id !== group.id))
+    setMovementMessage(`${group.label} foi movido para ${movingInside ? 'dentro' : 'fora'} do conjunto maior.`)
+    window.requestAnimationFrame(() => document.getElementById(`inclusion-group-${group.id}`)?.focus())
+  }
+
   function completeIsland(island: Island) {
     if (island === 1) {
       localStorage.setItem(INTRO_PROGRESS_KEY, '1')
       setFirstIslandCompleted(true)
-    } else {
+    } else if (island === 2) {
       localStorage.setItem(MEMBERSHIP_PROGRESS_KEY, '1')
       setSecondIslandCompleted(true)
+    } else {
+      localStorage.setItem(INCLUSION_PROGRESS_KEY, '1')
+      setThirdIslandCompleted(true)
     }
     setScreen('result')
     scrollToTop()
@@ -242,6 +436,14 @@ function App() {
     advanceChallenge()
   }
 
+  function checkInclusionAnswer() {
+    if (!selectionsMatch(selected, inclusionChallenge.answers)) {
+      setMessage(inclusionChallenge.tip)
+      return
+    }
+    advanceChallenge()
+  }
+
   function renderMembershipItem(item: Item, isInside: boolean) {
     const relation = isInside ? '∈' : '∉'
     const destination = isInside ? 'fora' : 'dentro'
@@ -262,6 +464,29 @@ function App() {
     )
   }
 
+  function renderInclusionGroup(group: SetGroup, isInside: boolean) {
+    const outerSymbol = inclusionChallenge.outerName.split(' ')[0]
+    const relation = isInside ? '⊂' : '⊄'
+    const destination = isInside ? 'fora' : 'dentro'
+    const elementNames = group.elements.map((element) => element.label).join(' e ')
+    return (
+      <button
+        id={`inclusion-group-${group.id}`}
+        key={group.id}
+        className={`set-group-card ${isInside ? 'inside' : 'outside'}`}
+        aria-pressed={isInside}
+        aria-label={`${group.label}, formado por ${elementNames}, ${isInside ? 'dentro' : 'fora'} de ${inclusionChallenge.outerName}. Mover para ${destination}`}
+        onClick={() => moveInclusionGroup(group)}
+      >
+        <span className="set-group-name">Conjunto {group.name}</span>
+        <span className="mini-set" aria-hidden="true"><i>{'{'}</i>{group.elements.map((element) => <b key={element.id}>{element.symbol}</b>)}<i>{'}'}</i></span>
+        <strong>{group.label}</strong>
+        {inclusionChallenge.showNotation && <span className="subset-relation" aria-hidden="true">{group.name} {relation} {outerSymbol}</span>}
+        <small>{isInside ? '← Mover para fora' : 'Mover para dentro →'}</small>
+      </button>
+    )
+  }
+
   const resultContent = activeIsland === 1
     ? {
         kicker: 'ILHA 1 CONCLUÍDA',
@@ -269,12 +494,19 @@ function App() {
         description: 'Um conjunto é uma coleção de elementos que compartilham uma característica.',
         symbol: '★',
       }
-    : {
+    : activeIsland === 2
+      ? {
         kicker: 'ILHA 2 CONCLUÍDA',
         title: 'Você descobriu quem pertence!',
         description: 'O símbolo ∈ indica que um elemento pertence ao conjunto. O símbolo ∉ indica que não pertence.',
         symbol: '∈',
       }
+      : {
+          kicker: 'ILHA 3 CONCLUÍDA',
+          title: 'Você encontrou os subconjuntos!',
+          description: 'Um subconjunto fica contido em outro conjunto quando todos os seus elementos também pertencem ao conjunto maior.',
+          symbol: '⊂',
+        }
 
   return (
     <div className="site-shell">
@@ -308,7 +540,7 @@ function App() {
             <div className="stage-grid">
               <article className={`stage-card active ${firstIslandCompleted ? 'completed' : ''}`}><span className="stage-number">01</span><div className="stage-icon yellow">{firstIslandCompleted ? '★' : '🧺'}</div><span className="status-tag">{firstIslandCompleted ? 'ILHA CONCLUÍDA' : 'PRONTO PARA JOGAR'}</span><h3>O que é um conjunto?</h3><p>Agrupe objetos que possuem algo em comum.</p><button onClick={() => startIsland(1)}>{firstIslandCompleted ? 'Jogar novamente' : 'Explorar esta ilha'} <span>→</span></button></article>
               <article className={`stage-card ${firstIslandCompleted ? 'active' : 'locked'} ${secondIslandCompleted ? 'completed' : ''}`}><span className="stage-number">02</span><div className="stage-icon coral">{secondIslandCompleted ? '★' : '∈'}</div><span className="status-tag">{secondIslandCompleted ? 'ILHA CONCLUÍDA' : firstIslandCompleted ? 'PRONTO PARA JOGAR' : 'BLOQUEADA'}</span><h3>Quem pertence?</h3><p>Descubra a relação de pertinência.</p>{firstIslandCompleted ? <button onClick={() => startIsland(2)}>{secondIslandCompleted ? 'Jogar novamente' : 'Explorar esta ilha'} <span>→</span></button> : <span className="locked-note">Conclua a Ilha 1 para liberar.</span>}</article>
-              <article className="stage-card locked"><span className="stage-number">03</span><div className="stage-icon blue">⊂</div><span className="status-tag">EM BREVE</span><h3>Conjuntos dentro de conjuntos</h3><p>Conheça subconjuntos e inclusão.</p></article>
+              <article className={`stage-card ${secondIslandCompleted ? 'active' : 'locked'} ${thirdIslandCompleted ? 'completed' : ''}`}><span className="stage-number">03</span><div className="stage-icon blue">{thirdIslandCompleted ? '★' : '⊂'}</div><span className="status-tag">{thirdIslandCompleted ? 'ILHA CONCLUÍDA' : secondIslandCompleted ? 'PRONTO PARA JOGAR' : 'BLOQUEADA'}</span><h3>Conjuntos dentro de conjuntos</h3><p>Conheça subconjuntos e inclusão.</p>{secondIslandCompleted ? <button onClick={() => startIsland(3)}>{thirdIslandCompleted ? 'Jogar novamente' : 'Explorar esta ilha'} <span>→</span></button> : <span className="locked-note">Conclua a Ilha 2 para liberar.</span>}</article>
             </div>
           </section>
         </main>
@@ -326,7 +558,7 @@ function App() {
               </div>
               <div className="challenge-footer"><p className={message ? 'feedback visible' : 'feedback'} aria-live="polite">{message || 'Escolha com calma. Você pode mudar sua resposta.'}</p><button className="primary-button" disabled={selected.length === 0} onClick={checkIntroAnswer}>Conferir resposta</button></div>
             </section>
-          ) : (
+          ) : activeIsland === 2 ? (
             <section className="challenge-card membership-card">
               <div className="challenge-copy"><span className="section-kicker">ILHA 2 • {membershipChallenge.eyebrow}</span><h1>{membershipChallenge.title}</h1><p>{membershipChallenge.instruction}</p></div>
               {membershipChallenge.showNotation && <div className="notation-guide" aria-label="Significado dos símbolos de pertinência"><span><strong>∈</strong> pertence ao conjunto</span><span><strong>∉</strong> não pertence ao conjunto</span></div>}
@@ -343,6 +575,26 @@ function App() {
               </div>
               <p className="sr-only" aria-live="polite">{movementMessage}</p>
               <div className="challenge-footer"><p className={message ? 'feedback visible' : 'feedback'} aria-live="polite">{message || 'Toque em um elemento para movê-lo. Você pode mudar de ideia.'}</p><button className="primary-button" disabled={selected.length === 0} onClick={checkMembershipAnswer}>Conferir resposta</button></div>
+            </section>
+          ) : (
+            <section className="challenge-card inclusion-card">
+              <div className="challenge-copy"><span className="section-kicker">ILHA 3 • {inclusionChallenge.eyebrow}</span><h1>{inclusionChallenge.title}</h1><p>{inclusionChallenge.instruction}</p></div>
+              <div className="inclusion-concept"><span aria-hidden="true">💡</span><div><small>IDEIA IMPORTANTE</small><p>{inclusionChallenge.concept}</p></div></div>
+              {inclusionChallenge.showNotation && <div className="notation-guide" aria-label="Significado dos símbolos de inclusão"><span><strong>⊂</strong> está contido</span><span><strong>⊄</strong> não está contido</span></div>}
+              <div className="inclusion-rule"><span>CONJUNTO MAIOR</span><strong>{inclusionChallenge.outerName}</strong><small>Regra: {inclusionChallenge.outerRule}</small></div>
+              <div className="inclusion-board">
+                <section className="inclusion-zone group-palette" aria-labelledby="inclusion-outside-title">
+                  <div className="inclusion-zone-heading"><span aria-hidden="true">◇</span><div><small id="inclusion-outside-title">CONJUNTOS PARA ANALISAR</small><strong>Observe todos os elementos</strong></div></div>
+                  <div className="set-group-grid">{outsideInclusionGroups.length > 0 ? outsideInclusionGroups.map((group) => renderInclusionGroup(group, false)) : <p className="zone-empty">Todos os conjuntos foram colocados dentro.</p>}</div>
+                </section>
+                <section className="inclusion-zone outer-set-zone" aria-labelledby="inclusion-inside-title">
+                  <div className="inclusion-zone-heading"><span aria-hidden="true">{inclusionChallenge.showNotation ? '⊂' : '◎'}</span><div><small id="inclusion-inside-title">{inclusionChallenge.showNotation ? 'ESTÁ CONTIDO • ⊂' : 'DENTRO DO CONJUNTO MAIOR'}</small><strong>{inclusionChallenge.outerName}</strong></div></div>
+                  <p className="outer-rule-reminder">Aqui só entram conjuntos em que <strong>todos</strong> os elementos seguem a regra.</p>
+                  <div className="set-group-grid inside-group-grid">{insideInclusionGroups.length > 0 ? insideInclusionGroups.map((group) => renderInclusionGroup(group, true)) : <p className="zone-empty">Mova para cá os conjuntos menores que cabem por inteiro.</p>}</div>
+                </section>
+              </div>
+              <p className="sr-only" aria-live="polite">{movementMessage}</p>
+              <div className="challenge-footer"><p className={message ? 'feedback visible' : 'feedback'} aria-live="polite">{message || 'Confira todos os elementos antes de mover um conjunto.'}</p><button className="primary-button" disabled={selected.length === 0} onClick={checkInclusionAnswer}>Conferir resposta</button></div>
             </section>
           )}
         </main>
