@@ -824,6 +824,35 @@ const islandAtmospheres: Record<Island, { name: string; detail: string; symbols:
   6: { name: 'Vulcão das Operações', detail: 'Combine estratégias para resolver as missões finais.', symbols: '🌋 ∪ ∩' },
 }
 
+const islandBuildSteps: Array<{ island: Island; name: string; shortName: string; icon: string }> = [
+  { island: 1, name: 'Praia e gramado', shortName: 'Terreno', icon: '🏖️' },
+  { island: 2, name: 'Bosque dos exploradores', shortName: 'Bosque', icon: '🌴' },
+  { island: 3, name: 'Lagoa dos subconjuntos', shortName: 'Lagoa', icon: '💧' },
+  { island: 4, name: 'Vila da igualdade', shortName: 'Vila', icon: '🏡' },
+  { island: 5, name: 'Caverna dos cristais', shortName: 'Caverna', icon: '💎' },
+  { island: 6, name: 'Farol do conhecimento', shortName: 'Farol', icon: '⭐' },
+]
+
+function ExplorerIsland({ completedCount, compact = false }: { completedCount: number; compact?: boolean }) {
+  return (
+    <div className={`explorer-island ${compact ? 'compact' : ''} ${completedCount === 6 ? 'complete' : ''}`} aria-label={`Ilha do Explorador com ${completedCount} de 6 partes construídas`}>
+      <span className="builder-cloud builder-cloud-one" aria-hidden="true" />
+      <span className="builder-cloud builder-cloud-two" aria-hidden="true" />
+      <span className="builder-sun" aria-hidden="true">☀</span>
+      <div className={`builder-land ${completedCount >= 1 ? 'built' : 'waiting'}`}>
+        <span className={`builder-piece builder-beach ${completedCount >= 1 ? 'built' : 'waiting'}`} aria-hidden="true">🐚</span>
+        <span className={`builder-piece builder-forest ${completedCount >= 2 ? 'built' : 'waiting'}`} aria-hidden="true">🌴</span>
+        <span className={`builder-piece builder-lagoon ${completedCount >= 3 ? 'built' : 'waiting'}`} aria-hidden="true">💧</span>
+        <span className={`builder-piece builder-village ${completedCount >= 4 ? 'built' : 'waiting'}`} aria-hidden="true">🏡</span>
+        <span className={`builder-piece builder-cave ${completedCount >= 5 ? 'built' : 'waiting'}`} aria-hidden="true">💎</span>
+        <span className={`builder-piece builder-lighthouse ${completedCount >= 6 ? 'built' : 'waiting'}`} aria-hidden="true"><i>★</i><b /></span>
+      </div>
+      <div className="builder-water" aria-hidden="true"><span /><span /><span /></div>
+      {completedCount === 6 && <div className="builder-celebration" aria-hidden="true">✦ ★ ✦</div>}
+    </div>
+  )
+}
+
 function App() {
   const [screen, setScreen] = useState<Screen>('home')
   const [activeIsland, setActiveIsland] = useState<Island>(1)
@@ -833,6 +862,7 @@ function App() {
   const [movementMessage, setMovementMessage] = useState('')
   const [rewardMessage, setRewardMessage] = useState('')
   const [earnedStars, setEarnedStars] = useState(0)
+  const [wasNewCompletion, setWasNewCompletion] = useState(false)
   const [firstIslandCompleted, setFirstIslandCompleted] = useState(
     () => localStorage.getItem(INTRO_PROGRESS_KEY) === '1',
   )
@@ -869,6 +899,7 @@ function App() {
   const activeChallengesLength = challengeLengths[activeIsland]
   const progress = screen === 'result' ? 100 : (challengeIndex / activeChallengesLength) * 100
   const atmosphere = islandAtmospheres[activeIsland]
+  const activeBuildStep = islandBuildSteps[activeIsland - 1]
 
   const selectedLabels = useMemo(
     () => challenge?.items.filter((item) => selected.includes(item.id)).map((item) => item.symbol),
@@ -904,6 +935,8 @@ function App() {
     sixthIslandCompleted,
   ]
   const completedCount = completedIslands.filter(Boolean).length
+  const nextBuildStep = islandBuildSteps[Math.min(completedCount, 5)]
+  const nextIslandToBuild = Math.min(completedCount + 1, 6) as Island
   const mapProgressLabel = completedCount === 6
     ? '6 ilhas concluídas'
     : `${Math.min(completedCount + 1, 6)} de 6 ilhas abertas`
@@ -930,6 +963,7 @@ function App() {
     setMovementMessage('')
     setRewardMessage('')
     setEarnedStars(0)
+    setWasNewCompletion(false)
     setScreen('lesson')
     scrollToTop()
   }
@@ -965,6 +999,7 @@ function App() {
   }
 
   function completeIsland(island: Island) {
+    setWasNewCompletion(!completedIslands[island - 1])
     if (island === 1) {
       localStorage.setItem(INTRO_PROGRESS_KEY, '1')
       setFirstIslandCompleted(true)
@@ -1163,6 +1198,23 @@ function App() {
               <div className="island"><span className="tree" aria-hidden="true">🌴</span><div className="island-sign"><span>Conjunto</span><strong>A</strong></div><span className="flower flower-one" aria-hidden="true">✿</span><span className="flower flower-two" aria-hidden="true">✿</span></div>
             </div>
           </section>
+          <section className="island-builder-section" aria-labelledby="builder-title">
+            <div className="island-builder-copy">
+              <span className="section-kicker">SUA GRANDE CONQUISTA</span>
+              <h2 id="builder-title">Construa a Ilha do Explorador</h2>
+              <p>{completedCount === 0
+                ? 'A ilha ainda está sem cor. Termine a primeira etapa para fazer o terreno despertar.'
+                : completedCount === 6
+                  ? 'Você completou as seis etapas e deu vida à ilha inteira. Cada parte mostra uma habilidade que conquistou.'
+                  : `Você já construiu ${completedCount} de 6 partes. A próxima conquista libera: ${nextBuildStep.name}.`}</p>
+              <div className="builder-step-list" aria-label={`${completedCount} de 6 partes construídas`}>
+                {islandBuildSteps.map((step) => { const built = completedCount >= step.island; const current = !built && step.island === nextIslandToBuild; return <span key={step.island} className={`${built ? 'built' : 'waiting'} ${current ? 'current' : ''}`}><i aria-hidden="true">{built ? step.icon : step.island}</i><small>{step.shortName}</small><strong>{built ? 'Construído' : current ? 'Próximo' : 'Em espera'}</strong></span> })}
+              </div>
+              {completedCount < 6 && <button className="primary-button builder-cta" onClick={() => startIsland(nextIslandToBuild)}>Construir a próxima parte <span aria-hidden="true">→</span></button>}
+              {completedCount === 6 && <div className="island-complete-badge"><span aria-hidden="true">★</span><strong>ILHA COMPLETA</strong></div>}
+            </div>
+            <ExplorerIsland completedCount={completedCount} />
+          </section>
           <section className="trail-section" aria-labelledby="trail-title">
             <div className="section-heading"><div><span className="section-kicker">SEU MAPA DE AVENTURAS</span><h2 id="trail-title">Uma descoberta de cada vez</h2></div><span className="progress-label">{mapProgressLabel}</span></div>
             <div className="stage-grid">
@@ -1280,7 +1332,11 @@ function App() {
       )}
 
       {screen === 'result' && (
-        <main className="result-page"><section className="result-card"><div className="confetti" aria-hidden="true">✦ • ▲ • ✦</div><div className="result-medal" aria-hidden="true">{resultContent.symbol}</div><span className="section-kicker">{resultContent.kicker}</span><h1>{resultContent.title}</h1><p>{resultContent.description}</p><div className="stars" aria-label={`${earnedStars} estrelas conquistadas`}>{Array.from({ length: activeChallengesLength }, () => '★').join(' ')}</div><strong className="result-stars">{earnedStars} missões vencidas no seu ritmo</strong><button className="primary-button" onClick={goHome}>Voltar ao mapa</button></section></main>
+        <main className="result-page"><section className="result-card"><div className="confetti" aria-hidden="true">✦ • ▲ • ✦</div><div className="result-medal" aria-hidden="true">{resultContent.symbol}</div><span className="section-kicker">{resultContent.kicker}</span><h1>{resultContent.title}</h1><p>{resultContent.description}</p><div className="stars" aria-label={`${earnedStars} estrelas conquistadas`}>{Array.from({ length: activeChallengesLength }, () => '★').join(' ')}</div><strong className="result-stars">{earnedStars} missões vencidas no seu ritmo</strong><div className={`result-build-reward ${wasNewCompletion ? 'new' : 'replay'}`}><span>{wasNewCompletion ? 'NOVA PARTE CONSTRUÍDA' : 'PARTE REFORÇADA'}</span><h2><i aria-hidden="true">{activeBuildStep.icon}</i> {activeBuildStep.name}</h2><p>{wasNewCompletion
+          ? activeIsland === 6
+            ? 'A Ilha do Explorador está completa! Todas as suas descobertas agora fazem parte deste mundo.'
+            : `Sua ilha ganhou uma nova parte. Faltam ${6 - completedCount} para completar o mundo inteiro.`
+          : 'Você praticou novamente e deixou esta parte ainda mais forte.'}</p><ExplorerIsland completedCount={completedCount} compact /></div><button className="primary-button" onClick={goHome}>{completedCount === 6 ? 'Ver a ilha completa' : 'Ver minha ilha'}</button></section></main>
       )}
       <footer><span>Projeto de extensão • Reforço de Matemática</span><span>Feito para aprender brincando ♥</span></footer>
     </div>

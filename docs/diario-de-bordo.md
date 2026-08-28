@@ -71,3 +71,16 @@ Resultado: seis ilhas jogáveis e compiláveis, com 18 desafios no total. Perman
 - registro da fundamentação pedagógica e das cautelas sobre gamificação.
 
 Resultado: experiência mais longa, variada e progressiva, preservando o foco matemático. O conteúdo das 30 missões ainda precisa de validação com um professor do ensino fundamental.
+
+## 28/08/2026 — Construção da Ilha do Explorador
+
+- criação de uma grande ilha visual composta por seis partes;
+- exibição das partes futuras em silhueta e destaque textual da próxima conquista;
+- liberação progressiva de terreno, bosque, lagoa, vila, caverna e farol;
+- integração da construção ao progresso já salvo no navegador;
+- apresentação imediata da nova parte na tela de conclusão de cada etapa;
+- celebração especial quando a sexta parte completa todo o mundo;
+- adaptação da composição para celular, toque, teclado e redução de movimento;
+- criação de identidade original, sem copiar personagens ou elementos visuais de jogos comerciais.
+
+Resultado: cada ilha concluída agora produz uma mudança persistente e visível no mundo do jogo, oferecendo um motivo de longo prazo para continuar a aventura.

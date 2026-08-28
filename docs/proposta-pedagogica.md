@@ -29,7 +29,14 @@ Reforçar a compreensão de conjuntos por meio de desafios visuais, curtos e pro
 - reforçar o acerto com uma mensagem imediata de competência, sem retirar pontos após erros;
 - variar cenários e contextos sem deixar a decoração competir com a tarefa matemática;
 - aumentar a dificuldade dentro de cada ilha e avançar do concreto para a notação e para problemas com duas regras;
+- representar o avanço em uma construção visual contínua, para que cada conclusão tenha uma consequência clara no mundo do jogo;
 - validar linguagem e exercícios com um professor do ensino fundamental.
+
+## Ilha do Explorador
+
+A conclusão de cada etapa constrói uma parte de uma grande ilha compartilhada pelas seis áreas do conteúdo. As partes ainda bloqueadas permanecem visíveis em silhueta, a próxima conquista é identificada por texto e as partes concluídas recebem cor e um marco próprio. A criança pode, assim, antecipar o próximo objetivo e perceber o caminho já percorrido.
+
+Essa construção funciona como uma meta de longo prazo, enquanto as estrelas de cada missão oferecem retorno imediato. A recompensa não libera vantagens competitivas, não compara estudantes e não substitui a explicação matemática. Ela torna o domínio acumulado visível.
 
 ## Progressão de dificuldade
 
