@@ -39,6 +39,14 @@ Reforçar a compreensão de conjuntos por meio de desafios visuais, curtos e pro
 | 5 | Classificação | Identificar vazio, unitário e finito |
 | 6 | Operações | Colorir regiões de diagramas de Venn |
 
+## Estado de implementação
+
+- Ilha 1: três desafios jogáveis sobre formação de conjuntos.
+- Ilha 2: três desafios jogáveis que partem da organização visual dentro/fora e introduzem progressivamente os símbolos `∈` e `∉`.
+- Ilhas 3 a 6: planejadas para as próximas etapas.
+
+O conteúdo matemático e a linguagem da Ilha 2 ainda devem ser validados com um professor do ensino fundamental antes de serem considerados finais.
+
 ## Avaliação
 
 O projeto observará conclusão das atividades, quantidade de tentativas e tipos de dica utilizados. Na primeira etapa, essas informações permanecem apenas no dispositivo, sem cadastro de estudantes.

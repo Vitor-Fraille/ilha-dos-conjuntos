@@ -2,15 +2,21 @@
 
 Jogo web educativo criado como projeto de extensão para apoiar estudantes do 5º ano no aprendizado de conjuntos matemáticos.
 
-## Primeira versão
+## Versão atual
 
-O MVP apresenta uma ilha introdutória com três desafios:
+O jogo apresenta duas ilhas jogáveis. A primeira trabalha a formação de conjuntos em três desafios:
 
 - formação de conjuntos por características em comum;
 - identificação de elementos que pertencem a um conjunto;
 - formação do conjunto dos números pares menores que 10.
 
-A experiência não possui cronômetro, oferece dicas após tentativas incorretas e salva a conclusão localmente no dispositivo.
+A segunda ilha trabalha a relação de pertinência em três etapas:
+
+- organização visual de elementos dentro e fora de um conjunto;
+- associação das ideias de pertencer e não pertencer;
+- leitura dos símbolos `∈` e `∉` em situações concretas.
+
+A experiência não possui cronômetro, oferece explicações após tentativas incorretas e salva a conclusão de cada ilha localmente no dispositivo.
 
 ## Tecnologias
 
