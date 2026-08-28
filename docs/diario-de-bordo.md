@@ -46,3 +46,16 @@ Resultado: Ilha 2 jogável e compilável. Permanece pendente a validação do co
 - atualização do mapa para liberar a terceira ilha após a conclusão da segunda.
 
 Resultado: Ilha 3 jogável e compilável. Permanece pendente a validação do conteúdo e da linguagem com um professor do ensino fundamental.
+
+## 28/08/2026 — Desenvolvimento das Ilhas 4, 5 e 6
+
+- sincronização e preservação das Ilhas 2 e 3 desenvolvidas pelo colaborador Bruno;
+- implementação de três desafios sobre igualdade de conjuntos, incluindo os símbolos `=` e `≠`;
+- implementação de três desafios de classificação: vazio, unitário, finito e infinito;
+- implementação de três desafios de operações: união, interseção e diferença;
+- ampliação do mapa para seis ilhas com liberação sequencial;
+- salvamento local independente da conclusão de cada ilha;
+- inclusão de feedback explicativo, controles por botão e adaptação para telas pequenas;
+- atualização da documentação do projeto e do fluxo de colaboração direta na `main`.
+
+Resultado: seis ilhas jogáveis e compiláveis, com 18 desafios no total. Permanece pendente a validação do conteúdo e da linguagem com um professor do ensino fundamental.

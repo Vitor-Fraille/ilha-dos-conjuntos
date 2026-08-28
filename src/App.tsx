@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 
 type Screen = 'home' | 'lesson' | 'result'
-type Island = 1 | 2 | 3
+type Island = 1 | 2 | 3 | 4 | 5 | 6
 type Item = { id: string; symbol: string; label: string }
 type SetGroup = { id: string; name: string; label: string; elements: Item[] }
 type Challenge = {
@@ -29,10 +29,52 @@ type InclusionChallenge = {
   concept: string
   showNotation: boolean
 }
+type EqualityChallenge = {
+  eyebrow: string
+  title: string
+  instruction: string
+  reference: SetGroup
+  groups: SetGroup[]
+  answers: string[]
+  tip: string
+  concept: string
+  showNotation: boolean
+}
+type ClassificationOption = {
+  id: string
+  name: string
+  notation: string
+  detail: string
+  symbol: string
+}
+type ClassificationChallenge = {
+  eyebrow: string
+  title: string
+  instruction: string
+  concept: string
+  options: ClassificationOption[]
+  answers: string[]
+  tip: string
+}
+type OperationChallenge = {
+  eyebrow: string
+  title: string
+  instruction: string
+  concept: string
+  operator: '∪' | '∩' | '−'
+  setA: SetGroup
+  setB: SetGroup
+  items: Item[]
+  answers: string[]
+  tip: string
+}
 
 const INTRO_PROGRESS_KEY = 'ilha-dos-conjuntos-progress'
 const MEMBERSHIP_PROGRESS_KEY = 'ilha-dos-conjuntos-membership-progress'
 const INCLUSION_PROGRESS_KEY = 'ilha-dos-conjuntos-inclusion-progress'
+const EQUALITY_PROGRESS_KEY = 'ilha-dos-conjuntos-equality-progress'
+const CLASSIFICATION_PROGRESS_KEY = 'ilha-dos-conjuntos-classification-progress'
+const OPERATIONS_PROGRESS_KEY = 'ilha-dos-conjuntos-operations-progress'
 
 const challenges: Challenge[] = [
   {
@@ -292,6 +334,253 @@ const inclusionChallenges: InclusionChallenge[] = [
   },
 ]
 
+const equalityChallenges: EqualityChallenge[] = [
+  {
+    eyebrow: 'Desafio 1 de 3',
+    title: 'A ordem muda o conjunto?',
+    instruction: 'Escolha o conjunto que tem exatamente as mesmas frutas de F.',
+    reference: {
+      id: 'fruit-reference', name: 'F', label: 'Frutas de referência',
+      elements: [
+        { id: 'apple', symbol: '🍎', label: 'maçã' },
+        { id: 'banana', symbol: '🍌', label: 'banana' },
+        { id: 'grape', symbol: '🍇', label: 'uva' },
+      ],
+    },
+    groups: [
+      {
+        id: 'same-fruits', name: 'A', label: 'Conjunto A',
+        elements: [
+          { id: 'grape', symbol: '🍇', label: 'uva' },
+          { id: 'apple', symbol: '🍎', label: 'maçã' },
+          { id: 'banana', symbol: '🍌', label: 'banana' },
+        ],
+      },
+      {
+        id: 'missing-fruit', name: 'B', label: 'Conjunto B',
+        elements: [
+          { id: 'apple', symbol: '🍎', label: 'maçã' },
+          { id: 'banana', symbol: '🍌', label: 'banana' },
+        ],
+      },
+      {
+        id: 'different-fruit', name: 'C', label: 'Conjunto C',
+        elements: [
+          { id: 'apple', symbol: '🍎', label: 'maçã' },
+          { id: 'banana', symbol: '🍌', label: 'banana' },
+          { id: 'pear', symbol: '🍐', label: 'pera' },
+        ],
+      },
+    ],
+    answers: ['same-fruits'],
+    tip: 'A tem maçã, banana e uva, como F. A ordem é diferente, mas nenhum elemento foi retirado ou trocado.',
+    concept: 'Dois conjuntos são iguais quando possuem exatamente os mesmos elementos. A ordem não importa.',
+    showNotation: false,
+  },
+  {
+    eyebrow: 'Desafio 2 de 3',
+    title: 'Compare cada número',
+    instruction: 'Encontre o conjunto igual a N. Conte e compare todos os elementos.',
+    reference: {
+      id: 'number-reference', name: 'N', label: 'Números de referência',
+      elements: [
+        { id: '2', symbol: '2', label: 'dois' },
+        { id: '4', symbol: '4', label: 'quatro' },
+        { id: '6', symbol: '6', label: 'seis' },
+      ],
+    },
+    groups: [
+      {
+        id: 'same-numbers', name: 'P', label: 'Conjunto P',
+        elements: [
+          { id: '6', symbol: '6', label: 'seis' },
+          { id: '2', symbol: '2', label: 'dois' },
+          { id: '4', symbol: '4', label: 'quatro' },
+        ],
+      },
+      {
+        id: 'extra-number', name: 'Q', label: 'Conjunto Q',
+        elements: [
+          { id: '2', symbol: '2', label: 'dois' },
+          { id: '4', symbol: '4', label: 'quatro' },
+          { id: '6', symbol: '6', label: 'seis' },
+          { id: '8', symbol: '8', label: 'oito' },
+        ],
+      },
+      {
+        id: 'changed-number', name: 'R', label: 'Conjunto R',
+        elements: [
+          { id: '2', symbol: '2', label: 'dois' },
+          { id: '4', symbol: '4', label: 'quatro' },
+          { id: '5', symbol: '5', label: 'cinco' },
+        ],
+      },
+    ],
+    answers: ['same-numbers'],
+    tip: 'P tem os mesmos números 2, 4 e 6 de N. Q tem um elemento a mais, e R trocou o 6 pelo 5.',
+    concept: 'Para verificar a igualdade, confira se não falta e não sobra nenhum elemento.',
+    showNotation: true,
+  },
+  {
+    eyebrow: 'Desafio 3 de 3',
+    title: 'Use os símbolos = e ≠',
+    instruction: 'Escolha o conjunto que completa corretamente a igualdade S = ?',
+    reference: {
+      id: 'shape-reference', name: 'S', label: 'Formas de referência',
+      elements: [
+        { id: 'circle', symbol: '●', label: 'círculo' },
+        { id: 'triangle', symbol: '▲', label: 'triângulo' },
+        { id: 'square', symbol: '■', label: 'quadrado' },
+      ],
+    },
+    groups: [
+      {
+        id: 'same-shapes', name: 'T', label: 'Conjunto T',
+        elements: [
+          { id: 'square', symbol: '■', label: 'quadrado' },
+          { id: 'circle', symbol: '●', label: 'círculo' },
+          { id: 'triangle', symbol: '▲', label: 'triângulo' },
+        ],
+      },
+      {
+        id: 'two-shapes', name: 'U', label: 'Conjunto U',
+        elements: [
+          { id: 'circle', symbol: '●', label: 'círculo' },
+          { id: 'triangle', symbol: '▲', label: 'triângulo' },
+        ],
+      },
+      {
+        id: 'changed-shape', name: 'V', label: 'Conjunto V',
+        elements: [
+          { id: 'circle', symbol: '●', label: 'círculo' },
+          { id: 'triangle', symbol: '▲', label: 'triângulo' },
+          { id: 'diamond', symbol: '◆', label: 'losango' },
+        ],
+      },
+    ],
+    answers: ['same-shapes'],
+    tip: 'T possui círculo, triângulo e quadrado, como S. Por isso escrevemos S = T. Nos outros casos, usamos ≠.',
+    concept: 'O símbolo = indica conjuntos iguais. O símbolo ≠ indica que existe alguma diferença entre eles.',
+    showNotation: true,
+  },
+]
+
+const classificationChallenges: ClassificationChallenge[] = [
+  {
+    eyebrow: 'Desafio 1 de 3',
+    title: 'Qual conjunto está vazio?',
+    instruction: 'Escolha o conjunto que não possui nenhum elemento.',
+    concept: 'Um conjunto vazio não possui elementos. Podemos representá-lo por { } ou pelo símbolo ∅.',
+    options: [
+      { id: 'empty', name: 'A', notation: 'A = { }', detail: 'nenhum elemento', symbol: '∅' },
+      { id: 'one', name: 'B', notation: 'B = { 7 }', detail: 'um elemento', symbol: '7' },
+      { id: 'three', name: 'C', notation: 'C = { 2, 4, 6 }', detail: 'três elementos', symbol: '246' },
+    ],
+    answers: ['empty'],
+    tip: 'A não possui elementos entre as chaves. Por isso A é o conjunto vazio, representado também por ∅.',
+  },
+  {
+    eyebrow: 'Desafio 2 de 3',
+    title: 'Encontre o conjunto unitário',
+    instruction: 'Escolha o conjunto que possui exatamente um elemento.',
+    concept: 'Um conjunto unitário possui um único elemento. “Unitário” lembra a palavra “um”.',
+    options: [
+      { id: 'many-animals', name: 'D', notation: 'D = { 🐱, 🐟 }', detail: 'dois animais', symbol: '🐱🐟' },
+      { id: 'single-star', name: 'E', notation: 'E = { ★ }', detail: 'uma estrela', symbol: '★' },
+      { id: 'no-elements', name: 'F', notation: 'F = { }', detail: 'nenhum elemento', symbol: '∅' },
+    ],
+    answers: ['single-star'],
+    tip: 'E possui somente a estrela. D tem dois elementos, e F não tem nenhum.',
+  },
+  {
+    eyebrow: 'Desafio 3 de 3',
+    title: 'Finito ou infinito?',
+    instruction: 'Escolha a coleção que podemos terminar de contar.',
+    concept: 'Um conjunto finito termina; um conjunto infinito continua sem fim.',
+    options: [
+      { id: 'weekdays', name: 'G', notation: 'dias da semana', detail: '7 dias ao todo', symbol: '7' },
+      { id: 'natural-numbers', name: 'H', notation: 'números naturais', detail: '0, 1, 2, 3, ...', symbol: '∞' },
+      { id: 'line-points', name: 'I', notation: 'pontos de uma reta', detail: 'sempre há mais pontos', symbol: '•••' },
+    ],
+    answers: ['weekdays'],
+    tip: 'Os dias da semana são 7, então conseguimos terminar a contagem. Os números naturais e os pontos de uma reta continuam sem fim.',
+  },
+]
+
+const operationChallenges: OperationChallenge[] = [
+  {
+    eyebrow: 'Desafio 1 de 3',
+    title: 'Junte sem repetir',
+    instruction: 'Monte A ∪ B escolhendo tudo o que aparece em A ou em B.',
+    concept: 'União (∪) reúne os elementos dos dois conjuntos. Um elemento repetido aparece uma só vez no resultado.',
+    operator: '∪',
+    setA: { id: 'union-a', name: 'A', label: 'Conjunto A', elements: [
+      { id: 'apple', symbol: '🍎', label: 'maçã' },
+      { id: 'banana', symbol: '🍌', label: 'banana' },
+    ] },
+    setB: { id: 'union-b', name: 'B', label: 'Conjunto B', elements: [
+      { id: 'banana', symbol: '🍌', label: 'banana' },
+      { id: 'grape', symbol: '🍇', label: 'uva' },
+    ] },
+    items: [
+      { id: 'apple', symbol: '🍎', label: 'maçã' },
+      { id: 'banana', symbol: '🍌', label: 'banana' },
+      { id: 'grape', symbol: '🍇', label: 'uva' },
+      { id: 'pear', symbol: '🍐', label: 'pera' },
+    ],
+    answers: ['apple', 'banana', 'grape'],
+    tip: 'A união reúne maçã, banana e uva. A banana está nos dois conjuntos, mas não precisa ser repetida.',
+  },
+  {
+    eyebrow: 'Desafio 2 de 3',
+    title: 'Descubra o que há em comum',
+    instruction: 'Monte A ∩ B escolhendo apenas o que aparece nos dois conjuntos.',
+    concept: 'Interseção (∩) mostra somente os elementos que pertencem aos dois conjuntos ao mesmo tempo.',
+    operator: '∩',
+    setA: { id: 'intersection-a', name: 'A', label: 'Conjunto A', elements: [
+      { id: 'cat', symbol: '🐱', label: 'gato' },
+      { id: 'fish', symbol: '🐟', label: 'peixe' },
+    ] },
+    setB: { id: 'intersection-b', name: 'B', label: 'Conjunto B', elements: [
+      { id: 'fish', symbol: '🐟', label: 'peixe' },
+      { id: 'butterfly', symbol: '🦋', label: 'borboleta' },
+    ] },
+    items: [
+      { id: 'cat', symbol: '🐱', label: 'gato' },
+      { id: 'fish', symbol: '🐟', label: 'peixe' },
+      { id: 'butterfly', symbol: '🦋', label: 'borboleta' },
+      { id: 'dog', symbol: '🐶', label: 'cachorro' },
+    ],
+    answers: ['fish'],
+    tip: 'Somente o peixe aparece em A e também em B. Por isso A ∩ B = { peixe }.',
+  },
+  {
+    eyebrow: 'Desafio 3 de 3',
+    title: 'O que ficou somente em A?',
+    instruction: 'Monte A − B: escolha o que está em A, mas não está em B.',
+    concept: 'Diferença (−) retira de A os elementos que também aparecem em B.',
+    operator: '−',
+    setA: { id: 'difference-a', name: 'A', label: 'Conjunto A', elements: [
+      { id: '2', symbol: '2', label: 'dois' },
+      { id: '4', symbol: '4', label: 'quatro' },
+      { id: '6', symbol: '6', label: 'seis' },
+      { id: '8', symbol: '8', label: 'oito' },
+    ] },
+    setB: { id: 'difference-b', name: 'B', label: 'Conjunto B', elements: [
+      { id: '4', symbol: '4', label: 'quatro' },
+      { id: '8', symbol: '8', label: 'oito' },
+    ] },
+    items: [
+      { id: '2', symbol: '2', label: 'dois' },
+      { id: '4', symbol: '4', label: 'quatro' },
+      { id: '6', symbol: '6', label: 'seis' },
+      { id: '8', symbol: '8', label: 'oito' },
+    ],
+    answers: ['2', '6'],
+    tip: 'Retire de A os números 4 e 8, pois eles também estão em B. Restam 2 e 6.',
+  },
+]
+
 function selectionsMatch(selected: string[], answers: string[]) {
   return [...selected].sort().join(',') === [...answers].sort().join(',')
 }
@@ -312,15 +601,31 @@ function App() {
   const [thirdIslandCompleted, setThirdIslandCompleted] = useState(
     () => localStorage.getItem(INCLUSION_PROGRESS_KEY) === '1',
   )
+  const [fourthIslandCompleted, setFourthIslandCompleted] = useState(
+    () => localStorage.getItem(EQUALITY_PROGRESS_KEY) === '1',
+  )
+  const [fifthIslandCompleted, setFifthIslandCompleted] = useState(
+    () => localStorage.getItem(CLASSIFICATION_PROGRESS_KEY) === '1',
+  )
+  const [sixthIslandCompleted, setSixthIslandCompleted] = useState(
+    () => localStorage.getItem(OPERATIONS_PROGRESS_KEY) === '1',
+  )
 
   const challenge = challenges[challengeIndex]
   const membershipChallenge = membershipChallenges[challengeIndex]
   const inclusionChallenge = inclusionChallenges[challengeIndex]
-  const activeChallengesLength = activeIsland === 1
-    ? challenges.length
-    : activeIsland === 2
-      ? membershipChallenges.length
-      : inclusionChallenges.length
+  const equalityChallenge = equalityChallenges[challengeIndex]
+  const classificationChallenge = classificationChallenges[challengeIndex]
+  const operationChallenge = operationChallenges[challengeIndex]
+  const challengeLengths: Record<Island, number> = {
+    1: challenges.length,
+    2: membershipChallenges.length,
+    3: inclusionChallenges.length,
+    4: equalityChallenges.length,
+    5: classificationChallenges.length,
+    6: operationChallenges.length,
+  }
+  const activeChallengesLength = challengeLengths[activeIsland]
   const progress = screen === 'result' ? 100 : (challengeIndex / activeChallengesLength) * 100
 
   const selectedLabels = useMemo(
@@ -343,14 +648,23 @@ function App() {
     () => inclusionChallenge?.groups.filter((group) => !selected.includes(group.id)) ?? [],
     [inclusionChallenge, selected],
   )
+  const operationSelectedLabels = useMemo(
+    () => operationChallenge?.items.filter((item) => selected.includes(item.id)).map((item) => item.symbol) ?? [],
+    [operationChallenge, selected],
+  )
 
-  const mapProgressLabel = thirdIslandCompleted
-    ? '3 ilhas concluídas'
-    : secondIslandCompleted
-      ? '3 de 6 ilhas abertas'
-    : firstIslandCompleted
-      ? '2 de 6 ilhas abertas'
-      : '1 de 6 ilhas abertas'
+  const completedIslands = [
+    firstIslandCompleted,
+    secondIslandCompleted,
+    thirdIslandCompleted,
+    fourthIslandCompleted,
+    fifthIslandCompleted,
+    sixthIslandCompleted,
+  ]
+  const completedCount = completedIslands.filter(Boolean).length
+  const mapProgressLabel = completedCount === 6
+    ? '6 ilhas concluídas'
+    : `${Math.min(completedCount + 1, 6)} de 6 ilhas abertas`
 
   function scrollToTop() {
     window.requestAnimationFrame(() => window.scrollTo({ top: 0, behavior: 'auto' }))
@@ -364,6 +678,9 @@ function App() {
   function startIsland(island: Island) {
     if (island === 2 && !firstIslandCompleted) return
     if (island === 3 && !secondIslandCompleted) return
+    if (island === 4 && !thirdIslandCompleted) return
+    if (island === 5 && !fourthIslandCompleted) return
+    if (island === 6 && !fifthIslandCompleted) return
     setActiveIsland(island)
     setChallengeIndex(0)
     setSelected([])
@@ -376,6 +693,11 @@ function App() {
   function toggleItem(id: string) {
     setMessage('')
     setSelected((current) => current.includes(id) ? current.filter((item) => item !== id) : [...current, id])
+  }
+
+  function selectSingleItem(id: string) {
+    setMessage('')
+    setSelected([id])
   }
 
   function moveMembershipItem(item: Item) {
@@ -401,9 +723,18 @@ function App() {
     } else if (island === 2) {
       localStorage.setItem(MEMBERSHIP_PROGRESS_KEY, '1')
       setSecondIslandCompleted(true)
-    } else {
+    } else if (island === 3) {
       localStorage.setItem(INCLUSION_PROGRESS_KEY, '1')
       setThirdIslandCompleted(true)
+    } else if (island === 4) {
+      localStorage.setItem(EQUALITY_PROGRESS_KEY, '1')
+      setFourthIslandCompleted(true)
+    } else if (island === 5) {
+      localStorage.setItem(CLASSIFICATION_PROGRESS_KEY, '1')
+      setFifthIslandCompleted(true)
+    } else {
+      localStorage.setItem(OPERATIONS_PROGRESS_KEY, '1')
+      setSixthIslandCompleted(true)
     }
     setScreen('result')
     scrollToTop()
@@ -439,6 +770,30 @@ function App() {
   function checkInclusionAnswer() {
     if (!selectionsMatch(selected, inclusionChallenge.answers)) {
       setMessage(inclusionChallenge.tip)
+      return
+    }
+    advanceChallenge()
+  }
+
+  function checkEqualityAnswer() {
+    if (!selectionsMatch(selected, equalityChallenge.answers)) {
+      setMessage(equalityChallenge.tip)
+      return
+    }
+    advanceChallenge()
+  }
+
+  function checkClassificationAnswer() {
+    if (!selectionsMatch(selected, classificationChallenge.answers)) {
+      setMessage(classificationChallenge.tip)
+      return
+    }
+    advanceChallenge()
+  }
+
+  function checkOperationAnswer() {
+    if (!selectionsMatch(selected, operationChallenge.answers)) {
+      setMessage(operationChallenge.tip)
       return
     }
     advanceChallenge()
@@ -487,26 +842,45 @@ function App() {
     )
   }
 
-  const resultContent = activeIsland === 1
-    ? {
-        kicker: 'ILHA 1 CONCLUÍDA',
-        title: 'Você sabe formar conjuntos!',
-        description: 'Um conjunto é uma coleção de elementos que compartilham uma característica.',
-        symbol: '★',
-      }
-    : activeIsland === 2
-      ? {
-        kicker: 'ILHA 2 CONCLUÍDA',
-        title: 'Você descobriu quem pertence!',
-        description: 'O símbolo ∈ indica que um elemento pertence ao conjunto. O símbolo ∉ indica que não pertence.',
-        symbol: '∈',
-      }
-      : {
-          kicker: 'ILHA 3 CONCLUÍDA',
-          title: 'Você encontrou os subconjuntos!',
-          description: 'Um subconjunto fica contido em outro conjunto quando todos os seus elementos também pertencem ao conjunto maior.',
-          symbol: '⊂',
-        }
+  const resultContentByIsland: Record<Island, { kicker: string; title: string; description: string; symbol: string }> = {
+    1: {
+      kicker: 'ILHA 1 CONCLUÍDA',
+      title: 'Você sabe formar conjuntos!',
+      description: 'Um conjunto é uma coleção de elementos que compartilham uma característica.',
+      symbol: '★',
+    },
+    2: {
+      kicker: 'ILHA 2 CONCLUÍDA',
+      title: 'Você descobriu quem pertence!',
+      description: 'O símbolo ∈ indica que um elemento pertence ao conjunto. O símbolo ∉ indica que não pertence.',
+      symbol: '∈',
+    },
+    3: {
+      kicker: 'ILHA 3 CONCLUÍDA',
+      title: 'Você encontrou os subconjuntos!',
+      description: 'Um subconjunto fica contido em outro quando todos os seus elementos também pertencem ao conjunto maior.',
+      symbol: '⊂',
+    },
+    4: {
+      kicker: 'ILHA 4 CONCLUÍDA',
+      title: 'Você reconhece conjuntos iguais!',
+      description: 'Conjuntos iguais têm exatamente os mesmos elementos, mesmo quando aparecem em outra ordem.',
+      symbol: '=',
+    },
+    5: {
+      kicker: 'ILHA 5 CONCLUÍDA',
+      title: 'Você classificou os conjuntos!',
+      description: 'Agora você reconhece conjuntos vazios, unitários, finitos e infinitos.',
+      symbol: '∅',
+    },
+    6: {
+      kicker: 'ILHA 6 CONCLUÍDA',
+      title: 'Você dominou as operações!',
+      description: 'União reúne, interseção encontra o que há em comum e diferença mostra o que restou.',
+      symbol: '∪',
+    },
+  }
+  const resultContent = resultContentByIsland[activeIsland]
 
   return (
     <div className="site-shell">
@@ -541,6 +915,9 @@ function App() {
               <article className={`stage-card active ${firstIslandCompleted ? 'completed' : ''}`}><span className="stage-number">01</span><div className="stage-icon yellow">{firstIslandCompleted ? '★' : '🧺'}</div><span className="status-tag">{firstIslandCompleted ? 'ILHA CONCLUÍDA' : 'PRONTO PARA JOGAR'}</span><h3>O que é um conjunto?</h3><p>Agrupe objetos que possuem algo em comum.</p><button onClick={() => startIsland(1)}>{firstIslandCompleted ? 'Jogar novamente' : 'Explorar esta ilha'} <span>→</span></button></article>
               <article className={`stage-card ${firstIslandCompleted ? 'active' : 'locked'} ${secondIslandCompleted ? 'completed' : ''}`}><span className="stage-number">02</span><div className="stage-icon coral">{secondIslandCompleted ? '★' : '∈'}</div><span className="status-tag">{secondIslandCompleted ? 'ILHA CONCLUÍDA' : firstIslandCompleted ? 'PRONTO PARA JOGAR' : 'BLOQUEADA'}</span><h3>Quem pertence?</h3><p>Descubra a relação de pertinência.</p>{firstIslandCompleted ? <button onClick={() => startIsland(2)}>{secondIslandCompleted ? 'Jogar novamente' : 'Explorar esta ilha'} <span>→</span></button> : <span className="locked-note">Conclua a Ilha 1 para liberar.</span>}</article>
               <article className={`stage-card ${secondIslandCompleted ? 'active' : 'locked'} ${thirdIslandCompleted ? 'completed' : ''}`}><span className="stage-number">03</span><div className="stage-icon blue">{thirdIslandCompleted ? '★' : '⊂'}</div><span className="status-tag">{thirdIslandCompleted ? 'ILHA CONCLUÍDA' : secondIslandCompleted ? 'PRONTO PARA JOGAR' : 'BLOQUEADA'}</span><h3>Conjuntos dentro de conjuntos</h3><p>Conheça subconjuntos e inclusão.</p>{secondIslandCompleted ? <button onClick={() => startIsland(3)}>{thirdIslandCompleted ? 'Jogar novamente' : 'Explorar esta ilha'} <span>→</span></button> : <span className="locked-note">Conclua a Ilha 2 para liberar.</span>}</article>
+              <article className={`stage-card ${thirdIslandCompleted ? 'active' : 'locked'} ${fourthIslandCompleted ? 'completed' : ''}`}><span className="stage-number">04</span><div className="stage-icon purple">{fourthIslandCompleted ? '★' : '='}</div><span className="status-tag">{fourthIslandCompleted ? 'ILHA CONCLUÍDA' : thirdIslandCompleted ? 'PRONTO PARA JOGAR' : 'BLOQUEADA'}</span><h3>Conjuntos iguais</h3><p>Compare coleções, mesmo em ordens diferentes.</p>{thirdIslandCompleted ? <button onClick={() => startIsland(4)}>{fourthIslandCompleted ? 'Jogar novamente' : 'Explorar esta ilha'} <span>→</span></button> : <span className="locked-note">Conclua a Ilha 3 para liberar.</span>}</article>
+              <article className={`stage-card ${fourthIslandCompleted ? 'active' : 'locked'} ${fifthIslandCompleted ? 'completed' : ''}`}><span className="stage-number">05</span><div className="stage-icon mint">{fifthIslandCompleted ? '★' : '∅'}</div><span className="status-tag">{fifthIslandCompleted ? 'ILHA CONCLUÍDA' : fourthIslandCompleted ? 'PRONTO PARA JOGAR' : 'BLOQUEADA'}</span><h3>Tipos de conjuntos</h3><p>Conheça conjuntos vazios, unitários e finitos.</p>{fourthIslandCompleted ? <button onClick={() => startIsland(5)}>{fifthIslandCompleted ? 'Jogar novamente' : 'Explorar esta ilha'} <span>→</span></button> : <span className="locked-note">Conclua a Ilha 4 para liberar.</span>}</article>
+              <article className={`stage-card ${fifthIslandCompleted ? 'active' : 'locked'} ${sixthIslandCompleted ? 'completed' : ''}`}><span className="stage-number">06</span><div className="stage-icon orange">{sixthIslandCompleted ? '★' : '∪'}</div><span className="status-tag">{sixthIslandCompleted ? 'ILHA CONCLUÍDA' : fifthIslandCompleted ? 'PRONTO PARA JOGAR' : 'BLOQUEADA'}</span><h3>Operações com conjuntos</h3><p>Pratique união, interseção e diferença.</p>{fifthIslandCompleted ? <button onClick={() => startIsland(6)}>{sixthIslandCompleted ? 'Jogar novamente' : 'Explorar esta ilha'} <span>→</span></button> : <span className="locked-note">Conclua a Ilha 5 para liberar.</span>}</article>
             </div>
           </section>
         </main>
@@ -576,7 +953,7 @@ function App() {
               <p className="sr-only" aria-live="polite">{movementMessage}</p>
               <div className="challenge-footer"><p className={message ? 'feedback visible' : 'feedback'} aria-live="polite">{message || 'Toque em um elemento para movê-lo. Você pode mudar de ideia.'}</p><button className="primary-button" disabled={selected.length === 0} onClick={checkMembershipAnswer}>Conferir resposta</button></div>
             </section>
-          ) : (
+          ) : activeIsland === 3 ? (
             <section className="challenge-card inclusion-card">
               <div className="challenge-copy"><span className="section-kicker">ILHA 3 • {inclusionChallenge.eyebrow}</span><h1>{inclusionChallenge.title}</h1><p>{inclusionChallenge.instruction}</p></div>
               <div className="inclusion-concept"><span aria-hidden="true">💡</span><div><small>IDEIA IMPORTANTE</small><p>{inclusionChallenge.concept}</p></div></div>
@@ -595,6 +972,52 @@ function App() {
               </div>
               <p className="sr-only" aria-live="polite">{movementMessage}</p>
               <div className="challenge-footer"><p className={message ? 'feedback visible' : 'feedback'} aria-live="polite">{message || 'Confira todos os elementos antes de mover um conjunto.'}</p><button className="primary-button" disabled={selected.length === 0} onClick={checkInclusionAnswer}>Conferir resposta</button></div>
+            </section>
+          ) : activeIsland === 4 ? (
+            <section className="challenge-card equality-card">
+              <div className="challenge-copy"><span className="section-kicker">ILHA 4 • {equalityChallenge.eyebrow}</span><h1>{equalityChallenge.title}</h1><p>{equalityChallenge.instruction}</p></div>
+              <div className="inclusion-concept"><span aria-hidden="true">💡</span><div><small>IDEIA IMPORTANTE</small><p>{equalityChallenge.concept}</p></div></div>
+              {equalityChallenge.showNotation && <div className="notation-guide" aria-label="Significado dos símbolos de igualdade"><span><strong>=</strong> conjuntos iguais</span><span><strong>≠</strong> conjuntos diferentes</span></div>}
+              <div className="reference-set" aria-label={`Conjunto ${equalityChallenge.reference.name}, usado como referência`}>
+                <span>CONJUNTO DE REFERÊNCIA</span>
+                <strong>{equalityChallenge.reference.name}</strong>
+                <div className="large-mini-set" aria-label={equalityChallenge.reference.elements.map((item) => item.label).join(', ')}><i>{'{'}</i>{equalityChallenge.reference.elements.map((item) => <b key={item.id}>{item.symbol}</b>)}<i>{'}'}</i></div>
+              </div>
+              <div className="equality-grid" aria-label="Conjuntos para comparar">
+                {equalityChallenge.groups.map((group) => { const isSelected = selected.includes(group.id); return (
+                  <button key={group.id} className={`comparison-card ${isSelected ? 'selected' : ''}`} aria-pressed={isSelected} onClick={() => selectSingleItem(group.id)} aria-label={`${group.label}: ${group.elements.map((item) => item.label).join(', ')}`}>
+                    <span>CONJUNTO {group.name}</span><div className="large-mini-set" aria-hidden="true"><i>{'{'}</i>{group.elements.map((item) => <b key={`${group.id}-${item.id}`}>{item.symbol}</b>)}<i>{'}'}</i></div><strong>{isSelected ? '✓ Escolhido' : `Comparar com ${equalityChallenge.reference.name}`}</strong>
+                  </button>
+                ) })}
+              </div>
+              <div className="challenge-footer"><p className={message ? 'feedback visible' : 'feedback'} aria-live="polite">{message || 'Compare cada elemento. A ordem pode mudar, mas o conteúdo precisa ser o mesmo.'}</p><button className="primary-button" disabled={selected.length === 0} onClick={checkEqualityAnswer}>Conferir resposta</button></div>
+            </section>
+          ) : activeIsland === 5 ? (
+            <section className="challenge-card classification-card">
+              <div className="challenge-copy"><span className="section-kicker">ILHA 5 • {classificationChallenge.eyebrow}</span><h1>{classificationChallenge.title}</h1><p>{classificationChallenge.instruction}</p></div>
+              <div className="inclusion-concept"><span aria-hidden="true">💡</span><div><small>IDEIA IMPORTANTE</small><p>{classificationChallenge.concept}</p></div></div>
+              <div className="classification-grid" aria-label="Conjuntos para classificar">
+                {classificationChallenge.options.map((option) => { const isSelected = selected.includes(option.id); return (
+                  <button key={option.id} className={`classification-option ${isSelected ? 'selected' : ''}`} aria-pressed={isSelected} onClick={() => selectSingleItem(option.id)}>
+                    <span className="classification-symbol" aria-hidden="true">{option.symbol}</span><small>CONJUNTO {option.name}</small><strong>{option.notation}</strong><p>{option.detail}</p><i aria-hidden="true">{isSelected ? '✓ Escolhido' : 'Toque para escolher'}</i>
+                  </button>
+                ) })}
+              </div>
+              <div className="challenge-footer"><p className={message ? 'feedback visible' : 'feedback'} aria-live="polite">{message || 'Observe quantos elementos existem e se a contagem termina.'}</p><button className="primary-button" disabled={selected.length === 0} onClick={checkClassificationAnswer}>Conferir resposta</button></div>
+            </section>
+          ) : (
+            <section className="challenge-card operation-card">
+              <div className="challenge-copy"><span className="section-kicker">ILHA 6 • {operationChallenge.eyebrow}</span><h1>{operationChallenge.title}</h1><p>{operationChallenge.instruction}</p></div>
+              <div className="inclusion-concept"><span aria-hidden="true">💡</span><div><small>IDEIA IMPORTANTE</small><p>{operationChallenge.concept}</p></div></div>
+              <div className="operation-sets" aria-label={`Operação ${operationChallenge.setA.name} ${operationChallenge.operator} ${operationChallenge.setB.name}`}>
+                {[operationChallenge.setA, operationChallenge.setB].map((group, index) => <div className={`operation-set operation-set-${index + 1}`} key={group.id}><small>CONJUNTO {group.name}</small><div className="large-mini-set" aria-label={group.elements.map((item) => item.label).join(', ')}><i>{'{'}</i>{group.elements.map((item) => <b key={`${group.id}-${item.id}`}>{item.symbol}</b>)}<i>{'}'}</i></div></div>)}
+                <span className="operation-sign" aria-hidden="true">{operationChallenge.operator}</span>
+              </div>
+              <div className="operation-result"><span>MONTE O RESULTADO</span><strong>{operationChallenge.setA.name} {operationChallenge.operator} {operationChallenge.setB.name} =</strong><div className="selected-set" aria-live="polite"><span className="brace">{'{'}</span><div>{operationSelectedLabels.length === 0 ? <span className="empty-hint">escolha os elementos</span> : operationSelectedLabels.map((symbol, index) => <span className="selected-symbol" key={`${symbol}-${index}`}>{symbol}</span>)}</div><span className="brace">{'}'}</span></div></div>
+              <div className="item-grid operation-items" aria-label="Elementos disponíveis para o resultado">
+                {operationChallenge.items.map((item) => { const isSelected = selected.includes(item.id); return <button key={item.id} className={`item-button ${isSelected ? 'selected' : ''}`} aria-pressed={isSelected} aria-label={`${item.label}${isSelected ? ', selecionado' : ''}`} onClick={() => toggleItem(item.id)}><span>{item.symbol}</span><small>{item.label}</small><i aria-hidden="true">{isSelected ? '✓' : '+'}</i></button> })}
+              </div>
+              <div className="challenge-footer"><p className={message ? 'feedback visible' : 'feedback'} aria-live="polite">{message || 'Use a ideia importante para decidir o que entra no resultado.'}</p><button className="primary-button" disabled={selected.length === 0} onClick={checkOperationAnswer}>Conferir resposta</button></div>
             </section>
           )}
         </main>

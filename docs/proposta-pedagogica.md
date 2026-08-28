@@ -37,16 +37,18 @@ Reforçar a compreensão de conjuntos por meio de desafios visuais, curtos e pro
 | 3 | Inclusão | Organizar conjuntos dentro de outros |
 | 4 | Igualdade | Comparar coleções em ordens diferentes |
 | 5 | Classificação | Identificar vazio, unitário e finito |
-| 6 | Operações | Colorir regiões de diagramas de Venn |
+| 6 | Operações | Montar resultados de união, interseção e diferença |
 
 ## Estado de implementação
 
 - Ilha 1: três desafios jogáveis sobre formação de conjuntos.
 - Ilha 2: três desafios jogáveis que partem da organização visual dentro/fora e introduzem progressivamente os símbolos `∈` e `∉`.
 - Ilha 3: três desafios jogáveis sobre inclusão, começando com conjuntos de objetos familiares e introduzindo progressivamente a ideia de subconjunto e os símbolos `⊂` e `⊄`.
-- Ilhas 4 a 6: planejadas para as próximas etapas.
+- Ilha 4: três desafios jogáveis sobre igualdade, destacando que a ordem não altera o conjunto e introduzindo `=` e `≠`.
+- Ilha 5: três desafios jogáveis sobre conjuntos vazio, unitário, finito e infinito.
+- Ilha 6: três desafios jogáveis sobre união, interseção e diferença, sempre partindo de exemplos visuais.
 
-O conteúdo matemático e a linguagem das Ilhas 2 e 3 ainda devem ser validados com um professor do ensino fundamental antes de serem considerados finais.
+O conteúdo matemático e a linguagem das seis ilhas ainda devem ser validados com um professor do ensino fundamental antes de serem considerados finais.
 
 ## Avaliação
 
