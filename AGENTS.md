@@ -22,7 +22,7 @@ Este repositório contém um jogo web educativo sobre conjuntos matemáticos par
 - Conteúdo pedagógico: `docs/proposta-pedagogica.md`.
 - Registro de atividades: `docs/diario-de-bordo.md`.
 - Publicação: `.github/workflows/deploy.yml`.
-- O progresso da primeira ilha é local e usa `localStorage`.
+- O progresso das seis ilhas é local e usa `localStorage`.
 
 ## Critérios de qualidade
 

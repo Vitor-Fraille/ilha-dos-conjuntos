@@ -4,7 +4,7 @@ Jogo web educativo criado como projeto de extensão para apoiar estudantes do 5�
 
 ## Versão atual
 
-O jogo apresenta seis ilhas jogáveis, com três desafios em cada uma. A primeira trabalha a formação de conjuntos:
+O jogo apresenta seis ilhas jogáveis, com cinco missões progressivas em cada uma — 30 atividades no total. A primeira trabalha a formação de conjuntos:
 
 - formação de conjuntos por características em comum;
 - identificação de elementos que pertencem a um conjunto;
@@ -40,7 +40,7 @@ A sexta ilha pratica operações com conjuntos:
 - interseção dos elementos em comum;
 - diferença entre dois conjuntos.
 
-A experiência não possui cronômetro, oferece explicações após tentativas incorretas e salva a conclusão de cada ilha localmente no dispositivo.
+A experiência não possui cronômetro, oferece explicações após tentativas incorretas e salva a conclusão de cada ilha localmente no dispositivo. Cada resposta correta rende uma estrela de progresso, sem perder pontos por erro, e o cenário muda de cor e atmosfera em cada ilha.
 
 ## Tecnologias
 

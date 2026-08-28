@@ -59,3 +59,15 @@ Resultado: Ilha 3 jogável e compilável. Permanece pendente a validação do co
 - atualização da documentação do projeto e do fluxo de colaboração direta na `main`.
 
 Resultado: seis ilhas jogáveis e compiláveis, com 18 desafios no total. Permanece pendente a validação do conteúdo e da linguagem com um professor do ensino fundamental.
+
+## 28/08/2026 — Progressão, variedade e reforço positivo
+
+- ampliação de três para cinco missões em cada ilha, totalizando 30 atividades;
+- organização da dificuldade do concreto para regras, exceções e combinação de conceitos;
+- inclusão de exercícios sobre formas, múltiplos, intervalos, divisores, repetição em conjuntos e complemento;
+- criação de seis cenários com cores e atmosferas diferentes para marcar o avanço no mapa;
+- implementação de estrelas e mensagens imediatas após acertos, sem cronômetro, ranking ou perda de pontos;
+- manutenção de dicas explicativas após erros e liberdade para tentar novamente;
+- registro da fundamentação pedagógica e das cautelas sobre gamificação.
+
+Resultado: experiência mais longa, variada e progressiva, preservando o foco matemático. O conteúdo das 30 missões ainda precisa de validação com um professor do ensino fundamental.

@@ -55,6 +55,7 @@ type ClassificationChallenge = {
   options: ClassificationOption[]
   answers: string[]
   tip: string
+  multiple?: boolean
 }
 type OperationChallenge = {
   eyebrow: string
@@ -78,7 +79,7 @@ const OPERATIONS_PROGRESS_KEY = 'ilha-dos-conjuntos-operations-progress'
 
 const challenges: Challenge[] = [
   {
-    eyebrow: 'Desafio 1 de 3',
+    eyebrow: 'Missão 1 de 5',
     title: 'Monte o conjunto das frutas',
     instruction: 'Toque em todos os elementos que pertencem ao conjunto.',
     setName: 'A = { frutas }',
@@ -94,7 +95,7 @@ const challenges: Challenge[] = [
     tip: 'Maçã, banana e uva são frutas. Cachorro, bola e livro não seguem essa regra.',
   },
   {
-    eyebrow: 'Desafio 2 de 3',
+    eyebrow: 'Missão 2 de 5',
     title: 'Quem pertence ao conjunto?',
     instruction: 'Selecione todos os animais. Eles ficarão dentro do conjunto B.',
     setName: 'B = { animais }',
@@ -110,7 +111,7 @@ const challenges: Challenge[] = [
     tip: 'Gato, peixe e borboleta são animais: eles nascem, crescem e se alimentam.',
   },
   {
-    eyebrow: 'Desafio 3 de 3',
+    eyebrow: 'Missão 3 de 5',
     title: 'Encontre os números pares',
     instruction: 'Escolha os números que podem ser divididos por 2 sem deixar resto.',
     setName: 'C = { pares menores que 10 }',
@@ -125,11 +126,45 @@ const challenges: Challenge[] = [
     answers: ['2', '4', '6', '8'],
     tip: '2, 4, 6 e 8 podem ser divididos por 2 sem deixar resto; por isso são pares.',
   },
+  {
+    eyebrow: 'Missão 4 de 5',
+    title: 'Separe as formas com quatro lados',
+    instruction: 'Observe o contorno e escolha apenas as formas que possuem quatro lados.',
+    setName: 'D = { formas com 4 lados }',
+    items: [
+      { id: 'square', symbol: '■', label: 'quadrado' },
+      { id: 'triangle', symbol: '▲', label: 'triângulo' },
+      { id: 'rectangle', symbol: '▭', label: 'retângulo' },
+      { id: 'circle', symbol: '●', label: 'círculo' },
+      { id: 'diamond', symbol: '◆', label: 'losango' },
+      { id: 'star', symbol: '★', label: 'estrela' },
+    ],
+    answers: ['square', 'rectangle', 'diamond'],
+    tip: 'Quadrado, retângulo e losango possuem quatro lados. Triângulo tem três, círculo não tem lados e estrela tem mais pontas.',
+  },
+  {
+    eyebrow: 'Missão 5 de 5',
+    title: 'Descubra os múltiplos de 3',
+    instruction: 'Escolha os números que aparecem na tabuada do 3.',
+    setName: 'M = { múltiplos de 3 até 18 }',
+    items: [
+      { id: '3', symbol: '3', label: 'três' },
+      { id: '5', symbol: '5', label: 'cinco' },
+      { id: '6', symbol: '6', label: 'seis' },
+      { id: '9', symbol: '9', label: 'nove' },
+      { id: '12', symbol: '12', label: 'doze' },
+      { id: '14', symbol: '14', label: 'quatorze' },
+      { id: '15', symbol: '15', label: 'quinze' },
+      { id: '18', symbol: '18', label: 'dezoito' },
+    ],
+    answers: ['3', '6', '9', '12', '15', '18'],
+    tip: 'Conte de 3 em 3: 3, 6, 9, 12, 15 e 18. Os números 5 e 14 não aparecem nessa sequência.',
+  },
 ]
 
 const membershipChallenges: MembershipChallenge[] = [
   {
-    eyebrow: 'Desafio 1 de 3',
+    eyebrow: 'Missão 1 de 5',
     title: 'Quem entra no conjunto?',
     instruction: 'Mova para dentro do conjunto E somente os materiais escolares.',
     setName: 'Conjunto E',
@@ -147,7 +182,7 @@ const membershipChallenges: MembershipChallenge[] = [
     tip: 'Lápis, caderno e régua são usados nas tarefas escolares. Gato, bola e maçã ficam fora desse grupo.',
   },
   {
-    eyebrow: 'Desafio 2 de 3',
+    eyebrow: 'Missão 2 de 5',
     title: 'Pertence ou não pertence?',
     instruction: 'Use a regra “ser um animal” para organizar todos os elementos.',
     setName: 'Conjunto A',
@@ -165,7 +200,7 @@ const membershipChallenges: MembershipChallenge[] = [
     tip: 'Gato, peixe e borboleta pertencem ao conjunto dos animais. Livro, pipa e flor não pertencem.',
   },
   {
-    eyebrow: 'Desafio 3 de 3',
+    eyebrow: 'Missão 3 de 5',
     title: 'Leia os símbolos ∈ e ∉',
     instruction: 'Dentro significa ∈; fora significa ∉. Organize os números maiores que 5.',
     setName: 'Conjunto N',
@@ -182,11 +217,47 @@ const membershipChallenges: MembershipChallenge[] = [
     answers: ['6', '7', '8', '9'],
     tip: 'Compare cada número com 5: 6, 7, 8 e 9 são maiores e pertencem a N. 2 e 4 não pertencem.',
   },
+  {
+    eyebrow: 'Missão 4 de 5',
+    title: 'Entre 10 e 20',
+    instruction: 'Coloque dentro de I somente os números maiores que 10 e menores que 20.',
+    setName: 'Conjunto I',
+    rule: 'números entre 10 e 20',
+    showNotation: true,
+    items: [
+      { id: '8', symbol: '8', label: 'oito' },
+      { id: '10', symbol: '10', label: 'dez' },
+      { id: '11', symbol: '11', label: 'onze' },
+      { id: '15', symbol: '15', label: 'quinze' },
+      { id: '19', symbol: '19', label: 'dezenove' },
+      { id: '20', symbol: '20', label: 'vinte' },
+    ],
+    answers: ['11', '15', '19'],
+    tip: '11, 15 e 19 são maiores que 10 e menores que 20. Os extremos 10 e 20 não entram quando dizemos “entre”.',
+  },
+  {
+    eyebrow: 'Missão 5 de 5',
+    title: 'Pertinência na tabuada do 4',
+    instruction: 'Organize os números usando a regra “ser múltiplo de 4 e menor que 25”.',
+    setName: 'Conjunto T',
+    rule: 'múltiplos de 4 menores que 25',
+    showNotation: true,
+    items: [
+      { id: '4', symbol: '4', label: 'quatro' },
+      { id: '8', symbol: '8', label: 'oito' },
+      { id: '12', symbol: '12', label: 'doze' },
+      { id: '18', symbol: '18', label: 'dezoito' },
+      { id: '20', symbol: '20', label: 'vinte' },
+      { id: '24', symbol: '24', label: 'vinte e quatro' },
+    ],
+    answers: ['4', '8', '12', '20', '24'],
+    tip: 'A tabuada do 4 segue 4, 8, 12, 16, 20 e 24. O número 18 não pertence a essa sequência.',
+  },
 ]
 
 const inclusionChallenges: InclusionChallenge[] = [
   {
-    eyebrow: 'Desafio 1 de 3',
+    eyebrow: 'Missão 1 de 5',
     title: 'Quais conjuntos cabem aqui?',
     instruction: 'Mova para dentro de Alimentos os conjuntos em que todos os elementos são alimentos.',
     outerName: 'Alimentos',
@@ -235,7 +306,7 @@ const inclusionChallenges: InclusionChallenge[] = [
     showNotation: false,
   },
   {
-    eyebrow: 'Desafio 2 de 3',
+    eyebrow: 'Missão 2 de 5',
     title: 'Encontre os subconjuntos',
     instruction: 'Coloque dentro de Seres vivos os conjuntos formados somente por seres vivos.',
     outerName: 'Seres vivos',
@@ -284,7 +355,7 @@ const inclusionChallenges: InclusionChallenge[] = [
     showNotation: false,
   },
   {
-    eyebrow: 'Desafio 3 de 3',
+    eyebrow: 'Missão 3 de 5',
     title: 'Leia os símbolos ⊂ e ⊄',
     instruction: 'Coloque dentro de P os conjuntos formados somente por números pares menores que 10.',
     outerName: 'P = { pares menores que 10 }',
@@ -332,11 +403,61 @@ const inclusionChallenges: InclusionChallenge[] = [
     concept: 'O símbolo ⊂ significa “está contido”. O símbolo ⊄ significa “não está contido”.',
     showNotation: true,
   },
+  {
+    eyebrow: 'Missão 4 de 5',
+    title: 'Subconjuntos dos divisores de 12',
+    instruction: 'Coloque dentro de D os conjuntos formados somente por divisores de 12.',
+    outerName: 'D = { divisores de 12 }',
+    outerRule: 'números 1, 2, 3, 4, 6 e 12',
+    groups: [
+      { id: 'small-divisors', name: 'E', label: 'Conjunto E', elements: [
+        { id: '1', symbol: '1', label: 'um' }, { id: '3', symbol: '3', label: 'três' },
+      ] },
+      { id: 'large-divisors', name: 'F', label: 'Conjunto F', elements: [
+        { id: '4', symbol: '4', label: 'quatro' }, { id: '6', symbol: '6', label: 'seis' }, { id: '12', symbol: '12', label: 'doze' },
+      ] },
+      { id: 'mixed-divisors', name: 'G', label: 'Conjunto G', elements: [
+        { id: '2', symbol: '2', label: 'dois' }, { id: '5', symbol: '5', label: 'cinco' },
+      ] },
+      { id: 'not-divisor', name: 'H', label: 'Conjunto H', elements: [
+        { id: '7', symbol: '7', label: 'sete' }, { id: '8', symbol: '8', label: 'oito' },
+      ] },
+    ],
+    answers: ['small-divisors', 'large-divisors'],
+    tip: 'E e F usam apenas números que dividem 12 sem deixar resto. G tem o 5, e H tem 7 e 8, que não são divisores de 12.',
+    concept: 'Para provar que um conjunto está contido, verifique cada elemento, sem pular nenhum.',
+    showNotation: true,
+  },
+  {
+    eyebrow: 'Missão 5 de 5',
+    title: 'Subconjuntos dos múltiplos de 3',
+    instruction: 'Encontre os conjuntos que estão contidos em M.',
+    outerName: 'M = { múltiplos de 3 até 18 }',
+    outerRule: 'números 3, 6, 9, 12, 15 e 18',
+    groups: [
+      { id: 'odd-multiples', name: 'J', label: 'Conjunto J', elements: [
+        { id: '3', symbol: '3', label: 'três' }, { id: '9', symbol: '9', label: 'nove' }, { id: '15', symbol: '15', label: 'quinze' },
+      ] },
+      { id: 'even-multiples', name: 'K', label: 'Conjunto K', elements: [
+        { id: '6', symbol: '6', label: 'seis' }, { id: '12', symbol: '12', label: 'doze' }, { id: '18', symbol: '18', label: 'dezoito' },
+      ] },
+      { id: 'almost-multiples', name: 'L', label: 'Conjunto L', elements: [
+        { id: '3', symbol: '3', label: 'três' }, { id: '6', symbol: '6', label: 'seis' }, { id: '10', symbol: '10', label: 'dez' },
+      ] },
+      { id: 'powers-two', name: 'N', label: 'Conjunto N', elements: [
+        { id: '2', symbol: '2', label: 'dois' }, { id: '4', symbol: '4', label: 'quatro' }, { id: '8', symbol: '8', label: 'oito' },
+      ] },
+    ],
+    answers: ['odd-multiples', 'even-multiples'],
+    tip: 'J e K usam somente múltiplos de 3. L não cabe por causa do 10, e N não segue a regra de M.',
+    concept: 'Um único elemento fora da regra já impede a inclusão do conjunto inteiro.',
+    showNotation: true,
+  },
 ]
 
 const equalityChallenges: EqualityChallenge[] = [
   {
-    eyebrow: 'Desafio 1 de 3',
+    eyebrow: 'Missão 1 de 5',
     title: 'A ordem muda o conjunto?',
     instruction: 'Escolha o conjunto que tem exatamente as mesmas frutas de F.',
     reference: {
@@ -378,7 +499,7 @@ const equalityChallenges: EqualityChallenge[] = [
     showNotation: false,
   },
   {
-    eyebrow: 'Desafio 2 de 3',
+    eyebrow: 'Missão 2 de 5',
     title: 'Compare cada número',
     instruction: 'Encontre o conjunto igual a N. Conte e compare todos os elementos.',
     reference: {
@@ -422,7 +543,7 @@ const equalityChallenges: EqualityChallenge[] = [
     showNotation: true,
   },
   {
-    eyebrow: 'Desafio 3 de 3',
+    eyebrow: 'Missão 3 de 5',
     title: 'Use os símbolos = e ≠',
     instruction: 'Escolha o conjunto que completa corretamente a igualdade S = ?',
     reference: {
@@ -463,11 +584,57 @@ const equalityChallenges: EqualityChallenge[] = [
     concept: 'O símbolo = indica conjuntos iguais. O símbolo ≠ indica que existe alguma diferença entre eles.',
     showNotation: true,
   },
+  {
+    eyebrow: 'Missão 4 de 5',
+    title: 'Elemento repetido conta de novo?',
+    instruction: 'Escolha o conjunto igual a X, lembrando que repetir um elemento não cria um elemento novo.',
+    reference: { id: 'repeat-reference', name: 'X', label: 'Conjunto com repetição', elements: [
+      { id: '1', symbol: '1', label: 'um' }, { id: '2a', symbol: '2', label: 'dois' }, { id: '2b', symbol: '2', label: 'dois repetido' }, { id: '3', symbol: '3', label: 'três' },
+    ] },
+    groups: [
+      { id: 'unique-equal', name: 'A', label: 'Conjunto A', elements: [
+        { id: '3', symbol: '3', label: 'três' }, { id: '2', symbol: '2', label: 'dois' }, { id: '1', symbol: '1', label: 'um' },
+      ] },
+      { id: 'missing-repeat', name: 'B', label: 'Conjunto B', elements: [
+        { id: '1', symbol: '1', label: 'um' }, { id: '2', symbol: '2', label: 'dois' },
+      ] },
+      { id: 'extra-four', name: 'C', label: 'Conjunto C', elements: [
+        { id: '1', symbol: '1', label: 'um' }, { id: '2', symbol: '2', label: 'dois' }, { id: '3', symbol: '3', label: 'três' }, { id: '4', symbol: '4', label: 'quatro' },
+      ] },
+    ],
+    answers: ['unique-equal'],
+    tip: 'X possui os elementos 1, 2 e 3. Escrever o 2 duas vezes não muda o conjunto, então X = A.',
+    concept: 'Em um conjunto, cada elemento é considerado uma vez, mesmo quando aparece repetido na escrita.',
+    showNotation: true,
+  },
+  {
+    eyebrow: 'Missão 5 de 5',
+    title: 'Compare quadrados perfeitos',
+    instruction: 'Escolha o conjunto igual a Q = { quadrados perfeitos até 16 }.',
+    reference: { id: 'squares-reference', name: 'Q', label: 'Quadrados perfeitos até 16', elements: [
+      { id: '1', symbol: '1', label: 'um' }, { id: '4', symbol: '4', label: 'quatro' }, { id: '9', symbol: '9', label: 'nove' }, { id: '16', symbol: '16', label: 'dezesseis' },
+    ] },
+    groups: [
+      { id: 'same-squares', name: 'R', label: 'Conjunto R', elements: [
+        { id: '16', symbol: '16', label: 'dezesseis' }, { id: '9', symbol: '9', label: 'nove' }, { id: '4', symbol: '4', label: 'quatro' }, { id: '1', symbol: '1', label: 'um' },
+      ] },
+      { id: 'even-squares', name: 'S', label: 'Conjunto S', elements: [
+        { id: '4', symbol: '4', label: 'quatro' }, { id: '16', symbol: '16', label: 'dezesseis' },
+      ] },
+      { id: 'almost-squares', name: 'T', label: 'Conjunto T', elements: [
+        { id: '1', symbol: '1', label: 'um' }, { id: '4', symbol: '4', label: 'quatro' }, { id: '8', symbol: '8', label: 'oito' }, { id: '16', symbol: '16', label: 'dezesseis' },
+      ] },
+    ],
+    answers: ['same-squares'],
+    tip: '1 = 1×1, 4 = 2×2, 9 = 3×3 e 16 = 4×4. R possui todos eles, apenas em ordem inversa.',
+    concept: 'Conjuntos descritos por uma regra continuam iguais quando produzem exatamente os mesmos elementos.',
+    showNotation: true,
+  },
 ]
 
 const classificationChallenges: ClassificationChallenge[] = [
   {
-    eyebrow: 'Desafio 1 de 3',
+    eyebrow: 'Missão 1 de 5',
     title: 'Qual conjunto está vazio?',
     instruction: 'Escolha o conjunto que não possui nenhum elemento.',
     concept: 'Um conjunto vazio não possui elementos. Podemos representá-lo por { } ou pelo símbolo ∅.',
@@ -480,7 +647,7 @@ const classificationChallenges: ClassificationChallenge[] = [
     tip: 'A não possui elementos entre as chaves. Por isso A é o conjunto vazio, representado também por ∅.',
   },
   {
-    eyebrow: 'Desafio 2 de 3',
+    eyebrow: 'Missão 2 de 5',
     title: 'Encontre o conjunto unitário',
     instruction: 'Escolha o conjunto que possui exatamente um elemento.',
     concept: 'Um conjunto unitário possui um único elemento. “Unitário” lembra a palavra “um”.',
@@ -493,7 +660,7 @@ const classificationChallenges: ClassificationChallenge[] = [
     tip: 'E possui somente a estrela. D tem dois elementos, e F não tem nenhum.',
   },
   {
-    eyebrow: 'Desafio 3 de 3',
+    eyebrow: 'Missão 3 de 5',
     title: 'Finito ou infinito?',
     instruction: 'Escolha a coleção que podemos terminar de contar.',
     concept: 'Um conjunto finito termina; um conjunto infinito continua sem fim.',
@@ -505,11 +672,38 @@ const classificationChallenges: ClassificationChallenge[] = [
     answers: ['weekdays'],
     tip: 'Os dias da semana são 7, então conseguimos terminar a contagem. Os números naturais e os pontos de uma reta continuam sem fim.',
   },
+  {
+    eyebrow: 'Missão 4 de 5',
+    title: 'Qual conjunto é infinito?',
+    instruction: 'Escolha a coleção que sempre permite encontrar um próximo elemento.',
+    concept: 'No conjunto infinito, a contagem nunca termina, mesmo que continuemos por muito tempo.',
+    options: [
+      { id: 'months', name: 'J', notation: 'meses do ano', detail: '12 meses', symbol: '12' },
+      { id: 'letters', name: 'K', notation: 'letras do alfabeto', detail: 'quantidade limitada', symbol: 'ABC' },
+      { id: 'even-numbers', name: 'L', notation: 'números pares', detail: '2, 4, 6, 8, ...', symbol: '∞' },
+    ],
+    answers: ['even-numbers'],
+    tip: 'Depois de qualquer número par, podemos somar 2 e encontrar outro. Meses e letras possuem uma quantidade que termina.',
+  },
+  {
+    eyebrow: 'Missão 5 de 5',
+    title: 'Um conjunto pode ter dois tipos',
+    instruction: 'O conjunto P = { 9 } recebe quais classificações? Escolha todas as corretas.',
+    concept: 'As classificações podem se combinar. Um conjunto com um elemento também termina de ser contado.',
+    options: [
+      { id: 'empty-type', name: 'A', notation: 'vazio', detail: 'não possui elementos', symbol: '∅' },
+      { id: 'unit-type', name: 'B', notation: 'unitário', detail: 'possui um elemento', symbol: '1' },
+      { id: 'finite-type', name: 'C', notation: 'finito', detail: 'a contagem termina', symbol: '✓' },
+    ],
+    answers: ['unit-type', 'finite-type'],
+    tip: 'P possui exatamente um elemento, então é unitário. Como sua contagem termina em 1, também é finito. Não é vazio.',
+    multiple: true,
+  },
 ]
 
 const operationChallenges: OperationChallenge[] = [
   {
-    eyebrow: 'Desafio 1 de 3',
+    eyebrow: 'Missão 1 de 5',
     title: 'Junte sem repetir',
     instruction: 'Monte A ∪ B escolhendo tudo o que aparece em A ou em B.',
     concept: 'União (∪) reúne os elementos dos dois conjuntos. Um elemento repetido aparece uma só vez no resultado.',
@@ -532,7 +726,7 @@ const operationChallenges: OperationChallenge[] = [
     tip: 'A união reúne maçã, banana e uva. A banana está nos dois conjuntos, mas não precisa ser repetida.',
   },
   {
-    eyebrow: 'Desafio 2 de 3',
+    eyebrow: 'Missão 2 de 5',
     title: 'Descubra o que há em comum',
     instruction: 'Monte A ∩ B escolhendo apenas o que aparece nos dois conjuntos.',
     concept: 'Interseção (∩) mostra somente os elementos que pertencem aos dois conjuntos ao mesmo tempo.',
@@ -555,7 +749,7 @@ const operationChallenges: OperationChallenge[] = [
     tip: 'Somente o peixe aparece em A e também em B. Por isso A ∩ B = { peixe }.',
   },
   {
-    eyebrow: 'Desafio 3 de 3',
+    eyebrow: 'Missão 3 de 5',
     title: 'O que ficou somente em A?',
     instruction: 'Monte A − B: escolha o que está em A, mas não está em B.',
     concept: 'Diferença (−) retira de A os elementos que também aparecem em B.',
@@ -579,10 +773,55 @@ const operationChallenges: OperationChallenge[] = [
     answers: ['2', '6'],
     tip: 'Retire de A os números 4 e 8, pois eles também estão em B. Restam 2 e 6.',
   },
+  {
+    eyebrow: 'Missão 4 de 5',
+    title: 'Interseção de duas tabuadas',
+    instruction: 'Monte A ∩ B encontrando os números que aparecem nas duas tabuadas.',
+    concept: 'Na interseção, um elemento precisa cumprir as duas regras ao mesmo tempo.',
+    operator: '∩',
+    setA: { id: 'multiples-two', name: 'A', label: 'Múltiplos de 2', elements: [
+      { id: '2', symbol: '2', label: 'dois' }, { id: '4', symbol: '4', label: 'quatro' }, { id: '6', symbol: '6', label: 'seis' }, { id: '8', symbol: '8', label: 'oito' }, { id: '10', symbol: '10', label: 'dez' }, { id: '12', symbol: '12', label: 'doze' }, { id: '14', symbol: '14', label: 'quatorze' },
+    ] },
+    setB: { id: 'multiples-three', name: 'B', label: 'Múltiplos de 3', elements: [
+      { id: '3', symbol: '3', label: 'três' }, { id: '6', symbol: '6', label: 'seis' }, { id: '9', symbol: '9', label: 'nove' }, { id: '12', symbol: '12', label: 'doze' },
+    ] },
+    items: [
+      { id: '2', symbol: '2', label: 'dois' }, { id: '3', symbol: '3', label: 'três' }, { id: '6', symbol: '6', label: 'seis' }, { id: '9', symbol: '9', label: 'nove' }, { id: '12', symbol: '12', label: 'doze' }, { id: '14', symbol: '14', label: 'quatorze' },
+    ],
+    answers: ['6', '12'],
+    tip: '6 e 12 aparecem na tabuada do 2 e também na tabuada do 3. Eles são múltiplos de 6.',
+  },
+  {
+    eyebrow: 'Missão 5 de 5',
+    title: 'Descubra o complemento',
+    instruction: 'Monte U − P: retire de U todos os números pares.',
+    concept: 'O complemento de P em U é formado pelos elementos do universo U que não pertencem a P.',
+    operator: '−',
+    setA: { id: 'universe', name: 'U', label: 'Universo de 1 a 10', elements: [
+      { id: '1', symbol: '1', label: 'um' }, { id: '2', symbol: '2', label: 'dois' }, { id: '3', symbol: '3', label: 'três' }, { id: '4', symbol: '4', label: 'quatro' }, { id: '5', symbol: '5', label: 'cinco' }, { id: '6', symbol: '6', label: 'seis' }, { id: '7', symbol: '7', label: 'sete' }, { id: '8', symbol: '8', label: 'oito' }, { id: '9', symbol: '9', label: 'nove' }, { id: '10', symbol: '10', label: 'dez' },
+    ] },
+    setB: { id: 'even-set', name: 'P', label: 'Números pares', elements: [
+      { id: '2', symbol: '2', label: 'dois' }, { id: '4', symbol: '4', label: 'quatro' }, { id: '6', symbol: '6', label: 'seis' }, { id: '8', symbol: '8', label: 'oito' }, { id: '10', symbol: '10', label: 'dez' },
+    ] },
+    items: [
+      { id: '1', symbol: '1', label: 'um' }, { id: '2', symbol: '2', label: 'dois' }, { id: '3', symbol: '3', label: 'três' }, { id: '4', symbol: '4', label: 'quatro' }, { id: '5', symbol: '5', label: 'cinco' }, { id: '6', symbol: '6', label: 'seis' }, { id: '7', symbol: '7', label: 'sete' }, { id: '8', symbol: '8', label: 'oito' }, { id: '9', symbol: '9', label: 'nove' }, { id: '10', symbol: '10', label: 'dez' },
+    ],
+    answers: ['1', '3', '5', '7', '9'],
+    tip: 'Ao retirar 2, 4, 6, 8 e 10 do universo U, restam os ímpares 1, 3, 5, 7 e 9.',
+  },
 ]
 
 function selectionsMatch(selected: string[], answers: string[]) {
   return [...selected].sort().join(',') === [...answers].sort().join(',')
+}
+
+const islandAtmospheres: Record<Island, { name: string; detail: string; symbols: string }> = {
+  1: { name: 'Praia dos Primeiros Grupos', detail: 'Observe, experimente e descubra o que combina.', symbols: '🌴 🧺 🍎' },
+  2: { name: 'Bosque da Pertinência', detail: 'Decida quem fica dentro e quem fica fora.', symbols: '🌿 ∈ 🐾' },
+  3: { name: 'Lagoa dos Subconjuntos', detail: 'Encontre conjuntos que cabem por inteiro em outros.', symbols: '💧 ⊂ 🐚' },
+  4: { name: 'Montanha da Igualdade', detail: 'Compare com atenção: a ordem pode enganar.', symbols: '⛰️ = 🔎' },
+  5: { name: 'Caverna das Classificações', detail: 'Use as pistas para reconhecer cada tipo.', symbols: '🔮 ∅ 💎' },
+  6: { name: 'Vulcão das Operações', detail: 'Combine estratégias para resolver as missões finais.', symbols: '🌋 ∪ ∩' },
 }
 
 function App() {
@@ -592,6 +831,8 @@ function App() {
   const [selected, setSelected] = useState<string[]>([])
   const [message, setMessage] = useState('')
   const [movementMessage, setMovementMessage] = useState('')
+  const [rewardMessage, setRewardMessage] = useState('')
+  const [earnedStars, setEarnedStars] = useState(0)
   const [firstIslandCompleted, setFirstIslandCompleted] = useState(
     () => localStorage.getItem(INTRO_PROGRESS_KEY) === '1',
   )
@@ -627,6 +868,7 @@ function App() {
   }
   const activeChallengesLength = challengeLengths[activeIsland]
   const progress = screen === 'result' ? 100 : (challengeIndex / activeChallengesLength) * 100
+  const atmosphere = islandAtmospheres[activeIsland]
 
   const selectedLabels = useMemo(
     () => challenge?.items.filter((item) => selected.includes(item.id)).map((item) => item.symbol),
@@ -686,23 +928,28 @@ function App() {
     setSelected([])
     setMessage('')
     setMovementMessage('')
+    setRewardMessage('')
+    setEarnedStars(0)
     setScreen('lesson')
     scrollToTop()
   }
 
   function toggleItem(id: string) {
     setMessage('')
+    setRewardMessage('')
     setSelected((current) => current.includes(id) ? current.filter((item) => item !== id) : [...current, id])
   }
 
   function selectSingleItem(id: string) {
     setMessage('')
+    setRewardMessage('')
     setSelected([id])
   }
 
   function moveMembershipItem(item: Item) {
     const movingInside = !selected.includes(item.id)
     setMessage('')
+    setRewardMessage('')
     setSelected((current) => movingInside ? [...current, item.id] : current.filter((id) => id !== item.id))
     setMovementMessage(`${item.label} foi movido para ${movingInside ? 'dentro' : 'fora'} do conjunto.`)
     window.requestAnimationFrame(() => document.getElementById(`membership-item-${item.id}`)?.focus())
@@ -711,6 +958,7 @@ function App() {
   function moveInclusionGroup(group: SetGroup) {
     const movingInside = !selected.includes(group.id)
     setMessage('')
+    setRewardMessage('')
     setSelected((current) => movingInside ? [...current, group.id] : current.filter((id) => id !== group.id))
     setMovementMessage(`${group.label} foi movido para ${movingInside ? 'dentro' : 'fora'} do conjunto maior.`)
     window.requestAnimationFrame(() => document.getElementById(`inclusion-group-${group.id}`)?.focus())
@@ -751,12 +999,18 @@ function App() {
     setMovementMessage('')
   }
 
+  function celebrateAndAdvance() {
+    setEarnedStars((value) => value + 1)
+    setRewardMessage('Muito bem! Sua estratégia funcionou. Você conquistou mais uma estrela.')
+    advanceChallenge()
+  }
+
   function checkIntroAnswer() {
     if (!selectionsMatch(selected, challenge.answers)) {
       setMessage(challenge.tip)
       return
     }
-    advanceChallenge()
+    celebrateAndAdvance()
   }
 
   function checkMembershipAnswer() {
@@ -764,7 +1018,7 @@ function App() {
       setMessage(membershipChallenge.tip)
       return
     }
-    advanceChallenge()
+    celebrateAndAdvance()
   }
 
   function checkInclusionAnswer() {
@@ -772,7 +1026,7 @@ function App() {
       setMessage(inclusionChallenge.tip)
       return
     }
-    advanceChallenge()
+    celebrateAndAdvance()
   }
 
   function checkEqualityAnswer() {
@@ -780,7 +1034,7 @@ function App() {
       setMessage(equalityChallenge.tip)
       return
     }
-    advanceChallenge()
+    celebrateAndAdvance()
   }
 
   function checkClassificationAnswer() {
@@ -788,7 +1042,7 @@ function App() {
       setMessage(classificationChallenge.tip)
       return
     }
-    advanceChallenge()
+    celebrateAndAdvance()
   }
 
   function checkOperationAnswer() {
@@ -796,7 +1050,7 @@ function App() {
       setMessage(operationChallenge.tip)
       return
     }
-    advanceChallenge()
+    celebrateAndAdvance()
   }
 
   function renderMembershipItem(item: Item, isInside: boolean) {
@@ -883,7 +1137,7 @@ function App() {
   const resultContent = resultContentByIsland[activeIsland]
 
   return (
-    <div className="site-shell">
+    <div className={`site-shell ${screen === 'lesson' ? `theme-island-${activeIsland}` : 'theme-home'}`}>
       <header className="topbar">
         <button className="brand" onClick={goHome} aria-label="Voltar ao início">
           <span className="brand-mark" aria-hidden="true">∴</span><span>Ilha dos Conjuntos</span>
@@ -912,12 +1166,12 @@ function App() {
           <section className="trail-section" aria-labelledby="trail-title">
             <div className="section-heading"><div><span className="section-kicker">SEU MAPA DE AVENTURAS</span><h2 id="trail-title">Uma descoberta de cada vez</h2></div><span className="progress-label">{mapProgressLabel}</span></div>
             <div className="stage-grid">
-              <article className={`stage-card active ${firstIslandCompleted ? 'completed' : ''}`}><span className="stage-number">01</span><div className="stage-icon yellow">{firstIslandCompleted ? '★' : '🧺'}</div><span className="status-tag">{firstIslandCompleted ? 'ILHA CONCLUÍDA' : 'PRONTO PARA JOGAR'}</span><h3>O que é um conjunto?</h3><p>Agrupe objetos que possuem algo em comum.</p><button onClick={() => startIsland(1)}>{firstIslandCompleted ? 'Jogar novamente' : 'Explorar esta ilha'} <span>→</span></button></article>
-              <article className={`stage-card ${firstIslandCompleted ? 'active' : 'locked'} ${secondIslandCompleted ? 'completed' : ''}`}><span className="stage-number">02</span><div className="stage-icon coral">{secondIslandCompleted ? '★' : '∈'}</div><span className="status-tag">{secondIslandCompleted ? 'ILHA CONCLUÍDA' : firstIslandCompleted ? 'PRONTO PARA JOGAR' : 'BLOQUEADA'}</span><h3>Quem pertence?</h3><p>Descubra a relação de pertinência.</p>{firstIslandCompleted ? <button onClick={() => startIsland(2)}>{secondIslandCompleted ? 'Jogar novamente' : 'Explorar esta ilha'} <span>→</span></button> : <span className="locked-note">Conclua a Ilha 1 para liberar.</span>}</article>
-              <article className={`stage-card ${secondIslandCompleted ? 'active' : 'locked'} ${thirdIslandCompleted ? 'completed' : ''}`}><span className="stage-number">03</span><div className="stage-icon blue">{thirdIslandCompleted ? '★' : '⊂'}</div><span className="status-tag">{thirdIslandCompleted ? 'ILHA CONCLUÍDA' : secondIslandCompleted ? 'PRONTO PARA JOGAR' : 'BLOQUEADA'}</span><h3>Conjuntos dentro de conjuntos</h3><p>Conheça subconjuntos e inclusão.</p>{secondIslandCompleted ? <button onClick={() => startIsland(3)}>{thirdIslandCompleted ? 'Jogar novamente' : 'Explorar esta ilha'} <span>→</span></button> : <span className="locked-note">Conclua a Ilha 2 para liberar.</span>}</article>
-              <article className={`stage-card ${thirdIslandCompleted ? 'active' : 'locked'} ${fourthIslandCompleted ? 'completed' : ''}`}><span className="stage-number">04</span><div className="stage-icon purple">{fourthIslandCompleted ? '★' : '='}</div><span className="status-tag">{fourthIslandCompleted ? 'ILHA CONCLUÍDA' : thirdIslandCompleted ? 'PRONTO PARA JOGAR' : 'BLOQUEADA'}</span><h3>Conjuntos iguais</h3><p>Compare coleções, mesmo em ordens diferentes.</p>{thirdIslandCompleted ? <button onClick={() => startIsland(4)}>{fourthIslandCompleted ? 'Jogar novamente' : 'Explorar esta ilha'} <span>→</span></button> : <span className="locked-note">Conclua a Ilha 3 para liberar.</span>}</article>
-              <article className={`stage-card ${fourthIslandCompleted ? 'active' : 'locked'} ${fifthIslandCompleted ? 'completed' : ''}`}><span className="stage-number">05</span><div className="stage-icon mint">{fifthIslandCompleted ? '★' : '∅'}</div><span className="status-tag">{fifthIslandCompleted ? 'ILHA CONCLUÍDA' : fourthIslandCompleted ? 'PRONTO PARA JOGAR' : 'BLOQUEADA'}</span><h3>Tipos de conjuntos</h3><p>Conheça conjuntos vazios, unitários e finitos.</p>{fourthIslandCompleted ? <button onClick={() => startIsland(5)}>{fifthIslandCompleted ? 'Jogar novamente' : 'Explorar esta ilha'} <span>→</span></button> : <span className="locked-note">Conclua a Ilha 4 para liberar.</span>}</article>
-              <article className={`stage-card ${fifthIslandCompleted ? 'active' : 'locked'} ${sixthIslandCompleted ? 'completed' : ''}`}><span className="stage-number">06</span><div className="stage-icon orange">{sixthIslandCompleted ? '★' : '∪'}</div><span className="status-tag">{sixthIslandCompleted ? 'ILHA CONCLUÍDA' : fifthIslandCompleted ? 'PRONTO PARA JOGAR' : 'BLOQUEADA'}</span><h3>Operações com conjuntos</h3><p>Pratique união, interseção e diferença.</p>{fifthIslandCompleted ? <button onClick={() => startIsland(6)}>{sixthIslandCompleted ? 'Jogar novamente' : 'Explorar esta ilha'} <span>→</span></button> : <span className="locked-note">Conclua a Ilha 5 para liberar.</span>}</article>
+              <article className={`stage-card active ${firstIslandCompleted ? 'completed' : ''}`}><span className="stage-number">01</span><div className="stage-icon yellow">{firstIslandCompleted ? '★' : '🧺'}</div><span className="status-tag">{firstIslandCompleted ? 'ILHA CONCLUÍDA' : 'PRONTO PARA JOGAR'}</span><h3>O que é um conjunto?</h3><p>Agrupe objetos que possuem algo em comum.</p><small className="mission-count">5 missões • início tranquilo</small><button onClick={() => startIsland(1)}>{firstIslandCompleted ? 'Jogar novamente' : 'Explorar esta ilha'} <span>→</span></button></article>
+              <article className={`stage-card ${firstIslandCompleted ? 'active' : 'locked'} ${secondIslandCompleted ? 'completed' : ''}`}><span className="stage-number">02</span><div className="stage-icon coral">{secondIslandCompleted ? '★' : '∈'}</div><span className="status-tag">{secondIslandCompleted ? 'ILHA CONCLUÍDA' : firstIslandCompleted ? 'PRONTO PARA JOGAR' : 'BLOQUEADA'}</span><h3>Quem pertence?</h3><p>Descubra a relação de pertinência.</p><small className="mission-count">5 missões • novas regras</small>{firstIslandCompleted ? <button onClick={() => startIsland(2)}>{secondIslandCompleted ? 'Jogar novamente' : 'Explorar esta ilha'} <span>→</span></button> : <span className="locked-note">Conclua a Ilha 1 para liberar.</span>}</article>
+              <article className={`stage-card ${secondIslandCompleted ? 'active' : 'locked'} ${thirdIslandCompleted ? 'completed' : ''}`}><span className="stage-number">03</span><div className="stage-icon blue">{thirdIslandCompleted ? '★' : '⊂'}</div><span className="status-tag">{thirdIslandCompleted ? 'ILHA CONCLUÍDA' : secondIslandCompleted ? 'PRONTO PARA JOGAR' : 'BLOQUEADA'}</span><h3>Conjuntos dentro de conjuntos</h3><p>Conheça subconjuntos e inclusão.</p><small className="mission-count">5 missões • atenção a cada elemento</small>{secondIslandCompleted ? <button onClick={() => startIsland(3)}>{thirdIslandCompleted ? 'Jogar novamente' : 'Explorar esta ilha'} <span>→</span></button> : <span className="locked-note">Conclua a Ilha 2 para liberar.</span>}</article>
+              <article className={`stage-card ${thirdIslandCompleted ? 'active' : 'locked'} ${fourthIslandCompleted ? 'completed' : ''}`}><span className="stage-number">04</span><div className="stage-icon purple">{fourthIslandCompleted ? '★' : '='}</div><span className="status-tag">{fourthIslandCompleted ? 'ILHA CONCLUÍDA' : thirdIslandCompleted ? 'PRONTO PARA JOGAR' : 'BLOQUEADA'}</span><h3>Conjuntos iguais</h3><p>Compare coleções, mesmo em ordens diferentes.</p><small className="mission-count">5 missões • comparação cuidadosa</small>{thirdIslandCompleted ? <button onClick={() => startIsland(4)}>{fourthIslandCompleted ? 'Jogar novamente' : 'Explorar esta ilha'} <span>→</span></button> : <span className="locked-note">Conclua a Ilha 3 para liberar.</span>}</article>
+              <article className={`stage-card ${fourthIslandCompleted ? 'active' : 'locked'} ${fifthIslandCompleted ? 'completed' : ''}`}><span className="stage-number">05</span><div className="stage-icon mint">{fifthIslandCompleted ? '★' : '∅'}</div><span className="status-tag">{fifthIslandCompleted ? 'ILHA CONCLUÍDA' : fourthIslandCompleted ? 'PRONTO PARA JOGAR' : 'BLOQUEADA'}</span><h3>Tipos de conjuntos</h3><p>Conheça conjuntos vazios, unitários e finitos.</p><small className="mission-count">5 missões • ideias que se combinam</small>{fourthIslandCompleted ? <button onClick={() => startIsland(5)}>{fifthIslandCompleted ? 'Jogar novamente' : 'Explorar esta ilha'} <span>→</span></button> : <span className="locked-note">Conclua a Ilha 4 para liberar.</span>}</article>
+              <article className={`stage-card ${fifthIslandCompleted ? 'active' : 'locked'} ${sixthIslandCompleted ? 'completed' : ''}`}><span className="stage-number">06</span><div className="stage-icon orange">{sixthIslandCompleted ? '★' : '∪'}</div><span className="status-tag">{sixthIslandCompleted ? 'ILHA CONCLUÍDA' : fifthIslandCompleted ? 'PRONTO PARA JOGAR' : 'BLOQUEADA'}</span><h3>Operações com conjuntos</h3><p>Pratique união, interseção e diferença.</p><small className="mission-count">5 missões • desafio final</small>{fifthIslandCompleted ? <button onClick={() => startIsland(6)}>{sixthIslandCompleted ? 'Jogar novamente' : 'Explorar esta ilha'} <span>→</span></button> : <span className="locked-note">Conclua a Ilha 5 para liberar.</span>}</article>
             </div>
           </section>
         </main>
@@ -925,7 +1179,9 @@ function App() {
 
       {screen === 'lesson' && (
         <main className="lesson-page">
-          <div className="lesson-progress" aria-label={`Progresso: ${Math.round(progress)}%`}><button className="back-button" onClick={goHome} aria-label="Sair da atividade">←</button><div className="progress-track"><span style={{ width: `${progress}%` }} /></div><strong>{challengeIndex + 1}/{activeChallengesLength}</strong></div>
+          <div className="lesson-progress" aria-label={`Progresso: ${Math.round(progress)}%`}><button className="back-button" onClick={goHome} aria-label="Sair da atividade">←</button><div className="progress-track"><span style={{ width: `${progress}%` }} /></div><strong>{challengeIndex + 1}/{activeChallengesLength}</strong><span className="star-counter" aria-label={`${earnedStars} estrelas conquistadas`}>★ {earnedStars}</span></div>
+          <section className="island-atmosphere" aria-label={`Cenário: ${atmosphere.name}`}><span aria-hidden="true">{atmosphere.symbols}</span><div><small>VOCÊ CHEGOU À</small><strong>{atmosphere.name}</strong><p>{atmosphere.detail}</p></div></section>
+          {rewardMessage && <p className="reward-banner" role="status">★ {rewardMessage}</p>}
           {activeIsland === 1 ? (
             <section className="challenge-card">
               <div className="challenge-copy"><span className="section-kicker">{challenge.eyebrow}</span><h1>{challenge.title}</h1><p>{challenge.instruction}</p></div>
@@ -998,7 +1254,7 @@ function App() {
               <div className="inclusion-concept"><span aria-hidden="true">💡</span><div><small>IDEIA IMPORTANTE</small><p>{classificationChallenge.concept}</p></div></div>
               <div className="classification-grid" aria-label="Conjuntos para classificar">
                 {classificationChallenge.options.map((option) => { const isSelected = selected.includes(option.id); return (
-                  <button key={option.id} className={`classification-option ${isSelected ? 'selected' : ''}`} aria-pressed={isSelected} onClick={() => selectSingleItem(option.id)}>
+                  <button key={option.id} className={`classification-option ${isSelected ? 'selected' : ''}`} aria-pressed={isSelected} onClick={() => classificationChallenge.multiple ? toggleItem(option.id) : selectSingleItem(option.id)}>
                     <span className="classification-symbol" aria-hidden="true">{option.symbol}</span><small>CONJUNTO {option.name}</small><strong>{option.notation}</strong><p>{option.detail}</p><i aria-hidden="true">{isSelected ? '✓ Escolhido' : 'Toque para escolher'}</i>
                   </button>
                 ) })}
@@ -1024,7 +1280,7 @@ function App() {
       )}
 
       {screen === 'result' && (
-        <main className="result-page"><section className="result-card"><div className="confetti" aria-hidden="true">✦ • ▲ • ✦</div><div className="result-medal" aria-hidden="true">{resultContent.symbol}</div><span className="section-kicker">{resultContent.kicker}</span><h1>{resultContent.title}</h1><p>{resultContent.description}</p><div className="stars" aria-label="Três estrelas conquistadas">★ ★ ★</div><button className="primary-button" onClick={goHome}>Voltar ao mapa</button></section></main>
+        <main className="result-page"><section className="result-card"><div className="confetti" aria-hidden="true">✦ • ▲ • ✦</div><div className="result-medal" aria-hidden="true">{resultContent.symbol}</div><span className="section-kicker">{resultContent.kicker}</span><h1>{resultContent.title}</h1><p>{resultContent.description}</p><div className="stars" aria-label={`${earnedStars} estrelas conquistadas`}>{Array.from({ length: activeChallengesLength }, () => '★').join(' ')}</div><strong className="result-stars">{earnedStars} missões vencidas no seu ritmo</strong><button className="primary-button" onClick={goHome}>Voltar ao mapa</button></section></main>
       )}
       <footer><span>Projeto de extensão • Reforço de Matemática</span><span>Feito para aprender brincando ♥</span></footer>
     </div>
