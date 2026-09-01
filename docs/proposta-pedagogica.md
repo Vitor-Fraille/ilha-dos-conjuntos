@@ -26,6 +26,8 @@ Reforçar a compreensão de conjuntos por meio de desafios visuais, curtos e pro
 - permitir novas tentativas sem perda de progresso;
 - evitar pressão de tempo nas atividades introdutórias;
 - usar símbolos somente depois que a ideia visual estiver compreendida;
+- usar um tutor personalizável para oferecer encorajamento e dicas sob pedido, sem responder pelo estudante;
+- manter perfil e progresso apenas no dispositivo, sem solicitar dados pessoais da criança;
 - validar linguagem e exercícios com um professor do ensino fundamental.
 
 ## Estrutura das ilhas
@@ -45,6 +47,7 @@ Reforçar a compreensão de conjuntos por meio de desafios visuais, curtos e pro
 - Ilha 2: três desafios jogáveis que partem da organização visual dentro/fora e introduzem progressivamente os símbolos `∈` e `∉`.
 - Ilha 3: três desafios jogáveis sobre inclusão, começando com conjuntos de objetos familiares e introduzindo progressivamente a ideia de subconjunto e os símbolos `⊂` e `⊄`.
 - Ilhas 4 a 6: planejadas para as próximas etapas.
+- Tutor: entrada local sem cadastro, oficina de personalização e dicas contextuais durante as atividades.
 
 O conteúdo matemático e a linguagem das Ilhas 2 e 3 ainda devem ser validados com um professor do ensino fundamental antes de serem considerados finais.
 

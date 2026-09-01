@@ -1,6 +1,15 @@
-import { useMemo, useState } from 'react'
+import { type FormEvent, useMemo, useState } from 'react'
+import {
+  defaultTutorProfile,
+  TutorAvatar,
+  tutorColors,
+  tutorHats,
+  tutorOutfits,
+  type TutorExpression,
+  type TutorProfile,
+} from './TutorAvatar'
 
-type Screen = 'home' | 'lesson' | 'result'
+type Screen = 'login' | 'avatar' | 'home' | 'lesson' | 'result'
 type Island = 1 | 2 | 3
 type Item = { id: string; symbol: string; label: string }
 type SetGroup = { id: string; name: string; label: string; elements: Item[] }
@@ -33,6 +42,22 @@ type InclusionChallenge = {
 const INTRO_PROGRESS_KEY = 'ilha-dos-conjuntos-progress'
 const MEMBERSHIP_PROGRESS_KEY = 'ilha-dos-conjuntos-membership-progress'
 const INCLUSION_PROGRESS_KEY = 'ilha-dos-conjuntos-inclusion-progress'
+const TUTOR_PROFILE_KEY = 'ilha-dos-conjuntos-tutor-profile'
+
+function loadTutorProfile(): TutorProfile | null {
+  try {
+    const savedProfile = localStorage.getItem(TUTOR_PROFILE_KEY)
+    if (!savedProfile) return null
+    const profile = JSON.parse(savedProfile) as Partial<TutorProfile>
+    const hasValidColor = tutorColors.some((option) => option.id === profile.color)
+    const hasValidHat = tutorHats.some((option) => option.id === profile.hat)
+    const hasValidOutfit = tutorOutfits.some((option) => option.id === profile.outfit)
+    if (typeof profile.name !== 'string' || !profile.name.trim() || !hasValidColor || !hasValidHat || !hasValidOutfit) return null
+    return { name: profile.name.slice(0, 14), color: profile.color!, hat: profile.hat!, outfit: profile.outfit! }
+  } catch {
+    return null
+  }
+}
 
 const challenges: Challenge[] = [
   {
@@ -292,12 +317,39 @@ const inclusionChallenges: InclusionChallenge[] = [
   },
 ]
 
+const tutorHints: Record<Island, string[]> = {
+  1: [
+    'Fale o nome de cada figura e pergunte: isso é uma fruta?',
+    'Procure os seres que nascem, crescem e se alimentam.',
+    'Um número par pode formar duplas sem sobrar nenhum.',
+  ],
+  2: [
+    'Leia a regra do conjunto e observe um elemento de cada vez.',
+    'Dentro quer dizer que pertence. Fora quer dizer que não pertence.',
+    'Compare cada número com 5 antes de decidir onde ele fica.',
+  ],
+  3: [
+    'Olhe todos os elementos do conjunto menor. Um só diferente já muda a resposta.',
+    'Para ser subconjunto, todos os elementos precisam seguir a regra do conjunto maior.',
+    'Teste cada número: ele aparece entre 2, 4, 6 e 8?',
+  ],
+}
+
 function selectionsMatch(selected: string[], answers: string[]) {
   return [...selected].sort().join(',') === [...answers].sort().join(',')
 }
 
 function App() {
-  const [screen, setScreen] = useState<Screen>('home')
+  const [storedTutorProfile] = useState<TutorProfile | null>(() => loadTutorProfile())
+  const [screen, setScreen] = useState<Screen>('login')
+  const [profileReady, setProfileReady] = useState(() => storedTutorProfile !== null)
+  const [tutorProfile, setTutorProfile] = useState<TutorProfile>(storedTutorProfile ?? defaultTutorProfile)
+  const [draftTutorProfile, setDraftTutorProfile] = useState<TutorProfile>(storedTutorProfile ?? defaultTutorProfile)
+  const [customizerReturnScreen, setCustomizerReturnScreen] = useState<Screen>('login')
+  const [tutorOpen, setTutorOpen] = useState(true)
+  const [tutorMessage, setTutorMessage] = useState('')
+  const [tutorExpression, setTutorExpression] = useState<TutorExpression>('happy')
+  const [interactionIndex, setInteractionIndex] = useState(0)
   const [activeIsland, setActiveIsland] = useState<Island>(1)
   const [challengeIndex, setChallengeIndex] = useState(0)
   const [selected, setSelected] = useState<string[]>([])
@@ -351,12 +403,93 @@ function App() {
     : firstIslandCompleted
       ? '2 de 6 ilhas abertas'
       : '1 de 6 ilhas abertas'
+  const completedIslandCount = [firstIslandCompleted, secondIslandCompleted, thirdIslandCompleted].filter(Boolean).length
+  const contextTutorMessage = screen === 'result'
+    ? `Conseguimos! A Ilha ${activeIsland} ficou mais colorida.`
+    : screen === 'lesson'
+      ? `Estou com você no desafio ${challengeIndex + 1}. Observe com calma e peça uma dica quando quiser.`
+      : thirdIslandCompleted
+        ? 'Três ilhas descobertas! Podemos jogar novamente ou esperar a próxima aventura.'
+        : secondIslandCompleted
+          ? 'A Ilha 3 está aberta. Vamos descobrir conjuntos dentro de conjuntos?'
+          : firstIslandCompleted
+            ? 'A Ilha 2 está aberta. Agora vamos descobrir quem pertence a cada conjunto.'
+            : 'Vamos começar pela Ilha 1. Eu acompanho você em cada descoberta!'
+  const visibleTutorMessage = tutorMessage || contextTutorMessage
+
+  function openTutorCustomizer(returnScreen: Screen = screen) {
+    setDraftTutorProfile(tutorProfile)
+    setCustomizerReturnScreen(returnScreen)
+    setScreen('avatar')
+    scrollToTop()
+  }
+
+  function enterAdventure() {
+    if (!profileReady) {
+      openTutorCustomizer('login')
+      return
+    }
+    setTutorMessage(`Olá! Eu sou ${tutorProfile.name}. Que bom explorar com você outra vez!`)
+    setTutorExpression('happy')
+    setTutorOpen(true)
+    setScreen('home')
+    scrollToTop()
+  }
+
+  function saveTutorProfile(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    const normalizedName = draftTutorProfile.name.trim().slice(0, 14) || defaultTutorProfile.name
+    const nextProfile = { ...draftTutorProfile, name: normalizedName }
+    localStorage.setItem(TUTOR_PROFILE_KEY, JSON.stringify(nextProfile))
+    setTutorProfile(nextProfile)
+    setDraftTutorProfile(nextProfile)
+    setProfileReady(true)
+    setTutorMessage(`Pronto! Eu sou ${normalizedName}, seu tutor nesta aventura.`)
+    setTutorExpression('celebrate')
+    setTutorOpen(true)
+    setScreen(customizerReturnScreen === 'login' ? 'home' : customizerReturnScreen)
+    scrollToTop()
+  }
+
+  function cancelTutorCustomizer() {
+    setDraftTutorProfile(tutorProfile)
+    setScreen(profileReady ? customizerReturnScreen : 'login')
+    scrollToTop()
+  }
+
+  function tutorTalk() {
+    const messages = [
+      'Estou por perto! Podemos observar uma coisa de cada vez.',
+      'Errar faz parte da descoberta. A gente tenta de outro jeito!',
+      'Você manda nas escolhas e eu ajudo quando precisar.',
+      'Que tal explicar em voz alta por que dois elementos formam um grupo?',
+    ]
+    const nextIndex = (interactionIndex + 1) % messages.length
+    setInteractionIndex(nextIndex)
+    setTutorMessage(messages[interactionIndex])
+    setTutorExpression(interactionIndex % 2 === 0 ? 'curious' : 'happy')
+    setTutorOpen(true)
+  }
+
+  function showTutorHint() {
+    setTutorMessage(tutorHints[activeIsland][challengeIndex])
+    setTutorExpression('thinking')
+    setTutorOpen(true)
+  }
+
+  function reactTutor(nextMessage: string, expression: TutorExpression = 'happy') {
+    setTutorMessage(nextMessage)
+    setTutorExpression(expression)
+    setTutorOpen(true)
+  }
 
   function scrollToTop() {
     window.requestAnimationFrame(() => window.scrollTo({ top: 0, behavior: 'auto' }))
   }
 
   function goHome() {
+    setTutorMessage('')
+    setTutorExpression('happy')
     setScreen('home')
     scrollToTop()
   }
@@ -369,6 +502,7 @@ function App() {
     setSelected([])
     setMessage('')
     setMovementMessage('')
+    reactTutor(`Ilha ${island}, desafio 1. Leia a missão e observe antes de escolher.`, 'curious')
     setScreen('lesson')
     scrollToTop()
   }
@@ -376,6 +510,7 @@ function App() {
   function toggleItem(id: string) {
     setMessage('')
     setSelected((current) => current.includes(id) ? current.filter((item) => item !== id) : [...current, id])
+    setTutorExpression('curious')
   }
 
   function moveMembershipItem(item: Item) {
@@ -383,6 +518,8 @@ function App() {
     setMessage('')
     setSelected((current) => movingInside ? [...current, item.id] : current.filter((id) => id !== item.id))
     setMovementMessage(`${item.label} foi movido para ${movingInside ? 'dentro' : 'fora'} do conjunto.`)
+    setTutorMessage(`${item.label} foi para ${movingInside ? 'dentro' : 'fora'}. Agora compare com a regra do conjunto.`)
+    setTutorExpression('curious')
     window.requestAnimationFrame(() => document.getElementById(`membership-item-${item.id}`)?.focus())
   }
 
@@ -391,6 +528,8 @@ function App() {
     setMessage('')
     setSelected((current) => movingInside ? [...current, group.id] : current.filter((id) => id !== group.id))
     setMovementMessage(`${group.label} foi movido para ${movingInside ? 'dentro' : 'fora'} do conjunto maior.`)
+    setTutorMessage(`${group.label} foi para ${movingInside ? 'dentro' : 'fora'}. Você conferiu todos os elementos?`)
+    setTutorExpression('curious')
     window.requestAnimationFrame(() => document.getElementById(`inclusion-group-${group.id}`)?.focus())
   }
 
@@ -405,6 +544,7 @@ function App() {
       localStorage.setItem(INCLUSION_PROGRESS_KEY, '1')
       setThirdIslandCompleted(true)
     }
+    reactTutor(`Incrível! Você concluiu a Ilha ${island}. Vamos comemorar!`, 'celebrate')
     setScreen('result')
     scrollToTop()
   }
@@ -414,6 +554,7 @@ function App() {
       completeIsland(activeIsland)
       return
     }
+    reactTutor('Muito bem! Você explicou a regra com suas escolhas. Vamos ao próximo desafio!', 'celebrate')
     setChallengeIndex((value) => value + 1)
     setSelected([])
     setMessage('')
@@ -423,6 +564,7 @@ function App() {
   function checkIntroAnswer() {
     if (!selectionsMatch(selected, challenge.answers)) {
       setMessage(challenge.tip)
+      reactTutor('Quase! Leia a explicação abaixo e compare cada figura com a regra.', 'thinking')
       return
     }
     advanceChallenge()
@@ -431,6 +573,7 @@ function App() {
   function checkMembershipAnswer() {
     if (!selectionsMatch(selected, membershipChallenge.answers)) {
       setMessage(membershipChallenge.tip)
+      reactTutor('Vamos conferir de novo: quem segue a regra fica dentro e quem não segue fica fora.', 'thinking')
       return
     }
     advanceChallenge()
@@ -439,6 +582,7 @@ function App() {
   function checkInclusionAnswer() {
     if (!selectionsMatch(selected, inclusionChallenge.answers)) {
       setMessage(inclusionChallenge.tip)
+      reactTutor('Olhe um conjunto por vez. Todos os elementos precisam caber na regra do conjunto maior.', 'thinking')
       return
     }
     advanceChallenge()
@@ -508,14 +652,153 @@ function App() {
           symbol: '⊂',
         }
 
+  function renderTutorCompanion() {
+    return (
+      <aside className={`tutor-companion ${tutorOpen ? 'is-open' : 'is-closed'}`} aria-label={`Tutor ${tutorProfile.name}`}>
+        <button
+          className="tutor-toggle"
+          onClick={() => setTutorOpen((current) => !current)}
+          aria-expanded={tutorOpen}
+          aria-label={tutorOpen ? `Fechar conversa com ${tutorProfile.name}` : `Abrir conversa com ${tutorProfile.name}`}
+        >
+          <TutorAvatar profile={tutorProfile} size="medium" expression={tutorExpression} animated={tutorOpen} />
+          {!tutorOpen && <span>💡</span>}
+        </button>
+        {tutorOpen && (
+          <div className="tutor-bubble">
+            <div className="tutor-bubble-heading"><span>SEU TUTOR</span><strong>{tutorProfile.name}</strong></div>
+            {screen === 'home' && <span className="tutor-progress-badge">★ {completedIslandCount}/3 ilhas concluídas</span>}
+            <p aria-live="polite">{visibleTutorMessage}</p>
+            <div className="tutor-actions">
+              {screen === 'lesson'
+                ? <button onClick={showTutorHint}>💡 Quero uma dica</button>
+                : <button onClick={tutorTalk}>👋 Falar com {tutorProfile.name}</button>}
+              <button onClick={() => openTutorCustomizer(screen)}>🎨 Personalizar</button>
+            </div>
+          </div>
+        )}
+      </aside>
+    )
+  }
+
   return (
     <div className="site-shell">
-      <header className="topbar">
-        <button className="brand" onClick={goHome} aria-label="Voltar ao início">
-          <span className="brand-mark" aria-hidden="true">∴</span><span>Ilha dos Conjuntos</span>
-        </button>
-        <div className="student-chip" aria-label="Perfil atual: explorador"><span aria-hidden="true">🧢</span><span>Explorador</span></div>
-      </header>
+      {screen !== 'login' && screen !== 'avatar' && (
+        <header className="topbar">
+          <button className="brand" onClick={goHome} aria-label="Voltar ao início">
+            <span className="brand-mark" aria-hidden="true">∴</span><span>Ilha dos Conjuntos</span>
+          </button>
+          <button className="student-chip tutor-profile-button" onClick={() => openTutorCustomizer(screen)} aria-label={`Personalizar o tutor ${tutorProfile.name}`}>
+            <TutorAvatar profile={tutorProfile} size="mini" expression={tutorExpression} />
+            <span><small>MEU TUTOR</small><strong>{tutorProfile.name}</strong></span>
+          </button>
+        </header>
+      )}
+
+      {screen === 'login' && (
+        <main className="entry-page">
+          <section className="login-card" aria-labelledby="login-title">
+            <div className="login-copy">
+              <div className="entry-brand"><span className="brand-mark" aria-hidden="true">∴</span><strong>Ilha dos Conjuntos</strong></div>
+              <span className="login-kicker">PORTO DE ENTRADA</span>
+              <h1 id="login-title">Entre na aventura matemática</h1>
+              <p>Explore ilhas, resolva missões e aprenda no seu ritmo com um tutor sempre por perto.</p>
+              {profileReady ? (
+                <div className="returning-profile">
+                  <span>Seu tutor está esperando:</span>
+                  <strong>{tutorProfile.name}</strong>
+                </div>
+              ) : (
+                <div className="first-access-note"><span aria-hidden="true">✨</span><p>Na primeira entrada, você vai criar seu próprio tutor.</p></div>
+              )}
+              <div className="login-actions">
+                <button className="primary-button" onClick={enterAdventure}>
+                  {profileReady ? `Continuar com ${tutorProfile.name}` : 'Entrar e criar meu tutor'} <span aria-hidden="true">→</span>
+                </button>
+                {profileReady && <button className="text-button" onClick={() => openTutorCustomizer('login')}>Mudar meu tutor</button>}
+              </div>
+              <p className="privacy-note"><span aria-hidden="true">🔒</span><span><strong>Entrada segura:</strong> sem e-mail, senha, foto ou nome da criança. Tudo fica somente neste dispositivo.</span></p>
+            </div>
+            <div className="login-tutor-preview" aria-label={`Prévia do tutor ${tutorProfile.name}`}>
+              <span className="preview-orbit orbit-one" aria-hidden="true">∈</span>
+              <span className="preview-orbit orbit-two" aria-hidden="true">★</span>
+              <div className="login-speech">{profileReady ? `Oi! Sou ${tutorProfile.name}. Vamos continuar?` : 'Oi! Vou ajudar em cada descoberta.'}</div>
+              <TutorAvatar profile={tutorProfile} size="large" expression="happy" animated />
+              <span className="preview-shadow" aria-hidden="true" />
+            </div>
+          </section>
+        </main>
+      )}
+
+      {screen === 'avatar' && (
+        <main className="workshop-page">
+          <form className="workshop-card" onSubmit={saveTutorProfile}>
+            <div className="workshop-preview">
+              <button className="workshop-back" type="button" onClick={cancelTutorCustomizer} aria-label="Voltar">←</button>
+              <span className="login-kicker">OFICINA DO TUTOR</span>
+              <h1>Crie seu companheiro</h1>
+              <p>Escolha cada detalhe. Você pode voltar aqui e mudar quando quiser.</p>
+              <div className="avatar-stage" aria-label={`Prévia do tutor ${draftTutorProfile.name || 'sem nome'}`}>
+                <div className="avatar-preview-speech">{draftTutorProfile.name.trim() ? `Oi! Eu sou ${draftTutorProfile.name.trim()}.` : 'Qual será o meu nome?'}</div>
+                <TutorAvatar profile={draftTutorProfile} size="large" expression="happy" animated />
+                <span className="preview-shadow" aria-hidden="true" />
+              </div>
+            </div>
+            <div className="workshop-options">
+              <div className="name-field">
+                <label htmlFor="tutor-name">Nome do tutor</label>
+                <input
+                  id="tutor-name"
+                  value={draftTutorProfile.name}
+                  maxLength={14}
+                  autoComplete="off"
+                  aria-describedby="tutor-name-help"
+                  onChange={(event) => setDraftTutorProfile((current) => ({ ...current, name: event.target.value }))}
+                  placeholder="Ex.: Lumi"
+                />
+                <small id="tutor-name-help">Dê um nome ao personagem. Não use seu próprio nome.</small>
+                <div className="name-suggestions" aria-label="Sugestões de nomes">
+                  {['Lumi', 'Pingo', 'Tico', 'Zuca'].map((name) => <button type="button" key={name} onClick={() => setDraftTutorProfile((current) => ({ ...current, name }))}>{name}</button>)}
+                </div>
+              </div>
+              <fieldset>
+                <legend>1. Escolha uma cor</legend>
+                <div className="custom-option-grid color-options">
+                  {tutorColors.map((color) => (
+                    <button type="button" key={color.id} className={draftTutorProfile.color === color.id ? 'selected' : ''} aria-pressed={draftTutorProfile.color === color.id} onClick={() => setDraftTutorProfile((current) => ({ ...current, color: color.id }))}>
+                      <span className="color-swatch" style={{ background: color.value }} aria-hidden="true" /><strong>{color.label}</strong><i aria-hidden="true">{draftTutorProfile.color === color.id ? '✓' : ''}</i>
+                    </button>
+                  ))}
+                </div>
+              </fieldset>
+              <fieldset>
+                <legend>2. Escolha um chapéu</legend>
+                <div className="custom-option-grid">
+                  {tutorHats.map((hat) => (
+                    <button type="button" key={hat.id} className={draftTutorProfile.hat === hat.id ? 'selected' : ''} aria-pressed={draftTutorProfile.hat === hat.id} onClick={() => setDraftTutorProfile((current) => ({ ...current, hat: hat.id }))}>
+                      <span aria-hidden="true">{hat.symbol}</span><strong>{hat.label}</strong><i aria-hidden="true">{draftTutorProfile.hat === hat.id ? '✓' : ''}</i>
+                    </button>
+                  ))}
+                </div>
+              </fieldset>
+              <fieldset>
+                <legend>3. Escolha uma roupa</legend>
+                <div className="custom-option-grid">
+                  {tutorOutfits.map((outfit) => (
+                    <button type="button" key={outfit.id} className={draftTutorProfile.outfit === outfit.id ? 'selected' : ''} aria-pressed={draftTutorProfile.outfit === outfit.id} onClick={() => setDraftTutorProfile((current) => ({ ...current, outfit: outfit.id }))}>
+                      <span aria-hidden="true">{outfit.symbol}</span><strong>{outfit.label}</strong><i aria-hidden="true">{draftTutorProfile.outfit === outfit.id ? '✓' : ''}</i>
+                    </button>
+                  ))}
+                </div>
+              </fieldset>
+              <div className="workshop-actions">
+                <button className="text-button" type="button" onClick={cancelTutorCustomizer}>Cancelar</button>
+                <button className="primary-button" type="submit" disabled={draftTutorProfile.name.trim().length < 2}>Salvar meu tutor <span aria-hidden="true">→</span></button>
+              </div>
+            </div>
+          </form>
+        </main>
+      )}
 
       {screen === 'home' && (
         <main>
@@ -603,7 +886,8 @@ function App() {
       {screen === 'result' && (
         <main className="result-page"><section className="result-card"><div className="confetti" aria-hidden="true">✦ • ▲ • ✦</div><div className="result-medal" aria-hidden="true">{resultContent.symbol}</div><span className="section-kicker">{resultContent.kicker}</span><h1>{resultContent.title}</h1><p>{resultContent.description}</p><div className="stars" aria-label="Três estrelas conquistadas">★ ★ ★</div><button className="primary-button" onClick={goHome}>Voltar ao mapa</button></section></main>
       )}
-      <footer><span>Projeto de extensão • Reforço de Matemática</span><span>Feito para aprender brincando ♥</span></footer>
+      {screen !== 'login' && screen !== 'avatar' && renderTutorCompanion()}
+      {screen !== 'login' && screen !== 'avatar' && <footer><span>Projeto de extensão • Reforço de Matemática</span><span>Feito para aprender brincando ♥</span></footer>}
     </div>
   )
 }

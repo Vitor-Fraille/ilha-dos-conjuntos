@@ -22,7 +22,14 @@ A terceira ilha trabalha a inclusão entre conjuntos em três etapas:
 - apresentação simples da ideia de subconjunto;
 - leitura dos símbolos `⊂` e `⊄` depois da compreensão visual.
 
-A experiência não possui cronômetro, oferece explicações após tentativas incorretas e salva a conclusão de cada ilha localmente no dispositivo.
+Antes de explorar o mapa, a criança cria um tutor original e personalizável:
+
+- escolha de nome do personagem, cor, chapéu e roupa;
+- reações a acertos, erros, movimentos e conquistas;
+- dicas curtas e específicas para cada desafio;
+- acompanhamento visual do progresso das ilhas.
+
+A entrada não solicita e-mail, senha, foto ou nome da criança. O perfil do tutor e a conclusão de cada ilha ficam salvos somente no dispositivo. A experiência não possui cronômetro e oferece explicações após tentativas incorretas.
 
 ## Tecnologias
 

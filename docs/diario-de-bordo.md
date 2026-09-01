@@ -46,3 +46,15 @@ Resultado: Ilha 2 jogável e compilável. Permanece pendente a validação do co
 - atualização do mapa para liberar a terceira ilha após a conclusão da segunda.
 
 Resultado: Ilha 3 jogável e compilável. Permanece pendente a validação do conteúdo e da linguagem com um professor do ensino fundamental.
+
+## 01/09/2026 — Tutor personalizável
+
+- criação de uma tela de entrada infantil sem e-mail, senha, foto ou nome da criança;
+- desenvolvimento de um tutor robótico original com olhos expressivos e animações leves;
+- implementação da escolha de nome do personagem, quatro cores, quatro chapéus e quatro roupas;
+- salvamento local do perfil do tutor e retorno seguro à aventura;
+- integração do tutor ao mapa, aos desafios e às telas de conquista;
+- inclusão de reações a movimentos, acertos e erros, além de dicas contextuais sob pedido;
+- criação de controles com texto, foco de teclado e suporte a movimento reduzido.
+
+Resultado: fluxo de entrada e tutor compiláveis e integrados às três ilhas. A validação visual automatizada no navegador local ficou pendente porque a URL local foi bloqueada pela política de acesso da sessão.
