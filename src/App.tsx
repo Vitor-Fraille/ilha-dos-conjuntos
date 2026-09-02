@@ -9,13 +9,8 @@ import {
   type TutorProfile,
 } from './TutorAvatar'
 
-<<<<<<< HEAD
 type Screen = 'login' | 'avatar' | 'home' | 'lesson' | 'result'
-type Island = 1 | 2 | 3
-=======
-type Screen = 'home' | 'lesson' | 'result'
 type Island = 1 | 2 | 3 | 4 | 5 | 6
->>>>>>> f12c9085a488cd53f49479656df1c2ef8488f7c4
 type Item = { id: string; symbol: string; label: string }
 type SetGroup = { id: string; name: string; label: string; elements: Item[] }
 type Challenge = {
@@ -87,7 +82,9 @@ type OperationChallenge = {
 const INTRO_PROGRESS_KEY = 'ilha-dos-conjuntos-progress'
 const MEMBERSHIP_PROGRESS_KEY = 'ilha-dos-conjuntos-membership-progress'
 const INCLUSION_PROGRESS_KEY = 'ilha-dos-conjuntos-inclusion-progress'
-<<<<<<< HEAD
+const EQUALITY_PROGRESS_KEY = 'ilha-dos-conjuntos-equality-progress'
+const CLASSIFICATION_PROGRESS_KEY = 'ilha-dos-conjuntos-classification-progress'
+const OPERATIONS_PROGRESS_KEY = 'ilha-dos-conjuntos-operations-progress'
 const TUTOR_PROFILE_KEY = 'ilha-dos-conjuntos-tutor-profile'
 
 function loadTutorProfile(): TutorProfile | null {
@@ -104,11 +101,6 @@ function loadTutorProfile(): TutorProfile | null {
     return null
   }
 }
-=======
-const EQUALITY_PROGRESS_KEY = 'ilha-dos-conjuntos-equality-progress'
-const CLASSIFICATION_PROGRESS_KEY = 'ilha-dos-conjuntos-classification-progress'
-const OPERATIONS_PROGRESS_KEY = 'ilha-dos-conjuntos-operations-progress'
->>>>>>> f12c9085a488cd53f49479656df1c2ef8488f7c4
 
 const challenges: Challenge[] = [
   {
@@ -859,6 +851,29 @@ const tutorHints: Record<Island, string[]> = {
     'Olhe todos os elementos do conjunto menor. Um só diferente já muda a resposta.',
     'Para ser subconjunto, todos os elementos precisam seguir a regra do conjunto maior.',
     'Teste cada número: ele aparece entre 2, 4, 6 e 8?',
+    'Compare os conjuntos menores com o conjunto maior, elemento por elemento.',
+    'Antes de escolher, verifique se nenhum elemento ficou fora da regra.',
+  ],
+  4: [
+    'Conjuntos iguais têm exatamente os mesmos elementos, mesmo quando a ordem muda.',
+    'Compare um elemento de cada vez e veja se existe algum a mais ou a menos.',
+    'A posição dos elementos não altera a igualdade entre os conjuntos.',
+    'Conte os elementos e depois confira se todos aparecem nos dois conjuntos.',
+    'Use os símbolos = para iguais e ≠ para diferentes.',
+  ],
+  5: [
+    'Observe quantos elementos existem no conjunto antes de escolher sua classificação.',
+    'O conjunto vazio não possui nenhum elemento.',
+    'O conjunto unitário possui exatamente um elemento.',
+    'Um conjunto finito possui uma quantidade que conseguimos terminar de contar.',
+    'Leia cada pista e veja se mais de uma classificação pode servir.',
+  ],
+  6: [
+    'Na união, reúna os elementos dos dois conjuntos sem repetir.',
+    'Na interseção, escolha somente os elementos que aparecem nos dois conjuntos.',
+    'Na diferença, comece pelo primeiro conjunto e retire o que aparece no segundo.',
+    'Marque cada elemento apenas uma vez, mesmo que ele apareça nos dois conjuntos.',
+    'No complemento, procure no universo os elementos que ficaram fora do conjunto indicado.',
   ],
 }
 
@@ -986,26 +1001,27 @@ function App() {
     [operationChallenge, selected],
   )
 
-<<<<<<< HEAD
-  const mapProgressLabel = thirdIslandCompleted
-    ? '3 ilhas concluídas'
-    : secondIslandCompleted
-      ? '3 de 6 ilhas abertas'
-    : firstIslandCompleted
-      ? '2 de 6 ilhas abertas'
-      : '1 de 6 ilhas abertas'
-  const completedIslandCount = [firstIslandCompleted, secondIslandCompleted, thirdIslandCompleted].filter(Boolean).length
+  const completedIslands = [
+    firstIslandCompleted,
+    secondIslandCompleted,
+    thirdIslandCompleted,
+    fourthIslandCompleted,
+    fifthIslandCompleted,
+    sixthIslandCompleted,
+  ]
+  const completedCount = completedIslands.filter(Boolean).length
+  const nextBuildStep = islandBuildSteps[Math.min(completedCount, 5)]
+  const nextIslandToBuild = Math.min(completedCount + 1, 6) as Island
+  const mapProgressLabel = completedCount === 6
+    ? '6 ilhas concluídas'
+    : `${Math.min(completedCount + 1, 6)} de 6 ilhas abertas`
   const contextTutorMessage = screen === 'result'
-    ? `Conseguimos! A Ilha ${activeIsland} ficou mais colorida.`
+    ? `Conseguimos! A Ilha ${activeIsland} ganhou uma nova parte.`
     : screen === 'lesson'
-      ? `Estou com você no desafio ${challengeIndex + 1}. Observe com calma e peça uma dica quando quiser.`
-      : thirdIslandCompleted
-        ? 'Três ilhas descobertas! Podemos jogar novamente ou esperar a próxima aventura.'
-        : secondIslandCompleted
-          ? 'A Ilha 3 está aberta. Vamos descobrir conjuntos dentro de conjuntos?'
-          : firstIslandCompleted
-            ? 'A Ilha 2 está aberta. Agora vamos descobrir quem pertence a cada conjunto.'
-            : 'Vamos começar pela Ilha 1. Eu acompanho você em cada descoberta!'
+      ? `Estou com você na missão ${challengeIndex + 1}. Observe com calma e peça uma dica quando quiser.`
+      : completedCount === 6
+        ? 'As seis ilhas estão completas! Podemos revisitar qualquer missão para praticar.'
+        : `A Ilha ${nextIslandToBuild} está aberta. Vamos explorar ${islandAtmospheres[nextIslandToBuild].name}?`
   const visibleTutorMessage = tutorMessage || contextTutorMessage
 
   function openTutorCustomizer(returnScreen: Screen = screen) {
@@ -1073,22 +1089,6 @@ function App() {
     setTutorExpression(expression)
     setTutorOpen(true)
   }
-=======
-  const completedIslands = [
-    firstIslandCompleted,
-    secondIslandCompleted,
-    thirdIslandCompleted,
-    fourthIslandCompleted,
-    fifthIslandCompleted,
-    sixthIslandCompleted,
-  ]
-  const completedCount = completedIslands.filter(Boolean).length
-  const nextBuildStep = islandBuildSteps[Math.min(completedCount, 5)]
-  const nextIslandToBuild = Math.min(completedCount + 1, 6) as Island
-  const mapProgressLabel = completedCount === 6
-    ? '6 ilhas concluídas'
-    : `${Math.min(completedCount + 1, 6)} de 6 ilhas abertas`
->>>>>>> f12c9085a488cd53f49479656df1c2ef8488f7c4
 
   function scrollToTop() {
     window.requestAnimationFrame(() => window.scrollTo({ top: 0, behavior: 'auto' }))
@@ -1101,27 +1101,23 @@ function App() {
     scrollToTop()
   }
 
-  function startIsland(island: Island) {
-    if (island === 2 && !firstIslandCompleted) return
-    if (island === 3 && !secondIslandCompleted) return
-    if (island === 4 && !thirdIslandCompleted) return
-    if (island === 5 && !fourthIslandCompleted) return
-    if (island === 6 && !fifthIslandCompleted) return
-    setActiveIsland(island)
-    setChallengeIndex(0)
-    setSelected([])
-    setMessage('')
-    setMovementMessage('')
-<<<<<<< HEAD
-    reactTutor(`Ilha ${island}, desafio 1. Leia a missão e observe antes de escolher.`, 'curious')
-=======
-    setRewardMessage('')
-    setEarnedStars(0)
-    setWasNewCompletion(false)
->>>>>>> f12c9085a488cd53f49479656df1c2ef8488f7c4
-    setScreen('lesson')
-    scrollToTop()
-  }
+function startIsland(island: Island) {
+  if (island === 2 && !firstIslandCompleted) return
+  if (island === 3 && !secondIslandCompleted) return
+  if (island === 4 && !thirdIslandCompleted) return
+  if (island === 5 && !fourthIslandCompleted) return
+  if (island === 6 && !fifthIslandCompleted) return
+  setActiveIsland(island)
+  setChallengeIndex(0)
+  setSelected([])
+  setMessage('')
+  setMovementMessage('')
+  setRewardMessage('')
+  setEarnedStars(0)
+  setWasNewCompletion(false)
+  setScreen('lesson')
+  scrollToTop()
+}
 
   function toggleItem(id: string) {
     setMessage('')
@@ -1365,134 +1361,14 @@ function App() {
     )
   }
 
-  return (
-<<<<<<< HEAD
-    <div className="site-shell">
-      {screen !== 'login' && screen !== 'avatar' && (
-        <header className="topbar">
-          <button className="brand" onClick={goHome} aria-label="Voltar ao início">
-            <span className="brand-mark" aria-hidden="true">∴</span><span>Ilha dos Conjuntos</span>
-          </button>
-          <button className="student-chip tutor-profile-button" onClick={() => openTutorCustomizer(screen)} aria-label={`Personalizar o tutor ${tutorProfile.name}`}>
-            <TutorAvatar profile={tutorProfile} size="mini" expression={tutorExpression} />
-            <span><small>MEU TUTOR</small><strong>{tutorProfile.name}</strong></span>
-          </button>
-        </header>
-      )}
-
-      {screen === 'login' && (
-        <main className="entry-page">
-          <section className="login-card" aria-labelledby="login-title">
-            <div className="login-copy">
-              <div className="entry-brand"><span className="brand-mark" aria-hidden="true">∴</span><strong>Ilha dos Conjuntos</strong></div>
-              <span className="login-kicker">PORTO DE ENTRADA</span>
-              <h1 id="login-title">Entre na aventura matemática</h1>
-              <p>Explore ilhas, resolva missões e aprenda no seu ritmo com um tutor sempre por perto.</p>
-              {profileReady ? (
-                <div className="returning-profile">
-                  <span>Seu tutor está esperando:</span>
-                  <strong>{tutorProfile.name}</strong>
-                </div>
-              ) : (
-                <div className="first-access-note"><span aria-hidden="true">✨</span><p>Na primeira entrada, você vai criar seu próprio tutor.</p></div>
-              )}
-              <div className="login-actions">
-                <button className="primary-button" onClick={enterAdventure}>
-                  {profileReady ? `Continuar com ${tutorProfile.name}` : 'Entrar e criar meu tutor'} <span aria-hidden="true">→</span>
-                </button>
-                {profileReady && <button className="text-button" onClick={() => openTutorCustomizer('login')}>Mudar meu tutor</button>}
-              </div>
-              <p className="privacy-note"><span aria-hidden="true">🔒</span><span><strong>Entrada segura:</strong> sem e-mail, senha, foto ou nome da criança. Tudo fica somente neste dispositivo.</span></p>
-            </div>
-            <div className="login-tutor-preview" aria-label={`Prévia do tutor ${tutorProfile.name}`}>
-              <span className="preview-orbit orbit-one" aria-hidden="true">∈</span>
-              <span className="preview-orbit orbit-two" aria-hidden="true">★</span>
-              <div className="login-speech">{profileReady ? `Oi! Sou ${tutorProfile.name}. Vamos continuar?` : 'Oi! Vou ajudar em cada descoberta.'}</div>
-              <TutorAvatar profile={tutorProfile} size="large" expression="happy" animated />
-              <span className="preview-shadow" aria-hidden="true" />
-            </div>
-          </section>
-        </main>
-      )}
-
-      {screen === 'avatar' && (
-        <main className="workshop-page">
-          <form className="workshop-card" onSubmit={saveTutorProfile}>
-            <div className="workshop-preview">
-              <button className="workshop-back" type="button" onClick={cancelTutorCustomizer} aria-label="Voltar">←</button>
-              <span className="login-kicker">OFICINA DO TUTOR</span>
-              <h1>Crie seu companheiro</h1>
-              <p>Escolha cada detalhe. Você pode voltar aqui e mudar quando quiser.</p>
-              <div className="avatar-stage" aria-label={`Prévia do tutor ${draftTutorProfile.name || 'sem nome'}`}>
-                <div className="avatar-preview-speech">{draftTutorProfile.name.trim() ? `Oi! Eu sou ${draftTutorProfile.name.trim()}.` : 'Qual será o meu nome?'}</div>
-                <TutorAvatar profile={draftTutorProfile} size="large" expression="happy" animated />
-                <span className="preview-shadow" aria-hidden="true" />
-              </div>
-            </div>
-            <div className="workshop-options">
-              <div className="name-field">
-                <label htmlFor="tutor-name">Nome do tutor</label>
-                <input
-                  id="tutor-name"
-                  value={draftTutorProfile.name}
-                  maxLength={14}
-                  autoComplete="off"
-                  aria-describedby="tutor-name-help"
-                  onChange={(event) => setDraftTutorProfile((current) => ({ ...current, name: event.target.value }))}
-                  placeholder="Ex.: Lumi"
-                />
-                <small id="tutor-name-help">Dê um nome ao personagem. Não use seu próprio nome.</small>
-                <div className="name-suggestions" aria-label="Sugestões de nomes">
-                  {['Lumi', 'Pingo', 'Tico', 'Zuca'].map((name) => <button type="button" key={name} onClick={() => setDraftTutorProfile((current) => ({ ...current, name }))}>{name}</button>)}
-                </div>
-              </div>
-              <fieldset>
-                <legend>1. Escolha uma cor</legend>
-                <div className="custom-option-grid color-options">
-                  {tutorColors.map((color) => (
-                    <button type="button" key={color.id} className={draftTutorProfile.color === color.id ? 'selected' : ''} aria-pressed={draftTutorProfile.color === color.id} onClick={() => setDraftTutorProfile((current) => ({ ...current, color: color.id }))}>
-                      <span className="color-swatch" style={{ background: color.value }} aria-hidden="true" /><strong>{color.label}</strong><i aria-hidden="true">{draftTutorProfile.color === color.id ? '✓' : ''}</i>
-                    </button>
-                  ))}
-                </div>
-              </fieldset>
-              <fieldset>
-                <legend>2. Escolha um chapéu</legend>
-                <div className="custom-option-grid">
-                  {tutorHats.map((hat) => (
-                    <button type="button" key={hat.id} className={draftTutorProfile.hat === hat.id ? 'selected' : ''} aria-pressed={draftTutorProfile.hat === hat.id} onClick={() => setDraftTutorProfile((current) => ({ ...current, hat: hat.id }))}>
-                      <span aria-hidden="true">{hat.symbol}</span><strong>{hat.label}</strong><i aria-hidden="true">{draftTutorProfile.hat === hat.id ? '✓' : ''}</i>
-                    </button>
-                  ))}
-                </div>
-              </fieldset>
-              <fieldset>
-                <legend>3. Escolha uma roupa</legend>
-                <div className="custom-option-grid">
-                  {tutorOutfits.map((outfit) => (
-                    <button type="button" key={outfit.id} className={draftTutorProfile.outfit === outfit.id ? 'selected' : ''} aria-pressed={draftTutorProfile.outfit === outfit.id} onClick={() => setDraftTutorProfile((current) => ({ ...current, outfit: outfit.id }))}>
-                      <span aria-hidden="true">{outfit.symbol}</span><strong>{outfit.label}</strong><i aria-hidden="true">{draftTutorProfile.outfit === outfit.id ? '✓' : ''}</i>
-                    </button>
-                  ))}
-                </div>
-              </fieldset>
-              <div className="workshop-actions">
-                <button className="text-button" type="button" onClick={cancelTutorCustomizer}>Cancelar</button>
-                <button className="primary-button" type="submit" disabled={draftTutorProfile.name.trim().length < 2}>Salvar meu tutor <span aria-hidden="true">→</span></button>
-              </div>
-            </div>
-          </form>
-        </main>
-      )}
-=======
-    <div className={`site-shell ${screen === 'lesson' ? `theme-island-${activeIsland}` : 'theme-home'}`}>
-      <header className="topbar">
-        <button className="brand" onClick={goHome} aria-label="Voltar ao início">
-          <span className="brand-mark" aria-hidden="true">∴</span><span>Ilha dos Conjuntos</span>
-        </button>
-        <div className="student-chip" aria-label="Perfil atual: explorador"><span aria-hidden="true">🧢</span><span>Explorador</span></div>
-      </header>
->>>>>>> f12c9085a488cd53f49479656df1c2ef8488f7c4
+return (
+  <div className={`site-shell ${screen === 'lesson' ? `theme-island-${activeIsland}` : 'theme-home'}`}>
+    <header className="topbar">
+      <button className="brand" onClick={goHome} aria-label="Voltar ao início">
+        <span className="brand-mark" aria-hidden="true">∴</span><span>Ilha dos Conjuntos</span>
+      </button>
+      <div className="student-chip" aria-label="Perfil atual: explorador"><span aria-hidden="true">🧢</span><span>Explorador</span></div>
+    </header>
 
       {screen === 'home' && (
         <main>
