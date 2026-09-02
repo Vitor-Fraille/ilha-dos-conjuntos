@@ -1101,23 +1101,24 @@ function App() {
     scrollToTop()
   }
 
-function startIsland(island: Island) {
-  if (island === 2 && !firstIslandCompleted) return
-  if (island === 3 && !secondIslandCompleted) return
-  if (island === 4 && !thirdIslandCompleted) return
-  if (island === 5 && !fourthIslandCompleted) return
-  if (island === 6 && !fifthIslandCompleted) return
-  setActiveIsland(island)
-  setChallengeIndex(0)
-  setSelected([])
-  setMessage('')
-  setMovementMessage('')
-  setRewardMessage('')
-  setEarnedStars(0)
-  setWasNewCompletion(false)
-  setScreen('lesson')
-  scrollToTop()
-}
+  function startIsland(island: Island) {
+    if (island === 2 && !firstIslandCompleted) return
+    if (island === 3 && !secondIslandCompleted) return
+    if (island === 4 && !thirdIslandCompleted) return
+    if (island === 5 && !fourthIslandCompleted) return
+    if (island === 6 && !fifthIslandCompleted) return
+    setActiveIsland(island)
+    setChallengeIndex(0)
+    setSelected([])
+    setMessage('')
+    setMovementMessage('')
+    setRewardMessage('')
+    setEarnedStars(0)
+    setWasNewCompletion(false)
+    reactTutor(`Ilha ${island}, missão 1. Leia o desafio e observe antes de escolher.`, 'curious')
+    setScreen('lesson')
+    scrollToTop()
+  }
 
   function toggleItem(id: string) {
     setMessage('')
@@ -1347,7 +1348,7 @@ function startIsland(island: Island) {
         {tutorOpen && (
           <div className="tutor-bubble">
             <div className="tutor-bubble-heading"><span>SEU TUTOR</span><strong>{tutorProfile.name}</strong></div>
-            {screen === 'home' && <span className="tutor-progress-badge">★ {completedIslandCount}/3 ilhas concluídas</span>}
+            {screen === 'home' && <span className="tutor-progress-badge">★ {completedCount}/6 ilhas concluídas</span>}
             <p aria-live="polite">{visibleTutorMessage}</p>
             <div className="tutor-actions">
               {screen === 'lesson'
