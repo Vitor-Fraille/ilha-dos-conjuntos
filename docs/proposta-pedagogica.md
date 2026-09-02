@@ -26,15 +26,12 @@ Reforçar a compreensão de conjuntos por meio de desafios visuais, curtos e pro
 - permitir novas tentativas sem perda de progresso;
 - evitar pressão de tempo nas atividades introdutórias;
 - usar símbolos somente depois que a ideia visual estiver compreendida;
-<<<<<<< HEAD
 - usar um tutor personalizável para oferecer encorajamento e dicas sob pedido, sem responder pelo estudante;
 - manter perfil e progresso apenas no dispositivo, sem solicitar dados pessoais da criança;
-=======
 - reforçar o acerto com uma mensagem imediata de competência, sem retirar pontos após erros;
 - variar cenários e contextos sem deixar a decoração competir com a tarefa matemática;
 - aumentar a dificuldade dentro de cada ilha e avançar do concreto para a notação e para problemas com duas regras;
 - representar o avanço em uma construção visual contínua, para que cada conclusão tenha uma consequência clara no mundo do jogo;
->>>>>>> f12c9085a488cd53f49479656df1c2ef8488f7c4
 - validar linguagem e exercícios com um professor do ensino fundamental.
 
 ## Ilha do Explorador
@@ -68,20 +65,13 @@ Referências de apoio:
 
 ## Estado de implementação
 
-<<<<<<< HEAD
-- Ilha 1: três desafios jogáveis sobre formação de conjuntos.
-- Ilha 2: três desafios jogáveis que partem da organização visual dentro/fora e introduzem progressivamente os símbolos `∈` e `∉`.
-- Ilha 3: três desafios jogáveis sobre inclusão, começando com conjuntos de objetos familiares e introduzindo progressivamente a ideia de subconjunto e os símbolos `⊂` e `⊄`.
-- Ilhas 4 a 6: planejadas para as próximas etapas.
-- Tutor: entrada local sem cadastro, oficina de personalização e dicas contextuais durante as atividades.
-=======
 - Ilha 1: cinco missões sobre formação de conjuntos, encerrando com formas geométricas e múltiplos de 3.
 - Ilha 2: cinco missões que partem da organização visual dentro/fora e avançam para intervalos e múltiplos de 4 com `∈` e `∉`.
 - Ilha 3: cinco missões sobre inclusão, avançando para divisores e múltiplos com `⊂` e `⊄`.
 - Ilha 4: cinco missões sobre igualdade, incluindo ordem, repetição de elementos e conjuntos descritos por regras.
 - Ilha 5: cinco missões sobre vazio, unitário, finito e infinito, encerrando com classificações simultâneas.
 - Ilha 6: cinco missões sobre união, interseção, diferença e complemento, incluindo uma interseção entre tabuadas.
->>>>>>> f12c9085a488cd53f49479656df1c2ef8488f7c4
+- Tutor: entrada local sem cadastro, oficina de personalização e dicas contextuais durante as atividades.
 
 O conteúdo matemático e a linguagem das seis ilhas ainda devem ser validados com um professor do ensino fundamental antes de serem considerados finais.
 

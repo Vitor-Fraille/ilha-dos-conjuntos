@@ -22,7 +22,6 @@ A terceira ilha trabalha a inclusão entre conjuntos em três etapas:
 - apresentação simples da ideia de subconjunto;
 - leitura dos símbolos `⊂` e `⊄` depois da compreensão visual.
 
-<<<<<<< HEAD
 Antes de explorar o mapa, a criança cria um tutor original e personalizável:
 
 - escolha de nome do personagem, cor, chapéu e roupa;
@@ -30,8 +29,8 @@ Antes de explorar o mapa, a criança cria um tutor original e personalizável:
 - dicas curtas e específicas para cada desafio;
 - acompanhamento visual do progresso das ilhas.
 
-A entrada não solicita e-mail, senha, foto ou nome da criança. O perfil do tutor e a conclusão de cada ilha ficam salvos somente no dispositivo. A experiência não possui cronômetro e oferece explicações após tentativas incorretas.
-=======
+A entrada não solicita e-mail, senha, foto ou nome da criança. O perfil do tutor fica salvo somente no dispositivo.
+
 A quarta ilha ensina igualdade de conjuntos:
 
 - comparação de coleções com os mesmos elementos em ordens diferentes;
@@ -53,7 +52,6 @@ A sexta ilha pratica operações com conjuntos:
 A experiência não possui cronômetro, oferece explicações após tentativas incorretas e salva a conclusão de cada ilha localmente no dispositivo. Cada resposta correta rende uma estrela de progresso, sem perder pontos por erro, e o cenário muda de cor e atmosfera em cada ilha.
 
 Além do mapa de atividades, a criança constrói a **Ilha do Explorador**. Cada ilha concluída colore e acrescenta uma parte ao mundo — terreno, bosque, lagoa, vila, caverna e farol — até a construção ficar completa após a sexta etapa.
->>>>>>> f12c9085a488cd53f49479656df1c2ef8488f7c4
 
 ## Tecnologias
 

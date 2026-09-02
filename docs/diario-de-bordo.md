@@ -47,7 +47,6 @@ Resultado: Ilha 2 jogável e compilável. Permanece pendente a validação do co
 
 Resultado: Ilha 3 jogável e compilável. Permanece pendente a validação do conteúdo e da linguagem com um professor do ensino fundamental.
 
-<<<<<<< HEAD
 ## 01/09/2026 — Tutor personalizável
 
 - criação de uma tela de entrada infantil sem e-mail, senha, foto ou nome da criança;
@@ -58,8 +57,8 @@ Resultado: Ilha 3 jogável e compilável. Permanece pendente a validação do co
 - inclusão de reações a movimentos, acertos e erros, além de dicas contextuais sob pedido;
 - criação de controles com texto, foco de teclado e suporte a movimento reduzido.
 
-Resultado: fluxo de entrada e tutor compiláveis e integrados às três ilhas. A validação visual automatizada no navegador local ficou pendente porque a URL local foi bloqueada pela política de acesso da sessão.
-=======
+Resultado: fluxo de entrada e tutor compiláveis e integrados às seis ilhas. A validação visual automatizada no navegador local ficou pendente porque a URL local foi bloqueada pela política de acesso da sessão.
+
 ## 28/08/2026 — Desenvolvimento das Ilhas 4, 5 e 6
 
 - sincronização e preservação das Ilhas 2 e 3 desenvolvidas pelo colaborador Bruno;
@@ -97,4 +96,3 @@ Resultado: experiência mais longa, variada e progressiva, preservando o foco ma
 - criação de identidade original, sem copiar personagens ou elementos visuais de jogos comerciais.
 
 Resultado: cada ilha concluída agora produz uma mudança persistente e visível no mundo do jogo, oferecendo um motivo de longo prazo para continuar a aventura.
->>>>>>> f12c9085a488cd53f49479656df1c2ef8488f7c4

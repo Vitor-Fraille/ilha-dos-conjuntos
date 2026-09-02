@@ -1362,14 +1362,124 @@ function App() {
     )
   }
 
-return (
-  <div className={`site-shell ${screen === 'lesson' ? `theme-island-${activeIsland}` : 'theme-home'}`}>
-    <header className="topbar">
-      <button className="brand" onClick={goHome} aria-label="Voltar ao início">
-        <span className="brand-mark" aria-hidden="true">∴</span><span>Ilha dos Conjuntos</span>
-      </button>
-      <div className="student-chip" aria-label="Perfil atual: explorador"><span aria-hidden="true">🧢</span><span>Explorador</span></div>
-    </header>
+  return (
+    <div className={`site-shell ${screen === 'lesson' ? `theme-island-${activeIsland}` : 'theme-home'}`}>
+      {screen !== 'login' && screen !== 'avatar' && (
+        <header className="topbar">
+          <button className="brand" onClick={goHome} aria-label="Voltar ao início">
+            <span className="brand-mark" aria-hidden="true">∴</span><span>Ilha dos Conjuntos</span>
+          </button>
+          <button className="student-chip tutor-profile-button" onClick={() => openTutorCustomizer(screen)} aria-label={`Personalizar o tutor ${tutorProfile.name}`}>
+            <TutorAvatar profile={tutorProfile} size="mini" expression={tutorExpression} />
+            <span><small>MEU TUTOR</small><strong>{tutorProfile.name}</strong></span>
+          </button>
+        </header>
+      )}
+
+      {screen === 'login' && (
+        <main className="entry-page">
+          <section className="login-card" aria-labelledby="login-title">
+            <div className="login-copy">
+              <div className="entry-brand"><span className="brand-mark" aria-hidden="true">∴</span><strong>Ilha dos Conjuntos</strong></div>
+              <span className="login-kicker">PORTO DE ENTRADA</span>
+              <h1 id="login-title">Entre na aventura matemática</h1>
+              <p>Explore ilhas, resolva missões e aprenda no seu ritmo com um tutor sempre por perto.</p>
+              {profileReady ? (
+                <div className="returning-profile">
+                  <span>Seu tutor está esperando:</span>
+                  <strong>{tutorProfile.name}</strong>
+                </div>
+              ) : (
+                <div className="first-access-note"><span aria-hidden="true">✨</span><p>Na primeira entrada, você vai criar seu próprio tutor.</p></div>
+              )}
+              <div className="login-actions">
+                <button className="primary-button" onClick={enterAdventure}>
+                  {profileReady ? `Continuar com ${tutorProfile.name}` : 'Entrar e criar meu tutor'} <span aria-hidden="true">→</span>
+                </button>
+                {profileReady && <button className="text-button" onClick={() => openTutorCustomizer('login')}>Mudar meu tutor</button>}
+              </div>
+              <p className="privacy-note"><span aria-hidden="true">🔒</span><span><strong>Entrada segura:</strong> sem e-mail, senha, foto ou nome da criança. Tudo fica somente neste dispositivo.</span></p>
+            </div>
+            <div className="login-tutor-preview" aria-label={`Prévia do tutor ${tutorProfile.name}`}>
+              <span className="preview-orbit orbit-one" aria-hidden="true">∈</span>
+              <span className="preview-orbit orbit-two" aria-hidden="true">★</span>
+              <div className="login-speech">{profileReady ? `Oi! Sou ${tutorProfile.name}. Vamos continuar?` : 'Oi! Vou ajudar em cada descoberta.'}</div>
+              <TutorAvatar profile={tutorProfile} size="large" expression="happy" animated />
+              <span className="preview-shadow" aria-hidden="true" />
+            </div>
+          </section>
+        </main>
+      )}
+
+      {screen === 'avatar' && (
+        <main className="workshop-page">
+          <form className="workshop-card" onSubmit={saveTutorProfile}>
+            <div className="workshop-preview">
+              <button className="workshop-back" type="button" onClick={cancelTutorCustomizer} aria-label="Voltar">←</button>
+              <span className="login-kicker">OFICINA DO TUTOR</span>
+              <h1>Crie seu companheiro</h1>
+              <p>Escolha cada detalhe. Você pode voltar aqui e mudar quando quiser.</p>
+              <div className="avatar-stage" aria-label={`Prévia do tutor ${draftTutorProfile.name || 'sem nome'}`}>
+                <div className="avatar-preview-speech">{draftTutorProfile.name.trim() ? `Oi! Eu sou ${draftTutorProfile.name.trim()}.` : 'Qual será o meu nome?'}</div>
+                <TutorAvatar profile={draftTutorProfile} size="large" expression="happy" animated />
+                <span className="preview-shadow" aria-hidden="true" />
+              </div>
+            </div>
+            <div className="workshop-options">
+              <div className="name-field">
+                <label htmlFor="tutor-name">Nome do tutor</label>
+                <input
+                  id="tutor-name"
+                  value={draftTutorProfile.name}
+                  maxLength={14}
+                  autoComplete="off"
+                  aria-describedby="tutor-name-help"
+                  onChange={(event) => setDraftTutorProfile((current) => ({ ...current, name: event.target.value }))}
+                  placeholder="Ex.: Lumi"
+                />
+                <small id="tutor-name-help">Dê um nome ao personagem. Não use seu próprio nome.</small>
+                <div className="name-suggestions" aria-label="Sugestões de nomes">
+                  {['Lumi', 'Pingo', 'Tico', 'Zuca'].map((name) => <button type="button" key={name} onClick={() => setDraftTutorProfile((current) => ({ ...current, name }))}>{name}</button>)}
+                </div>
+              </div>
+              <fieldset>
+                <legend>1. Escolha uma cor</legend>
+                <div className="custom-option-grid color-options">
+                  {tutorColors.map((color) => (
+                    <button type="button" key={color.id} className={draftTutorProfile.color === color.id ? 'selected' : ''} aria-pressed={draftTutorProfile.color === color.id} onClick={() => setDraftTutorProfile((current) => ({ ...current, color: color.id }))}>
+                      <span className="color-swatch" style={{ background: color.value }} aria-hidden="true" /><strong>{color.label}</strong><i aria-hidden="true">{draftTutorProfile.color === color.id ? '✓' : ''}</i>
+                    </button>
+                  ))}
+                </div>
+              </fieldset>
+              <fieldset>
+                <legend>2. Escolha um chapéu</legend>
+                <div className="custom-option-grid">
+                  {tutorHats.map((hat) => (
+                    <button type="button" key={hat.id} className={draftTutorProfile.hat === hat.id ? 'selected' : ''} aria-pressed={draftTutorProfile.hat === hat.id} onClick={() => setDraftTutorProfile((current) => ({ ...current, hat: hat.id }))}>
+                      <span aria-hidden="true">{hat.symbol}</span><strong>{hat.label}</strong><i aria-hidden="true">{draftTutorProfile.hat === hat.id ? '✓' : ''}</i>
+                    </button>
+                  ))}
+                </div>
+              </fieldset>
+              <fieldset>
+                <legend>3. Escolha uma roupa</legend>
+                <div className="custom-option-grid">
+                  {tutorOutfits.map((outfit) => (
+                    <button type="button" key={outfit.id} className={draftTutorProfile.outfit === outfit.id ? 'selected' : ''} aria-pressed={draftTutorProfile.outfit === outfit.id} onClick={() => setDraftTutorProfile((current) => ({ ...current, outfit: outfit.id }))}>
+                      <span aria-hidden="true">{outfit.symbol}</span><strong>{outfit.label}</strong><i aria-hidden="true">{draftTutorProfile.outfit === outfit.id ? '✓' : ''}</i>
+                    </button>
+                  ))}
+                </div>
+              </fieldset>
+              <div className="workshop-actions">
+                <button className="text-button" type="button" onClick={cancelTutorCustomizer}>Cancelar</button>
+                <button className="primary-button" type="submit" disabled={draftTutorProfile.name.trim().length < 2}>Salvar meu tutor <span aria-hidden="true">→</span></button>
+              </div>
+            </div>
+          </form>
+        </main>
+      )}
 
       {screen === 'home' && (
         <main>
