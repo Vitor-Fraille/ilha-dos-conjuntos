@@ -26,9 +26,34 @@ Reforçar a compreensão de conjuntos por meio de desafios visuais, curtos e pro
 - permitir novas tentativas sem perda de progresso;
 - evitar pressão de tempo nas atividades introdutórias;
 - usar símbolos somente depois que a ideia visual estiver compreendida;
+<<<<<<< HEAD
 - usar um tutor personalizável para oferecer encorajamento e dicas sob pedido, sem responder pelo estudante;
 - manter perfil e progresso apenas no dispositivo, sem solicitar dados pessoais da criança;
+=======
+- reforçar o acerto com uma mensagem imediata de competência, sem retirar pontos após erros;
+- variar cenários e contextos sem deixar a decoração competir com a tarefa matemática;
+- aumentar a dificuldade dentro de cada ilha e avançar do concreto para a notação e para problemas com duas regras;
+- representar o avanço em uma construção visual contínua, para que cada conclusão tenha uma consequência clara no mundo do jogo;
+>>>>>>> f12c9085a488cd53f49479656df1c2ef8488f7c4
 - validar linguagem e exercícios com um professor do ensino fundamental.
+
+## Ilha do Explorador
+
+A conclusão de cada etapa constrói uma parte de uma grande ilha compartilhada pelas seis áreas do conteúdo. As partes ainda bloqueadas permanecem visíveis em silhueta, a próxima conquista é identificada por texto e as partes concluídas recebem cor e um marco próprio. A criança pode, assim, antecipar o próximo objetivo e perceber o caminho já percorrido.
+
+Essa construção funciona como uma meta de longo prazo, enquanto as estrelas de cada missão oferecem retorno imediato. A recompensa não libera vantagens competitivas, não compara estudantes e não substitui a explicação matemática. Ela torna o domínio acumulado visível.
+
+## Progressão de dificuldade
+
+Cada ilha possui cinco missões. As duas primeiras retomam exemplos concretos; a terceira consolida o conceito; a quarta introduz uma regra menos imediata; e a quinta combina conhecimentos ou exige atenção a exceções. Entre as ilhas, a progressão vai da formação visual de grupos até complemento e operações entre conjuntos.
+
+O reforço positivo foi inspirado no behaviorismo, mas não é usado como única estratégia. As estrelas confirmam o domínio da missão, enquanto as explicações, a liberdade para tentar novamente e a ausência de ranking preservam autonomia e compreensão. Revisões recentes encontram benefícios mais consistentes da gamificação para engajamento e motivação do que para aprendizagem; por isso, o conteúdo matemático e o feedback explicativo continuam sendo o centro da experiência.
+
+Referências de apoio:
+
+- [EEF — Feedback](https://educationendowmentfoundation.org.uk/education-evidence/teaching-learning-toolkit/feedback)
+- [Romero-Rodríguez et al. (2024) — Gamificação no ensino primário](https://doi.org/10.1016/j.ijer.2024.102481)
+- [Ramírez Ruiz et al. (2024) — Gamificação e engajamento escolar](https://doi.org/10.3389/feduc.2024.1466926)
 
 ## Estrutura das ilhas
 
@@ -39,17 +64,26 @@ Reforçar a compreensão de conjuntos por meio de desafios visuais, curtos e pro
 | 3 | Inclusão | Organizar conjuntos dentro de outros |
 | 4 | Igualdade | Comparar coleções em ordens diferentes |
 | 5 | Classificação | Identificar vazio, unitário e finito |
-| 6 | Operações | Colorir regiões de diagramas de Venn |
+| 6 | Operações | Montar resultados de união, interseção e diferença |
 
 ## Estado de implementação
 
+<<<<<<< HEAD
 - Ilha 1: três desafios jogáveis sobre formação de conjuntos.
 - Ilha 2: três desafios jogáveis que partem da organização visual dentro/fora e introduzem progressivamente os símbolos `∈` e `∉`.
 - Ilha 3: três desafios jogáveis sobre inclusão, começando com conjuntos de objetos familiares e introduzindo progressivamente a ideia de subconjunto e os símbolos `⊂` e `⊄`.
 - Ilhas 4 a 6: planejadas para as próximas etapas.
 - Tutor: entrada local sem cadastro, oficina de personalização e dicas contextuais durante as atividades.
+=======
+- Ilha 1: cinco missões sobre formação de conjuntos, encerrando com formas geométricas e múltiplos de 3.
+- Ilha 2: cinco missões que partem da organização visual dentro/fora e avançam para intervalos e múltiplos de 4 com `∈` e `∉`.
+- Ilha 3: cinco missões sobre inclusão, avançando para divisores e múltiplos com `⊂` e `⊄`.
+- Ilha 4: cinco missões sobre igualdade, incluindo ordem, repetição de elementos e conjuntos descritos por regras.
+- Ilha 5: cinco missões sobre vazio, unitário, finito e infinito, encerrando com classificações simultâneas.
+- Ilha 6: cinco missões sobre união, interseção, diferença e complemento, incluindo uma interseção entre tabuadas.
+>>>>>>> f12c9085a488cd53f49479656df1c2ef8488f7c4
 
-O conteúdo matemático e a linguagem das Ilhas 2 e 3 ainda devem ser validados com um professor do ensino fundamental antes de serem considerados finais.
+O conteúdo matemático e a linguagem das seis ilhas ainda devem ser validados com um professor do ensino fundamental antes de serem considerados finais.
 
 ## Avaliação
 

@@ -2,11 +2,13 @@
 
 ## Fluxo de trabalho
 
-1. Escolha ou crie uma issue.
-2. Crie uma branch a partir de `main`.
+1. Atualize a `main` com `git pull`.
+2. Combine com a equipe qual parte será alterada.
 3. Faça commits pequenos e descritivos.
 4. Execute `npm run build`.
-5. Abra um pull request e solicite a revisão de outro integrante.
+5. Envie para a `main`. Para mudanças maiores, branch e pull request são opcionais.
+
+Evite `force-push` e exclusões desnecessárias. A comunicação diária ajuda a impedir que duas pessoas alterem a mesma parte ao mesmo tempo.
 
 ## Padrão de commits
 

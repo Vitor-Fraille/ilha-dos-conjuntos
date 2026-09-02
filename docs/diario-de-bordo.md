@@ -47,6 +47,7 @@ Resultado: Ilha 2 jogável e compilável. Permanece pendente a validação do co
 
 Resultado: Ilha 3 jogável e compilável. Permanece pendente a validação do conteúdo e da linguagem com um professor do ensino fundamental.
 
+<<<<<<< HEAD
 ## 01/09/2026 — Tutor personalizável
 
 - criação de uma tela de entrada infantil sem e-mail, senha, foto ou nome da criança;
@@ -58,3 +59,42 @@ Resultado: Ilha 3 jogável e compilável. Permanece pendente a validação do co
 - criação de controles com texto, foco de teclado e suporte a movimento reduzido.
 
 Resultado: fluxo de entrada e tutor compiláveis e integrados às três ilhas. A validação visual automatizada no navegador local ficou pendente porque a URL local foi bloqueada pela política de acesso da sessão.
+=======
+## 28/08/2026 — Desenvolvimento das Ilhas 4, 5 e 6
+
+- sincronização e preservação das Ilhas 2 e 3 desenvolvidas pelo colaborador Bruno;
+- implementação de três desafios sobre igualdade de conjuntos, incluindo os símbolos `=` e `≠`;
+- implementação de três desafios de classificação: vazio, unitário, finito e infinito;
+- implementação de três desafios de operações: união, interseção e diferença;
+- ampliação do mapa para seis ilhas com liberação sequencial;
+- salvamento local independente da conclusão de cada ilha;
+- inclusão de feedback explicativo, controles por botão e adaptação para telas pequenas;
+- atualização da documentação do projeto e do fluxo de colaboração direta na `main`.
+
+Resultado: seis ilhas jogáveis e compiláveis, com 18 desafios no total. Permanece pendente a validação do conteúdo e da linguagem com um professor do ensino fundamental.
+
+## 28/08/2026 — Progressão, variedade e reforço positivo
+
+- ampliação de três para cinco missões em cada ilha, totalizando 30 atividades;
+- organização da dificuldade do concreto para regras, exceções e combinação de conceitos;
+- inclusão de exercícios sobre formas, múltiplos, intervalos, divisores, repetição em conjuntos e complemento;
+- criação de seis cenários com cores e atmosferas diferentes para marcar o avanço no mapa;
+- implementação de estrelas e mensagens imediatas após acertos, sem cronômetro, ranking ou perda de pontos;
+- manutenção de dicas explicativas após erros e liberdade para tentar novamente;
+- registro da fundamentação pedagógica e das cautelas sobre gamificação.
+
+Resultado: experiência mais longa, variada e progressiva, preservando o foco matemático. O conteúdo das 30 missões ainda precisa de validação com um professor do ensino fundamental.
+
+## 28/08/2026 — Construção da Ilha do Explorador
+
+- criação de uma grande ilha visual composta por seis partes;
+- exibição das partes futuras em silhueta e destaque textual da próxima conquista;
+- liberação progressiva de terreno, bosque, lagoa, vila, caverna e farol;
+- integração da construção ao progresso já salvo no navegador;
+- apresentação imediata da nova parte na tela de conclusão de cada etapa;
+- celebração especial quando a sexta parte completa todo o mundo;
+- adaptação da composição para celular, toque, teclado e redução de movimento;
+- criação de identidade original, sem copiar personagens ou elementos visuais de jogos comerciais.
+
+Resultado: cada ilha concluída agora produz uma mudança persistente e visível no mundo do jogo, oferecendo um motivo de longo prazo para continuar a aventura.
+>>>>>>> f12c9085a488cd53f49479656df1c2ef8488f7c4
