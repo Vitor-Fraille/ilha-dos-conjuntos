@@ -96,3 +96,18 @@ Resultado: experiência mais longa, variada e progressiva, preservando o foco ma
 - criação de identidade original, sem copiar personagens ou elementos visuais de jogos comerciais.
 
 Resultado: cada ilha concluída agora produz uma mudança persistente e visível no mundo do jogo, oferecendo um motivo de longo prazo para continuar a aventura.
+
+## 01/09/2026 — Novo visual e laboratório de companheiros
+
+- renovação da entrada, mapa, cartões de missão, tela de resultado e oficina com identidade de diário de exploração;
+- substituição do avatar de formas CSS por um robô SVG original, com rosto expressivo, mãos, costuras, bolsos, calçados e ferramentas;
+- inclusão de 6 cores, 8 chapéus, 8 profissões com roupas próprias e 5 acessórios: 1.920 combinações;
+- prévia de personalização, teste de falas, combinação aleatória, validação de nome fictício e cancelamento sem perder a missão;
+- 24 comentários de profissões, 8 falas de incentivo e dois níveis de ajuda em todas as 30 missões;
+- correção de dicas ausentes ou desalinhadas e inclusão de reações do tutor nas tentativas das ilhas 4 a 6;
+- compatibilidade com perfis antigos e preservação das seis chaves de progresso local;
+- tutor em área própria, recolhível, sem sobrepor botões de resposta; manutenção de teclado, toque e movimento reduzido;
+- testes automatizados de perfis, catálogos, renderização das 1.920 combinações e cobertura das dicas;
+- verificação no navegador de entrada, oficina, salvamento após recarregar, cancelamento durante missão, teclado, dicas e avanço; conferência do layout em computador e celular.
+
+Resultado: `npm test` e `npm run build` aprovados. Nenhuma dependência adicional ou serviço de chat foi incluído. A validação pedagógica com professor permanece pendente.

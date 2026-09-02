@@ -71,7 +71,9 @@ Referências de apoio:
 - Ilha 4: cinco missões sobre igualdade, incluindo ordem, repetição de elementos e conjuntos descritos por regras.
 - Ilha 5: cinco missões sobre vazio, unitário, finito e infinito, encerrando com classificações simultâneas.
 - Ilha 6: cinco missões sobre união, interseção, diferença e complemento, incluindo uma interseção entre tabuadas.
-- Tutor: entrada local sem cadastro, oficina de personalização e dicas contextuais durante as atividades.
+- Tutor: entrada local sem cadastro, oficina de personalização e dicas contextuais durante as atividades. O personagem oferece oito profissões, com roupas, ferramentas e exemplos simples de agrupamento no cotidiano. As profissões não alteram a dificuldade, não concedem vantagens e não precisam ser desbloqueadas.
+- As falas do tutor são previamente escritas e não coletam respostas livres. “Me anime” incentiva a observação e novas tentativas; “Uma curiosidade” relaciona conjuntos à profissão escolhida. A primeira dica sugere uma estratégia; “Mais ajuda” mostra a explicação já usada pela atividade, que pode revelar a solução, sempre por solicitação do estudante.
+- O tutor ocupa uma área própria, sem cobrir as alternativas. Sua conversa pode ser recolhida, e as animações respeitam a preferência por movimento reduzido.
 
 O conteúdo matemático e a linguagem das seis ilhas ainda devem ser validados com um professor do ensino fundamental antes de serem considerados finais.
 
