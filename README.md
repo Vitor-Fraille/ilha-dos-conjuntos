@@ -1,6 +1,6 @@
-# Conjuntos em Jogo
+# Matemática.já · Conjuntos
 
-Jogo web de reforço de matemática para estudantes de 10 a 12 anos. O aluno abre a página, escolhe um nível e começa a resolver. Não há cadastro, personagem, tela de teoria, cronômetro ou ranking. As aulas apresentam o conteúdo; o jogo serve para praticar.
+Jogo web de reforço de matemática para estudantes de 10 a 12 anos. O aluno entra sem cadastro, escolhe um módulo e um nível e começa a resolver. A entrada tem um desafio rápido opcional. Não há personagem, tela de teoria, cronômetro ou ranking. As aulas apresentam o conteúdo; o jogo serve para praticar.
 
 ## Versão atual
 
@@ -14,7 +14,7 @@ O módulo **Conjuntos** tem 30 questões, distribuídas em três níveis livres:
 
 As questões alternam escolha de uma e de várias respostas. A criança recebe feedback explicativo imediatamente, pode alterar a seleção e tentar novamente sem perder pontos. Depois de acertar, ela escolhe quando avançar. A tela mostra o progresso e os acertos de primeira; o melhor resultado de cada nível fica salvo apenas neste navegador.
 
-A interface foi desenhada primeiro para celular, com cartões grandes, texto curto, foco visível para teclado e estados indicados também por palavras e símbolos, não só por cor. Os outros módulos de matemática serão definidos posteriormente com a equipe.
+A interface foi desenhada primeiro para celular, com cartões grandes, texto curto, foco visível para teclado e estados indicados também por palavras e símbolos, não só por cor. A tela de módulos já separa Conjuntos dos outros assuntos, que serão definidos posteriormente com a equipe.
 
 ## Executar localmente
 

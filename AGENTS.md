@@ -2,7 +2,7 @@
 
 ## Objetivo
 
-Este repositório contém um jogo web de prática de conjuntos matemáticos para estudantes de 10 a 12 anos. Preserve linguagem simples, feedback educativo, acessibilidade e funcionamento em celular. O aluno deve poder abrir, escolher um nível e jogar sem cadastro ou personagem.
+Este repositório contém um jogo web de prática de matemática para estudantes de 10 a 12 anos. O primeiro módulo é Conjuntos; outros módulos serão definidos com a equipe. Preserve linguagem simples, feedback educativo, acessibilidade e funcionamento em celular. O aluno deve poder entrar, escolher um módulo e nível e jogar sem cadastro ou personagem.
 
 ## Fluxo de colaboração
 

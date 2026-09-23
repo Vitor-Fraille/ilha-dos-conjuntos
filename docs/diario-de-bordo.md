@@ -136,3 +136,13 @@ Pendente: teste com estudantes de 10 a 12 anos e validação do conteúdo matem�
 - substituição dos testes do tutor por verificações das questões, alternativas e respostas.
 
 Pendente: revisão matemática com professor e teste de usabilidade com alunos de 10 a 12 anos.
+
+## 22/09/2026 — Entrada e identidade visual próprias
+
+- criação de uma entrada genérica sem conta, senha ou dados pessoais, com desafio rápido opcional e feedback imediato;
+- separação explícita da escolha de módulos e da escolha de níveis, mantendo Conjuntos ativo e espaço para módulos futuros;
+- substituição da estética espacial roxa por uma identidade clara de cartões, formas geométricas e cores próprias em todas as telas;
+- preservação das 30 questões, dos três níveis, das tentativas, das explicações e do progresso local;
+- atualização da apresentação do projeto e da imagem de compartilhamento.
+
+Pendente: validar o novo fluxo com estudantes e revisar o conteúdo matemático com um professor.

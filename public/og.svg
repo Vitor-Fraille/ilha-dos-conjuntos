@@ -1,30 +1,43 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="Conjuntos em Jogo: três níveis de prática de matemática">
-  <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#211843"/><stop offset=".58" stop-color="#321858"/><stop offset="1" stop-color="#160d2c"/></linearGradient>
-    <radialGradient id="glow"><stop stop-color="#7846a2" stop-opacity=".8"/><stop offset="1" stop-color="#7846a2" stop-opacity="0"/></radialGradient>
-    <pattern id="stars" width="130" height="110" patternUnits="userSpaceOnUse"><circle cx="18" cy="27" r="1.7" fill="#f9edff" opacity=".55"/><circle cx="90" cy="73" r="1" fill="#d6b7f7" opacity=".55"/></pattern>
-  </defs>
-  <rect width="1200" height="630" fill="url(#bg)"/>
-  <circle cx="1010" cy="90" r="280" fill="url(#glow)"/>
-  <rect width="1200" height="630" fill="url(#stars)"/>
-  <rect x="73" y="60" width="60" height="60" rx="19" fill="#63ddd7"/>
-  <text x="103" y="104" fill="#241940" text-anchor="middle" font-family="Arial,sans-serif" font-size="46" font-weight="bold">∴</text>
-  <text x="157" y="100" fill="#fef9ff" font-family="Arial,sans-serif" font-size="28" font-weight="bold">MATEMÁTICA PARA JOGAR</text>
-  <text x="73" y="233" fill="#ffffff" font-family="Arial,sans-serif" font-size="76" font-weight="bold">Conjuntos em Jogo</text>
-  <text x="75" y="285" fill="#e8d8f7" font-family="Arial,sans-serif" font-size="29">Escolha um nível, resolva e tente novamente.</text>
-  <g font-family="Arial,sans-serif" font-weight="bold">
-    <rect x="73" y="360" width="332" height="185" rx="25" fill="#37235b" stroke="#8c70b5" stroke-width="3"/>
-    <rect x="94" y="385" width="70" height="70" rx="21" fill="#63ddd7"/><text x="129" y="435" fill="#241940" font-size="45" text-anchor="middle">✦</text>
-    <text x="183" y="414" fill="#63ddd7" font-size="21">NÍVEL 1</text><text x="183" y="445" fill="#fff" font-size="30">Começar</text>
-    <text x="96" y="508" fill="#e2d3f2" font-size="21">Agrupar e pertencer</text>
-    <rect x="433" y="360" width="332" height="185" rx="25" fill="#422452" stroke="#8c70b5" stroke-width="3"/>
-    <rect x="454" y="385" width="70" height="70" rx="21" fill="#ffb771"/><text x="489" y="435" fill="#241940" font-size="45" text-anchor="middle">⊂</text>
-    <text x="543" y="414" fill="#ffb771" font-size="21">NÍVEL 2</text><text x="543" y="445" fill="#fff" font-size="30">Avançar</text>
-    <text x="456" y="508" fill="#e2d3f2" font-size="21">Inclusão e igualdade</text>
-    <rect x="793" y="360" width="332" height="185" rx="25" fill="#332457" stroke="#8c70b5" stroke-width="3"/>
-    <rect x="814" y="385" width="70" height="70" rx="21" fill="#d6a9ff"/><text x="849" y="435" fill="#241940" font-size="45" text-anchor="middle">∪</text>
-    <text x="903" y="414" fill="#d6a9ff" font-size="21">NÍVEL 3</text><text x="903" y="445" fill="#fff" font-size="30">Desafio</text>
-    <text x="816" y="508" fill="#e2d3f2" font-size="21">Tipos e operações</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="Matemática.já: entre, escolha um módulo e pratique conjuntos">
+  <rect width="1200" height="630" fill="#f7f4eb"/>
+  <path d="M0 557h1200" stroke="#bed4c9" stroke-width="3" stroke-dasharray="11 12"/>
+  <rect x="64" y="57" width="63" height="63" rx="19" fill="#203438" transform="rotate(-7 95 88)"/>
+  <rect x="83" y="75" width="11" height="11" rx="3" fill="#ffe092"/>
+  <rect x="99" y="75" width="11" height="11" rx="3" fill="#f07b60"/>
+  <rect x="83" y="91" width="11" height="11" rx="3" fill="#50c7b9"/>
+  <rect x="99" y="91" width="11" height="11" rx="3" fill="#ffe092"/>
+  <g font-family="Trebuchet MS,Arial,sans-serif">
+    <text x="145" y="101" fill="#203438" font-size="35" font-weight="bold">matemática<tspan fill="#e8684e">.</tspan>já</text>
+    <text x="67" y="205" fill="#b34530" font-size="20" font-weight="bold" letter-spacing="3">SEU ESPAÇO DE PRÁTICA</text>
+    <text x="62" y="290" fill="#203438" font-size="73" font-weight="bold" letter-spacing="-4">Matemática fica</text>
+    <text x="62" y="374" fill="#dc654f" font-size="73" font-weight="bold" letter-spacing="-4">melhor jogando.</text>
+    <text x="66" y="430" fill="#53686a" font-size="28">Escolha um módulo, resolva e tente de novo.</text>
+    <rect x="65" y="477" width="315" height="62" rx="15" fill="#203438"/>
+    <text x="93" y="517" fill="#fffdf7" font-size="25" font-weight="bold">Entrar para jogar  →</text>
+    <text x="66" y="597" fill="#526c6a" font-size="20">Sem cadastro · 3 níveis · 30 questões</text>
   </g>
-  <text x="75" y="600" fill="#bca8d8" font-family="Arial,sans-serif" font-size="19">30 questões • feedback imediato • sem cadastro</text>
+  <g transform="translate(799 123)">
+    <rect x="8" y="10" width="327" height="350" rx="33" fill="#203438"/>
+    <rect width="327" height="350" rx="33" fill="#ffe5a7" stroke="#203438" stroke-width="4"/>
+    <rect x="29" y="-14" width="165" height="37" rx="8" fill="#203438" transform="rotate(-3 29 0)"/>
+    <text x="49" y="11" fill="#fffdf7" font-family="Arial,sans-serif" font-size="17" font-weight="bold">TOQUE E TESTE</text>
+    <g font-family="Arial,sans-serif" font-size="43" font-weight="bold" fill="#203438" text-anchor="middle">
+      <rect x="33" y="67" width="67" height="72" rx="17" fill="#fffdf7" stroke="#203438" stroke-width="3" transform="rotate(-5 67 103)"/>
+      <text x="67" y="117">2</text>
+      <rect x="125" y="67" width="67" height="72" rx="17" fill="#f1856a" stroke="#203438" stroke-width="3" transform="rotate(4 158 103)"/>
+      <text x="158" y="117">4</text>
+      <rect x="218" y="67" width="67" height="72" rx="17" fill="#70cbbb" stroke="#203438" stroke-width="3" transform="rotate(-3 252 103)"/>
+      <text x="252" y="117">6</text>
+    </g>
+    <text x="163" y="190" fill="#203438" font-family="Arial,sans-serif" font-size="25" font-weight="bold" text-anchor="middle">Que número vem depois?</text>
+    <g font-family="Arial,sans-serif" font-size="32" font-weight="bold" text-anchor="middle">
+      <rect x="36" y="221" width="70" height="65" rx="13" fill="#fffdf7" stroke="#203438" stroke-width="3"/>
+      <rect x="127" y="221" width="70" height="65" rx="13" fill="#203438" stroke="#203438" stroke-width="3"/>
+      <rect x="218" y="221" width="70" height="65" rx="13" fill="#fffdf7" stroke="#203438" stroke-width="3"/>
+      <text x="71" y="263" fill="#203438">7</text>
+      <text x="162" y="263" fill="#fffdf7">8</text>
+      <text x="253" y="263" fill="#203438">9</text>
+    </g>
+    <text x="163" y="322" fill="#126355" font-family="Arial,sans-serif" font-size="19" font-weight="bold" text-anchor="middle">Boa! De 2 em 2.</text>
+  </g>
 </svg>

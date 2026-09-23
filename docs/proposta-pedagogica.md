@@ -2,7 +2,7 @@
 
 ## Público e função da ferramenta
 
-Estudantes de 10 a 12 anos do ensino fundamental. O professor apresenta e discute o conteúdo em aula. O jogo é um complemento para prática: a criança entra, escolhe um nível e resolve questões curtas. Não há aula teórica dentro da aplicação.
+Estudantes de 10 a 12 anos do ensino fundamental. O professor apresenta e discute o conteúdo em aula. O jogo é um complemento para prática: a criança entra sem cadastro, escolhe o módulo Conjuntos e um nível, e resolve questões curtas. O desafio rápido da entrada é opcional. Não há aula teórica dentro da aplicação.
 
 ## Objetivo
 

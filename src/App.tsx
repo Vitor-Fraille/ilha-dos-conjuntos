@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { isCorrect, levels, questionsForLevel, type LevelId } from './gameData'
 
-type Screen = 'home' | 'play' | 'result'
+type Screen = 'entry' | 'modules' | 'levels' | 'play' | 'result'
 type Feedback = { correct: boolean; text: string }
 const SCORE_KEY = 'conjuntos-em-jogo-level-scores-v1'
 
@@ -16,7 +16,8 @@ function loadScores(): (number | null)[] {
 }
 
 function App() {
-  const [screen, setScreen] = useState<Screen>('home')
+  const [screen, setScreen] = useState<Screen>('entry')
+  const [warmupChoice, setWarmupChoice] = useState<string | null>(null)
   const [levelId, setLevelId] = useState<LevelId>(1)
   const [questionIndex, setQuestionIndex] = useState(0)
   const [selected, setSelected] = useState<string[]>([])
@@ -48,8 +49,8 @@ function App() {
     scrollToTop()
   }
 
-  function goHome() {
-    setScreen('home')
+  function navigate(to: Screen) {
+    setScreen(to)
     scrollToTop()
   }
 
@@ -92,17 +93,52 @@ function App() {
 
   return <div className={`game-shell screen-${screen} level-theme-${levelId}`}>
     <header className="game-header">
-      <button className="game-brand" onClick={goHome} aria-label="Voltar à escolha de níveis"><span className="brand-symbol" aria-hidden="true">∴</span><span>Conjuntos em jogo</span></button>
-      {screen === 'home' && <span className="header-progress">{finishedLevels}/3 níveis feitos</span>}
+      <button className="game-brand" onClick={() => navigate('entry')} aria-label="Voltar ao início"><span className="brand-symbol" aria-hidden="true"><i /><i /><i /><i /></span><span>matemática<span className="brand-dot">.</span>já</span></button>
+      {screen === 'entry' && <span className="header-progress">prática sem cadastro</span>}
+      {screen === 'levels' && <span className="header-progress">{finishedLevels}/3 níveis feitos</span>}
       {screen === 'play' && <span className="header-progress">✓ {solved} {solved === 1 ? 'acerto' : 'acertos'}</span>}
     </header>
 
-    {screen === 'home' && <main className="home-screen">
+    {screen === 'entry' && <main className="entry-screen">
+      <section className="entry-hero">
+        <div className="entry-copy">
+          <span className="eyebrow">SEU ESPAÇO DE PRÁTICA</span>
+          <h1>Matemática fica melhor <em>jogando.</em></h1>
+          <p>Escolha um módulo, resolva desafios curtos e descubra o quanto você já sabe.</p>
+          <button className="action-button entry-action" onClick={() => navigate('modules')}>Entrar para jogar <span aria-hidden="true">→</span></button>
+          <span className="entry-assurance">Sem conta, sem senha e sem pressa.</span>
+        </div>
+        <div className="entry-play" aria-label="Desafio rápido opcional">
+          <span className="play-sticker">TOQUE E TESTE</span>
+          <div className="pattern-shapes" aria-hidden="true"><span>2</span><span>4</span><span>6</span><span>?</span></div>
+          <strong>Que número vem depois?</strong>
+          <div className="warmup-options">
+            {['7', '8', '9'].map(value => <button key={value} className={warmupChoice === value ? 'chosen' : ''} aria-pressed={warmupChoice === value} onClick={() => setWarmupChoice(value)}>{value}</button>)}
+          </div>
+          <p className={`warmup-feedback ${warmupChoice === '8' ? 'warmup-correct' : ''}`} role="status" aria-live="polite">{warmupChoice === null ? 'Pode brincar aqui ou entrar direto.' : warmupChoice === '8' ? 'Boa! A sequência aumenta de 2 em 2.' : 'Quase! Conte de 2 em 2 e tente outra opção.'}</p>
+        </div>
+      </section>
+      <div className="entry-steps" aria-label="Como funciona"><span><b>01</b> Escolha um módulo</span><span><b>02</b> Resolva questões</span><span><b>03</b> Veja seu avanço</span></div>
+    </main>}
+
+    {screen === 'modules' && <main className="modules-screen">
+      <div className="section-heading"><button className="text-back" onClick={() => navigate('entry')}>← Voltar</button><span className="eyebrow">ESCOLHA O QUE PRATICAR</span><h1>Seus módulos</h1><p>Um assunto por vez. Você escolhe por onde começar.</p></div>
+      <div className="modules-grid">
+        <button className="module-card" onClick={() => navigate('levels')}>
+          <span className="module-illustration" aria-hidden="true"><span className="set-orbit set-orbit-one">A</span><span className="set-orbit set-orbit-two">B</span><span className="set-dot set-dot-one"/><span className="set-dot set-dot-two"/><span className="set-dot set-dot-three"/></span>
+          <span className="module-copy"><small>MÓDULO DISPONÍVEL</small><strong>Conjuntos</strong><span>Encontre, compare e combine grupos.</span><em>3 níveis · 30 questões</em></span>
+          <span className="module-link">Escolher módulo <b aria-hidden="true">↗</b></span>
+        </button>
+        <div className="module-soon"><span aria-hidden="true">＋</span><strong>Mais módulos vêm aí</strong><p>Novos assuntos aparecerão aqui quando estiverem prontos.</p></div>
+      </div>
+    </main>}
+
+    {screen === 'levels' && <main className="home-screen">
+      <button className="text-back" onClick={() => navigate('modules')}>← Módulos</button>
       <div className="home-intro">
-        <div className="intro-art" aria-hidden="true"><span>{'{ 2, 4, 6 }'}</span><i>∈</i><b>✦</b></div>
-        <span className="eyebrow">MATEMÁTICA PARA JOGAR</span>
-        <h1>Escolha um nível e comece!</h1>
-        <p>Questões curtas, resposta na hora e quantas tentativas você quiser.</p>
+        <span className="eyebrow">MÓDULO 01 · CONJUNTOS</span>
+        <h1>Escolha seu nível.</h1>
+        <p>Comece onde quiser. Cada nível tem 10 questões e você pode tentar de novo.</p>
       </div>
       <div className="level-list" aria-label="Níveis disponíveis">
         {levels.map((entry, index) => <button key={entry.id} className={`level-card level-card-${entry.id}`} onClick={() => startLevel(entry.id)}>
@@ -115,7 +151,7 @@ function App() {
     </main>}
 
     {screen === 'play' && <main className="play-screen">
-      <div className="play-topline"><button className="back-button" onClick={goHome} aria-label="Voltar aos níveis">←</button><div><small>NÍVEL {levelId} · {level.name.toUpperCase()}</small><strong>Questão {questionIndex + 1} de {levelQuestions.length}</strong></div><span className="question-count">{questionIndex + 1}/{levelQuestions.length}</span></div>
+      <div className="play-topline"><button className="back-button" onClick={() => navigate('levels')} aria-label="Voltar aos níveis">←</button><div><small>CONJUNTOS · NÍVEL {levelId}</small><strong>Questão {questionIndex + 1} de {levelQuestions.length}</strong></div><span className="question-count">{questionIndex + 1}/{levelQuestions.length}</span></div>
       <div className="progress-track" role="progressbar" aria-label="Questões resolvidas" aria-valuemin={0} aria-valuemax={levelQuestions.length} aria-valuenow={solved}><span style={{ width: `${solved / levelQuestions.length * 100}%` }} /></div>
       <div className="phase-label"><span>FASE {phase} DE 2</span><strong>{level.topics[phase - 1]}</strong></div>
       <section className="question-panel" aria-labelledby="question-title">
@@ -136,13 +172,13 @@ function App() {
     </main>}
 
     {screen === 'result' && <main className="result-screen">
-      <div className="result-symbol" aria-hidden="true">✦</div>
+      <div className="result-symbol" aria-hidden="true">✓</div>
       <span className="eyebrow">NÍVEL {levelId} FINALIZADO</span>
       <h1>Você completou o nível!</h1>
       <p>Praticar, errar e tentar de novo faz parte do aprendizado.</p>
       <div className="result-numbers"><div><strong>{solved}/{levelQuestions.length}</strong><span>questões feitas</span></div><div><strong>{firstTryCorrect}/{levelQuestions.length}</strong><span>de primeira</span></div></div>
       <p className="best-result">Seu melhor resultado neste nível: <strong>{scores[levelId - 1]}/10 de primeira</strong></p>
-      <div className="result-actions"><button className="action-button" onClick={goHome}>Escolher outro nível <span aria-hidden="true">→</span></button><button className="secondary-button" onClick={() => startLevel(levelId)}>Jogar este nível de novo</button></div>
+      <div className="result-actions"><button className="action-button" onClick={() => navigate('levels')}>Escolher outro nível <span aria-hidden="true">→</span></button><button className="secondary-button" onClick={() => startLevel(levelId)}>Jogar este nível de novo</button></div>
     </main>}
     <footer className="game-footer">Projeto de extensão · Reforço de Matemática</footer>
   </div>
