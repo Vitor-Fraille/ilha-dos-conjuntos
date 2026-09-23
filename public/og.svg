@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="Conjuntos em Jogo: três níveis de prática de matemática">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#211843"/><stop offset=".58" stop-color="#321858"/><stop offset="1" stop-color="#160d2c"/></linearGradient>
+    <radialGradient id="glow"><stop stop-color="#7846a2" stop-opacity=".8"/><stop offset="1" stop-color="#7846a2" stop-opacity="0"/></radialGradient>
+    <pattern id="stars" width="130" height="110" patternUnits="userSpaceOnUse"><circle cx="18" cy="27" r="1.7" fill="#f9edff" opacity=".55"/><circle cx="90" cy="73" r="1" fill="#d6b7f7" opacity=".55"/></pattern>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="1010" cy="90" r="280" fill="url(#glow)"/>
+  <rect width="1200" height="630" fill="url(#stars)"/>
+  <rect x="73" y="60" width="60" height="60" rx="19" fill="#63ddd7"/>
+  <text x="103" y="104" fill="#241940" text-anchor="middle" font-family="Arial,sans-serif" font-size="46" font-weight="bold">∴</text>
+  <text x="157" y="100" fill="#fef9ff" font-family="Arial,sans-serif" font-size="28" font-weight="bold">MATEMÁTICA PARA JOGAR</text>
+  <text x="73" y="233" fill="#ffffff" font-family="Arial,sans-serif" font-size="76" font-weight="bold">Conjuntos em Jogo</text>
+  <text x="75" y="285" fill="#e8d8f7" font-family="Arial,sans-serif" font-size="29">Escolha um nível, resolva e tente novamente.</text>
+  <g font-family="Arial,sans-serif" font-weight="bold">
+    <rect x="73" y="360" width="332" height="185" rx="25" fill="#37235b" stroke="#8c70b5" stroke-width="3"/>
+    <rect x="94" y="385" width="70" height="70" rx="21" fill="#63ddd7"/><text x="129" y="435" fill="#241940" font-size="45" text-anchor="middle">✦</text>
+    <text x="183" y="414" fill="#63ddd7" font-size="21">NÍVEL 1</text><text x="183" y="445" fill="#fff" font-size="30">Começar</text>
+    <text x="96" y="508" fill="#e2d3f2" font-size="21">Agrupar e pertencer</text>
+    <rect x="433" y="360" width="332" height="185" rx="25" fill="#422452" stroke="#8c70b5" stroke-width="3"/>
+    <rect x="454" y="385" width="70" height="70" rx="21" fill="#ffb771"/><text x="489" y="435" fill="#241940" font-size="45" text-anchor="middle">⊂</text>
+    <text x="543" y="414" fill="#ffb771" font-size="21">NÍVEL 2</text><text x="543" y="445" fill="#fff" font-size="30">Avançar</text>
+    <text x="456" y="508" fill="#e2d3f2" font-size="21">Inclusão e igualdade</text>
+    <rect x="793" y="360" width="332" height="185" rx="25" fill="#332457" stroke="#8c70b5" stroke-width="3"/>
+    <rect x="814" y="385" width="70" height="70" rx="21" fill="#d6a9ff"/><text x="849" y="435" fill="#241940" font-size="45" text-anchor="middle">∪</text>
+    <text x="903" y="414" fill="#d6a9ff" font-size="21">NÍVEL 3</text><text x="903" y="445" fill="#fff" font-size="30">Desafio</text>
+    <text x="816" y="508" fill="#e2d3f2" font-size="21">Tipos e operações</text>
+  </g>
+  <text x="75" y="600" fill="#bca8d8" font-family="Arial,sans-serif" font-size="19">30 questões • feedback imediato • sem cadastro</text>
+</svg>
