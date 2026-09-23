@@ -253,6 +253,6 @@ export function questionsForLevel(level: LevelId): Question[] {
   return questions.filter(question => Math.ceil(question.topic / 2) === level)
 }
 
-export function isCorrect(question: Question, selected: string[]): boolean {
+export function isCorrect(question: Pick<Question, 'answer'>, selected: string[]): boolean {
   return selected.length === question.answer.length && question.answer.every(id => selected.includes(id))
 }
