@@ -1,20 +1,23 @@
-# Matemática.já · Conjuntos
+# Matemática.já
 
 Jogo web de reforço de matemática para estudantes de 10 a 12 anos. O aluno entra sem cadastro, escolhe um módulo e um nível e começa a resolver. A entrada tem um desafio rápido opcional. Não há personagem, tela de teoria, cronômetro ou ranking. As aulas apresentam o conteúdo; o jogo serve para praticar.
 
-## Versão atual
+## Módulos e níveis
 
-O módulo **Conjuntos** tem 30 questões, distribuídas em três níveis livres:
+O jogo tem seis módulos com três níveis livres cada, totalizando 120 questões. Conjuntos mantém as 30 atividades originais; os cinco módulos novos têm 18 atividades cada.
 
-| Nível | Fases | Atividades |
-| --- | --- | --- |
-| 1 · Começar | Formar conjuntos; quem pertence? | 10 |
-| 2 · Avançar | Inclusão; igualdade | 10 |
-| 3 · Desafio | Tipos de conjuntos; operações | 10 |
+| Módulo | Nível 1 | Nível 2 | Nível 3 |
+| --- | --- | --- | --- |
+| Conjuntos | Agrupar e pertencer | Inclusão e igualdade | Tipos e operações |
+| Frações | Mesmo denominador | Denominadores diferentes | Multiplicação e divisão |
+| Números decimais | Adição e subtração | Multiplicação, inclusive por 10/100/1.000 | Divisão, inclusive por 10/100/1.000 |
+| Volume | Cubos | Paralelepípedos retângulos | Comparação e medidas faltantes |
+| Medidas de massa | kg, hg, dag e g | dg, cg e mg | Comparação e problemas |
+| Temperatura | Unidades e leitura | Comparações e variações | Temperaturas negativas e situações |
 
-As questões alternam escolha de uma e de várias respostas. A criança recebe feedback explicativo imediatamente, pode alterar a seleção e tentar novamente sem perder pontos. Depois de acertar, ela escolhe quando avançar. A tela mostra o progresso e os acertos de primeira; o melhor resultado de cada nível fica salvo apenas neste navegador.
+As atividades alternam escolha de uma ou várias respostas e montagem da resposta por teclado numérico. Barras de fração, caixas, comparações de massas e termômetros ajudam a interpretar algumas questões. A criança recebe feedback explicativo imediatamente, pode alterar a seleção e tentar novamente sem perder pontos. Depois de acertar, ela escolhe quando avançar. A tela mostra o progresso por questão e os acertos de primeira; o melhor resultado de cada nível fica salvo apenas neste navegador.
 
-A interface foi desenhada primeiro para celular, com cartões grandes, texto curto, foco visível para teclado e estados indicados também por palavras e símbolos, não só por cor. A tela de módulos já separa Conjuntos dos outros assuntos, que serão definidos posteriormente com a equipe.
+A interface foi desenhada primeiro para celular. Os módulos são agrupados em Números e Medidas, com Conjuntos em destaque e filtros para encontrar o assunto rapidamente. Cada questão ocupa sua própria etapa, com uma barra de progresso segmentada, botões grandes, texto curto, foco visível para teclado e estados indicados também por palavras e símbolos, não só por cor. Não há vidas, punição por erro ou bloqueio de níveis.
 
 ## Executar localmente
 
@@ -34,14 +37,16 @@ npm run build
 
 ## Arquivos principais
 
-- `src/gameData.ts`: as 30 questões, explicações e a divisão dos níveis;
+- `src/gameData.ts`: as 30 questões de Conjuntos;
+- `src/moduleData.ts`: catálogo dos seis módulos, níveis e novas atividades;
+- `src/QuestionVisual.tsx`: visuais de apoio às questões;
 - `src/App.tsx`: navegação, tentativas, acertos e progresso;
 - `src/style.css`: interface responsiva;
-- `tests/game.test.mjs`: consistência matemática estrutural e respostas alcançáveis;
+- `tests/game.test.mjs` e `tests/modules.test.mjs`: estrutura, respostas alcançáveis e validação das entradas numéricas;
 - `docs/proposta-pedagogica.md`: objetivos e critérios de validação;
 - `docs/diario-de-bordo.md`: histórico do projeto.
 
-Os dados antigos de progresso e tutor não são apagados do navegador, mas a nova interface começa um acompanhamento próprio dos três níveis. Nenhum dado pessoal de estudante é coletado.
+O progresso anterior de Conjuntos é preservado. Os outros módulos têm resultados separados no armazenamento local do dispositivo. Os dados antigos de tutor não são apagados do navegador. Nenhum dado pessoal de estudante é coletado.
 
 ## Colaboração e publicação
 

@@ -1,16 +1,16 @@
-# Proposta pedagógica — Conjuntos em Jogo
+# Proposta pedagógica — Matemática.já
 
 ## Público e função da ferramenta
 
-Estudantes de 10 a 12 anos do ensino fundamental. O professor apresenta e discute o conteúdo em aula. O jogo é um complemento para prática: a criança entra sem cadastro, escolhe o módulo Conjuntos e um nível, e resolve questões curtas. O desafio rápido da entrada é opcional. Não há aula teórica dentro da aplicação.
+Estudantes de 10 a 12 anos do ensino fundamental. O professor apresenta e discute o conteúdo em aula. O jogo é um complemento para prática: a criança entra sem cadastro, escolhe um módulo e um nível, e resolve questões curtas. O desafio rápido da entrada é opcional. Não há aula teórica dentro da aplicação.
 
 ## Objetivo
 
-Reforçar a compreensão de conjuntos por meio de escolhas visuais e problemas progressivos, do agrupamento de objetos às operações com conjuntos. A interface deve permitir que o estudante pratique com autonomia, inclusive no celular.
+Reforçar os conteúdos trabalhados em aula por meio de problemas progressivos e formatos variados de resposta. A interface deve permitir que o estudante pratique com autonomia, inclusive no celular.
 
 ## Organização atual
 
-Cada nível tem duas fases de cinco questões, totalizando 30. Os níveis são livres: a ordem é recomendada, não obrigatória.
+Cada módulo tem três níveis livres, cada um com duas fases. Conjuntos mantém cinco questões por fase; os outros módulos têm três por fase. A ordem é recomendada, não obrigatória.
 
 | Nível | Fase 1 | Fase 2 |
 | --- | --- | --- |
@@ -18,7 +18,17 @@ Cada nível tem duas fases de cinco questões, totalizando 30. Os níveis são l
 | 2 · Avançar | Inclusão | Igualdade |
 | 3 · Desafio | Classificação | União, interseção, diferença e elementos fora do conjunto |
 
-Há questões de uma resposta e de múltiplas respostas. Os exemplos partem de objetos conhecidos e avançam para números e símbolos. O enunciado mostra apenas os dados necessários para resolver; definições e explicações aparecem no feedback, não como leitura obrigatória antes da atividade.
+Os novos módulos seguem esta progressão:
+
+| Módulo | Começar | Avançar | Desafio |
+| --- | --- | --- | --- |
+| Frações | Somar/subtrair com mesmo denominador | Denominadores diferentes | Multiplicar/dividir |
+| Números decimais | Adição/subtração | Multiplicação e fatores 10, 100 e 1.000 | Divisões e divisores 10, 100 e 1.000 |
+| Volume | Volume do cubo | Volume do paralelepípedo retângulo | Comparações e medida desconhecida |
+| Medidas de massa | kg, hg, dag e g | dg, cg e mg | Conversões e situações |
+| Temperatura | Unidades e leituras | Comparações e variações | Negativos e interpretação |
+
+Há questões de uma resposta, de múltiplas respostas e de resposta montada pelo aluno, usando botões ou teclado. Visuais de frações, volume, massa e temperatura acompanham questões em que a representação ajuda. O enunciado mostra apenas os dados necessários para resolver; definições e explicações aparecem no feedback, não como leitura obrigatória antes da atividade.
 
 ## Princípios de interação
 
@@ -27,13 +37,11 @@ Há questões de uma resposta e de múltiplas respostas. Os exemplos partem de o
 - Nova tentativa sem tempo limite, punição ou perda de pontos.
 - Progresso por questão e contagem de acertos de primeira, sem comparação entre estudantes.
 - Botões grandes, estados também descritos por texto/símbolo, uso por toque, mouse e teclado.
-- Nenhum cadastro ou coleta de nome, foto, e-mail ou respostas livres.
+- Nenhum cadastro ou coleta de nome, foto ou e-mail. As respostas não são enviadas nem salvas; somente o melhor resultado fica no dispositivo.
 - Melhor resultado salvo somente no navegador do próprio dispositivo.
 
 O retorno positivo ajuda a manter o engajamento, mas não substitui compreender o motivo da resposta. Por isso, o jogo mantém a explicação visível após o acerto e deixa o aluno decidir quando avançar.
 
 ## Validação pendente
 
-Um professor do ensino fundamental deve revisar as 30 questões, as respostas corretas, a linguagem e a adequação dos três níveis antes de considerar o módulo finalizado. Um teste com estudantes deve observar se conseguem iniciar um nível, entender a instrução, identificar uma seleção, corrigir um erro e acompanhar seu progresso sem mediação constante.
-
-Os futuros módulos/tópicos serão definidos depois com a equipe. Esta versão valida apenas Conjuntos.
+Um professor do ensino fundamental deve revisar as 120 questões, as respostas corretas, a linguagem e a adequação dos níveis antes de considerar os módulos pedagogicamente finalizados. Em especial, a equipe deve conferir quando introduzir frações com denominadores diferentes, multiplicação e divisão de frações, e unidades de temperatura no percurso do 5º ano. Um teste com estudantes deve observar se conseguem escolher um módulo, iniciar um nível, usar o teclado de respostas, corrigir um erro e acompanhar o progresso sem mediação constante.

@@ -2,7 +2,7 @@
 
 ## Objetivo
 
-Este repositório contém um jogo web de prática de matemática para estudantes de 10 a 12 anos. O primeiro módulo é Conjuntos; outros módulos serão definidos com a equipe. Preserve linguagem simples, feedback educativo, acessibilidade e funcionamento em celular. O aluno deve poder entrar, escolher um módulo e nível e jogar sem cadastro ou personagem.
+Este repositório contém um jogo web de prática de matemática para estudantes de 10 a 12 anos. Há seis módulos: Conjuntos, Frações, Números decimais, Volume, Medidas de massa e Temperatura. Preserve linguagem simples, feedback educativo, acessibilidade e funcionamento em celular. O aluno deve poder entrar, escolher um módulo e nível e jogar sem cadastro ou personagem.
 
 ## Fluxo de colaboração
 
@@ -18,12 +18,14 @@ Este repositório contém um jogo web de prática de matemática para estudantes
 
 - React + TypeScript + Vite.
 - Interface e fluxo das tentativas: `src/App.tsx`.
-- Questões, respostas e níveis: `src/gameData.ts`.
+- Questões de Conjuntos: `src/gameData.ts`.
+- Catálogo dos módulos, outras questões, respostas e níveis: `src/moduleData.ts`.
+- Visuais das atividades: `src/QuestionVisual.tsx`.
 - Identidade visual e responsividade: `src/style.css`.
 - Conteúdo pedagógico: `docs/proposta-pedagogica.md`.
 - Registro de atividades: `docs/diario-de-bordo.md`.
 - Publicação: `.github/workflows/deploy.yml`.
-- O melhor resultado dos três níveis é local e usa `localStorage`.
+- O melhor resultado por módulo e nível é local e usa `localStorage`; o progresso antigo de Conjuntos é preservado.
 
 ## Critérios de qualidade
 

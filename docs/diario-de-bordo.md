@@ -146,3 +146,15 @@ Pendente: revisão matemática com professor e teste de usabilidade com alunos d
 - atualização da apresentação do projeto e da imagem de compartilhamento.
 
 Pendente: validar o novo fluxo com estudantes e revisar o conteúdo matemático com um professor.
+
+## 22/09/2026 — Seis módulos jogáveis
+
+- organização da tela mobile em Conjuntos, Números e Medidas, com cinco módulos novos além de Conjuntos;
+- criação de três níveis livres por módulo e 90 atividades novas, chegando a 120 no total;
+- cobertura de operações com frações e decimais, volume, unidades de massa e leitura/interpretação de temperatura;
+- inclusão de resposta por teclado numérico, seleção simples/múltipla e visuais para apoiar a resolução;
+- progresso segmentado por questão, explicação após cada tentativa e melhor resultado independente por módulo e nível;
+- preservação do progresso anterior de Conjuntos e da identidade visual já validada;
+- testes automatizados dos conteúdos e verificação do fluxo em larguras de 320 e 390 px.
+
+Pendente: revisão pedagógica e matemática com professor e teste de usabilidade com crianças.

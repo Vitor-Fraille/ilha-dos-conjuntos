@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="Matemática.já: entre, escolha um módulo e pratique conjuntos">
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="Matemática.já: entre, escolha um módulo e pratique matemática">
   <rect width="1200" height="630" fill="#f7f4eb"/>
   <path d="M0 557h1200" stroke="#bed4c9" stroke-width="3" stroke-dasharray="11 12"/>
   <rect x="64" y="57" width="63" height="63" rx="19" fill="#203438" transform="rotate(-7 95 88)"/>
@@ -14,7 +14,7 @@
     <text x="66" y="430" fill="#53686a" font-size="28">Escolha um módulo, resolva e tente de novo.</text>
     <rect x="65" y="477" width="315" height="62" rx="15" fill="#203438"/>
     <text x="93" y="517" fill="#fffdf7" font-size="25" font-weight="bold">Entrar para jogar  →</text>
-    <text x="66" y="597" fill="#526c6a" font-size="20">Sem cadastro · 3 níveis · 30 questões</text>
+    <text x="66" y="597" fill="#526c6a" font-size="20">Sem cadastro · 6 módulos · 120 questões</text>
   </g>
   <g transform="translate(799 123)">
     <rect x="8" y="10" width="327" height="350" rx="33" fill="#203438"/>
