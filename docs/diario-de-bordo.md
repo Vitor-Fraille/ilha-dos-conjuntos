@@ -124,3 +124,15 @@ Resultado: `npm test` e `npm run build` aprovados. Nenhuma dependência adiciona
 - entrada direta no jogo com o tutor padrão, deixando a personalização como escolha opcional.
 
 Pendente: teste com estudantes de 10 a 12 anos e validação do conteúdo matemático com um professor antes de considerar o módulo finalizado.
+
+## 22/09/2026 — Redirecionamento para prática direta em níveis
+
+- substituição da entrada com tutor por acesso direto à escolha de nível;
+- remoção da oficina de avatar, personagem robótico, falas, dicas teóricas antes da questão e construção visual da ilha;
+- reorganização dos seis conteúdos em três níveis livres, com duas fases e dez questões por nível;
+- reformulação das 30 atividades em escolhas simples ou múltiplas, com feedback explicativo, nova tentativa e avanço manual;
+- nova interface mobile com botões grandes, progresso visível e linguagem curta, inspirada no ritmo dos exemplos enviados sem copiar personagens;
+- armazenamento local do melhor número de acertos de primeira por nível, sem apagar dados antigos do navegador;
+- substituição dos testes do tutor por verificações das questões, alternativas e respostas.
+
+Pendente: revisão matemática com professor e teste de usabilidade com alunos de 10 a 12 anos.

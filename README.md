@@ -1,111 +1,54 @@
-# Ilha dos Conjuntos
+# Conjuntos em Jogo
 
-Jogo web educativo criado como projeto de extensão para apoiar estudantes do 5º ano no aprendizado de conjuntos matemáticos.
+Jogo web de reforço de matemática para estudantes de 10 a 12 anos. O aluno abre a página, escolhe um nível e começa a resolver. Não há cadastro, personagem, tela de teoria, cronômetro ou ranking. As aulas apresentam o conteúdo; o jogo serve para praticar.
 
 ## Versão atual
 
-O módulo **Conjuntos** apresenta seis ilhas jogáveis, com cinco atividades progressivas em cada uma — 30 atividades no total. A página inicial já está organizada para receber outros módulos futuramente, mas nenhum tema novo foi criado nesta versão. A criança pode escolher livremente qualquer ilha no mapa; a ordem numérica serve como sugestão de estudo. A primeira ilha trabalha a formação de conjuntos:
+O módulo **Conjuntos** tem 30 questões, distribuídas em três níveis livres:
 
-- formação de conjuntos por características em comum;
-- identificação de elementos que pertencem a um conjunto;
-- formação do conjunto dos números pares menores que 10.
+| Nível | Fases | Atividades |
+| --- | --- | --- |
+| 1 · Começar | Formar conjuntos; quem pertence? | 10 |
+| 2 · Avançar | Inclusão; igualdade | 10 |
+| 3 · Desafio | Tipos de conjuntos; operações | 10 |
 
-A segunda ilha trabalha a relação de pertinência em três etapas:
+As questões alternam escolha de uma e de várias respostas. A criança recebe feedback explicativo imediatamente, pode alterar a seleção e tentar novamente sem perder pontos. Depois de acertar, ela escolhe quando avançar. A tela mostra o progresso e os acertos de primeira; o melhor resultado de cada nível fica salvo apenas neste navegador.
 
-- organização visual de elementos dentro e fora de um conjunto;
-- associação das ideias de pertencer e não pertencer;
-- leitura dos símbolos `∈` e `∉` em situações concretas.
-
-A terceira ilha trabalha a inclusão entre conjuntos em três etapas:
-
-- identificação visual de conjuntos que cabem por inteiro em um conjunto maior;
-- apresentação simples da ideia de subconjunto;
-- leitura dos símbolos `⊂` e `⊄` depois da compreensão visual.
-
-A criança pode começar imediatamente com o tutor Lumi e, se quiser, criar ou personalizar seu próprio tutor:
-
-- robô vetorial original com rosto expressivo, mãos, calçados, bolsos e ferramentas;
-- nome fictício, 6 cores, 8 chapéus (incluindo ficar sem chapéu) e 5 acessórios;
-- 8 roupas e profissões: explorador, cientista, marinheiro, artista, astronauta, jardineiro, engenheiro e chef;
-- oficina opcional com prévia, sugestões de nomes e combinação aleatória, sem salvar até a confirmação;
-- reações a acertos, erros, movimentos e conquistas;
-- 24 curiosidades de profissões, 8 falas de incentivo e dicas em dois níveis para as 30 missões;
-- acompanhamento visual do progresso das ilhas.
-
-A entrada não solicita e-mail, senha, foto ou nome da criança. O perfil do tutor fica salvo somente no dispositivo.
-
-As falas são previamente escritas, não um chat com inteligência artificial. As profissões não mudam as regras ou a dificuldade das atividades. Perfis antigos são compatíveis com os novos acessórios, sem apagar o progresso.
-
-A quarta ilha ensina igualdade de conjuntos:
-
-- comparação de coleções com os mesmos elementos em ordens diferentes;
-- verificação de elementos que faltam, sobram ou foram trocados;
-- leitura dos símbolos `=` e `≠`.
-
-A quinta ilha apresenta a classificação de conjuntos:
-
-- reconhecimento do conjunto vazio;
-- reconhecimento do conjunto unitário;
-- comparação entre conjuntos finitos e infinitos.
-
-A sexta ilha pratica operações com conjuntos:
-
-- união de elementos sem repetição;
-- interseção dos elementos em comum;
-- diferença entre dois conjuntos.
-
-A experiência foi reorganizada para celular, com enunciado e alternativas em destaque, botões grandes, dica sob pedido e tutor recolhível depois da atividade. Não há cronômetro nem perda de pontos. A correção explica o raciocínio imediatamente; após um erro, a criança pode alterar a escolha e tentar novamente. Após um acerto, ela lê a explicação e decide quando ir à próxima atividade. A tela mostra atividades resolvidas e acertos de primeira; o melhor resultado de primeira por ilha, assim como a conclusão, fica salvo localmente no dispositivo.
-
-Além do mapa de atividades, a criança constrói a **Ilha do Explorador**. Cada ilha concluída colore e acrescenta uma parte ao mundo — terreno, bosque, lagoa, vila, caverna e farol — até a construção ficar completa após a sexta etapa.
-
-## Tecnologias
-
-- React
-- TypeScript
-- Vite
-- CSS responsivo
-- GitHub Actions e GitHub Pages
+A interface foi desenhada primeiro para celular, com cartões grandes, texto curto, foco visível para teclado e estados indicados também por palavras e símbolos, não só por cor. Os outros módulos de matemática serão definidos posteriormente com a equipe.
 
 ## Executar localmente
 
-Requisitos: Node.js 22 ou superior.
+Requisito: Node.js 22 ou superior.
 
 ```bash
 npm install
 npm run dev
 ```
 
-Para validar a versão de produção:
-
-```bash
-npm run build
-```
-
-Para testar perfis antigos, as 1.920 combinações do tutor e a cobertura das dicas:
+Validação:
 
 ```bash
 npm test
+npm run build
 ```
 
-## Organização do tutor e do visual
+## Arquivos principais
 
-- `src/tutorProfile.ts`: opções, profissões, falas e leitura compatível de perfis salvos.
-- `src/TutorAvatar.tsx` e `src/TutorWardrobe.tsx`: personagem, roupas, acessórios e ferramentas em SVG.
-- `src/TutorStudio.tsx`: oficina de personalização.
-- `src/App.tsx`: navegação, integração do tutor e regras das seis ilhas.
-- `src/style.css`: base das atividades e cenários; `src/experience.css`: identidade visual, oficina e tutor; `src/mobile-learning.css`: fluxo de módulos, mapa e atividades mobile-first.
-- `tests/tutor.test.mjs`: testes sem dependências adicionais.
+- `src/gameData.ts`: as 30 questões, explicações e a divisão dos níveis;
+- `src/App.tsx`: navegação, tentativas, acertos e progresso;
+- `src/style.css`: interface responsiva;
+- `tests/game.test.mjs`: consistência matemática estrutural e respostas alcançáveis;
+- `docs/proposta-pedagogica.md`: objetivos e critérios de validação;
+- `docs/diario-de-bordo.md`: histórico do projeto.
 
-## Colaboração
+Os dados antigos de progresso e tutor não são apagados do navegador, mas a nova interface começa um acompanhamento próprio dos três níveis. Nenhum dado pessoal de estudante é coletado.
 
-Antes de desenvolver, atualize a `main` e combine com a equipe qual parte será alterada. Os colaboradores podem enviar commits diretamente para a `main`; branches e pull requests são opcionais para mudanças maiores. Faça commits pequenos e execute `npm run build` antes de enviar.
+## Colaboração e publicação
 
-Consulte [CONTRIBUTING.md](CONTRIBUTING.md), a [proposta pedagógica](docs/proposta-pedagogica.md) e o [guia de colaboração para o Codex](docs/Guia_Colaboracao_Codex_Ilha_dos_Conjuntos.docx).
+Consulte [CONTRIBUTING.md](CONTRIBUTING.md) e [AGENTS.md](AGENTS.md). Antes de editar, atualize a `main`, combine o trecho com a equipe, teste e faça commits pequenos. Pushes na `main` publicam automaticamente no [GitHub Pages](https://vitor-fraille.github.io/ilha-dos-conjuntos/).
 
-## Publicação
-
-O workflow em `.github/workflows/deploy.yml` compila e publica a branch `main` no GitHub Pages. No repositório remoto, selecione **Settings → Pages → Source → GitHub Actions** uma única vez.
+O conteúdo das questões ainda precisa de revisão de um professor do ensino fundamental e de teste com estudantes antes de ser considerado final.
 
 ## Licença
 
-Distribuído sob a licença MIT.
+MIT.

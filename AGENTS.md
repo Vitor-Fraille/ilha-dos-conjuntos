@@ -1,8 +1,8 @@
-# Ilha dos Conjuntos - instruções para agentes
+# Conjuntos em Jogo - instruções para agentes
 
 ## Objetivo
 
-Este repositório contém um jogo web educativo sobre conjuntos matemáticos para estudantes de 10 e 11 anos do 5º ano. Preserve linguagem simples, feedback educativo, acessibilidade e funcionamento em celular.
+Este repositório contém um jogo web de prática de conjuntos matemáticos para estudantes de 10 a 12 anos. Preserve linguagem simples, feedback educativo, acessibilidade e funcionamento em celular. O aluno deve poder abrir, escolher um nível e jogar sem cadastro ou personagem.
 
 ## Fluxo de colaboração
 
@@ -17,22 +17,24 @@ Este repositório contém um jogo web educativo sobre conjuntos matemáticos par
 ## Arquitetura atual
 
 - React + TypeScript + Vite.
-- Interface principal e regras dos desafios: `src/App.tsx`.
+- Interface e fluxo das tentativas: `src/App.tsx`.
+- Questões, respostas e níveis: `src/gameData.ts`.
 - Identidade visual e responsividade: `src/style.css`.
 - Conteúdo pedagógico: `docs/proposta-pedagogica.md`.
 - Registro de atividades: `docs/diario-de-bordo.md`.
 - Publicação: `.github/workflows/deploy.yml`.
-- O progresso das seis ilhas é local e usa `localStorage`.
+- O melhor resultado dos três níveis é local e usa `localStorage`.
 
 ## Critérios de qualidade
 
 - Instruções curtas e adequadas ao 5º ano.
+- Atividades diretas, sem telas de teoria antes de jogar.
 - Feedback deve explicar o raciocínio; nunca apenas informar que está errado.
 - Toda interação deve funcionar com mouse, toque e teclado.
 - Não depender apenas de cor para comunicar estado.
 - Respeitar `prefers-reduced-motion`.
 - Não coletar nome, e-mail, foto ou outro dado pessoal de estudante.
-- Validar conteúdo matemático com um professor antes de marcar uma ilha como concluída.
+- Validar conteúdo matemático com um professor antes de considerar um nível pedagogicamente finalizado.
 
 ## Publicação
 

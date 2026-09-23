@@ -1,91 +1,39 @@
-# Proposta pedagógica
+# Proposta pedagógica — Conjuntos em Jogo
 
-## Público
+## Público e função da ferramenta
 
-Estudantes de 10 e 11 anos, prioritariamente matriculados no 5º ano do ensino fundamental.
+Estudantes de 10 a 12 anos do ensino fundamental. O professor apresenta e discute o conteúdo em aula. O jogo é um complemento para prática: a criança entra, escolhe um nível e resolve questões curtas. Não há aula teórica dentro da aplicação.
 
-## Objetivo geral
+## Objetivo
 
-Reforçar a compreensão de conjuntos por meio de desafios visuais, curtos e progressivos, conectando a notação matemática a situações concretas.
+Reforçar a compreensão de conjuntos por meio de escolhas visuais e problemas progressivos, do agrupamento de objetos às operações com conjuntos. A interface deve permitir que o estudante pratique com autonomia, inclusive no celular.
 
-## Conteúdos planejados
+## Organização atual
 
-1. ideia de conjunto;
-2. representação e descrição;
-3. pertinência entre elemento e conjunto;
-4. inclusão e subconjuntos;
-5. igualdade de conjuntos;
-6. classificação de conjuntos;
-7. união, interseção, diferença e complemento.
+Cada nível tem duas fases de cinco questões, totalizando 30. Os níveis são livres: a ordem é recomendada, não obrigatória.
 
-## Princípios
-
-- partir de imagens e objetos familiares antes da simbologia;
-- apresentar uma instrução por vez;
-- oferecer feedback que explique o raciocínio;
-- permitir novas tentativas sem perda de progresso;
-- evitar pressão de tempo nas atividades introdutórias;
-- usar símbolos somente depois que a ideia visual estiver compreendida;
-- usar um tutor personalizável para oferecer encorajamento e dicas sob pedido, sem responder pelo estudante;
-- manter perfil e progresso apenas no dispositivo, sem solicitar dados pessoais da criança;
-- reforçar o acerto com uma mensagem imediata de competência, sem retirar pontos após erros;
-- variar cenários e contextos sem deixar a decoração competir com a tarefa matemática;
-- aumentar a dificuldade dentro de cada ilha e avançar do concreto para a notação e para problemas com duas regras;
-- representar o avanço em uma construção visual contínua, para que cada conclusão tenha uma consequência clara no mundo do jogo;
-- validar linguagem e exercícios com um professor do ensino fundamental.
-
-## Ilha do Explorador
-
-A conclusão de cada ilha constrói sua parte correspondente de uma grande ilha compartilhada pelas seis áreas do conteúdo. As partes ainda não construídas permanecem visíveis em silhueta e as concluídas recebem cor e um marco próprio. As ilhas podem ser escolhidas livremente; a ordem numérica sugere um percurso, sem impedir que o professor proponha outro.
-
-Essa construção funciona como uma meta de longo prazo, enquanto as estrelas de cada missão oferecem retorno imediato. A recompensa não libera vantagens competitivas, não compara estudantes e não substitui a explicação matemática. Ela torna o domínio acumulado visível.
-
-## Progressão de dificuldade
-
-Cada ilha possui cinco missões. As duas primeiras retomam exemplos concretos; a terceira consolida o conceito; a quarta introduz uma regra menos imediata; e a quinta combina conhecimentos ou exige atenção a exceções. Entre as ilhas, a progressão vai da formação visual de grupos até complemento e operações entre conjuntos.
-
-O reforço positivo foi inspirado no behaviorismo, mas não é usado como única estratégia. As estrelas confirmam o domínio da missão, enquanto as explicações, a liberdade para tentar novamente e a ausência de ranking preservam autonomia e compreensão. Revisões recentes encontram benefícios mais consistentes da gamificação para engajamento e motivação do que para aprendizagem; por isso, o conteúdo matemático e o feedback explicativo continuam sendo o centro da experiência.
-
-Referências de apoio:
-
-- [EEF — Feedback](https://educationendowmentfoundation.org.uk/education-evidence/teaching-learning-toolkit/feedback)
-- [Romero-Rodríguez et al. (2024) — Gamificação no ensino primário](https://doi.org/10.1016/j.ijer.2024.102481)
-- [Ramírez Ruiz et al. (2024) — Gamificação e engajamento escolar](https://doi.org/10.3389/feduc.2024.1466926)
-
-## Estrutura das ilhas
-
-| Ilha | Tema | Interação principal |
+| Nível | Fase 1 | Fase 2 |
 | --- | --- | --- |
-| 1 | Ideia de conjunto | Selecionar e agrupar objetos |
-| 2 | Pertinência | Colocar elementos dentro ou fora |
-| 3 | Inclusão | Organizar conjuntos dentro de outros |
-| 4 | Igualdade | Comparar coleções em ordens diferentes |
-| 5 | Classificação | Identificar vazio, unitário e finito |
-| 6 | Operações | Montar resultados de união, interseção e diferença |
+| 1 · Começar | Formar conjuntos | Quem pertence? |
+| 2 · Avançar | Inclusão | Igualdade |
+| 3 · Desafio | Classificação | União, interseção, diferença e elementos fora do conjunto |
 
-## Estado de implementação
+Há questões de uma resposta e de múltiplas respostas. Os exemplos partem de objetos conhecidos e avançam para números e símbolos. O enunciado mostra apenas os dados necessários para resolver; definições e explicações aparecem no feedback, não como leitura obrigatória antes da atividade.
 
-- Ilha 1: cinco missões sobre formação de conjuntos, encerrando com formas geométricas e múltiplos de 3.
-- Ilha 2: cinco missões que partem da organização visual dentro/fora e avançam para intervalos e múltiplos de 4 com `∈` e `∉`.
-- Ilha 3: cinco missões sobre inclusão, avançando para divisores e múltiplos com `⊂` e `⊄`.
-- Ilha 4: cinco missões sobre igualdade, incluindo ordem, repetição de elementos e conjuntos descritos por regras.
-- Ilha 5: cinco missões sobre vazio, unitário, finito e infinito, encerrando com classificações simultâneas.
-- Ilha 6: cinco missões sobre união, interseção, diferença e complemento, incluindo uma interseção entre tabuadas.
-- Tutor: entrada local sem cadastro, oficina de personalização e dicas contextuais durante as atividades. O personagem oferece oito profissões, com roupas, ferramentas e exemplos simples de agrupamento no cotidiano. As profissões não alteram a dificuldade, não concedem vantagens e não precisam ser desbloqueadas.
-- As falas do tutor são previamente escritas e não coletam respostas livres. “Me anime” incentiva a observação e novas tentativas; “Uma curiosidade” relaciona conjuntos à profissão escolhida. A primeira dica sugere uma estratégia; “Mais ajuda” mostra a explicação já usada pela atividade, que pode revelar a solução, sempre por solicitação do estudante.
-- O tutor ocupa uma área própria, sem cobrir as alternativas. Sua conversa pode ser recolhida, e as animações respeitam a preferência por movimento reduzido.
+## Princípios de interação
 
-O conteúdo matemático e a linguagem das seis ilhas ainda devem ser validados com um professor do ensino fundamental antes de serem considerados finais.
+- Instruções curtas e um objetivo por questão.
+- Resposta imediatamente conferida, com explicação do raciocínio.
+- Nova tentativa sem tempo limite, punição ou perda de pontos.
+- Progresso por questão e contagem de acertos de primeira, sem comparação entre estudantes.
+- Botões grandes, estados também descritos por texto/símbolo, uso por toque, mouse e teclado.
+- Nenhum cadastro ou coleta de nome, foto, e-mail ou respostas livres.
+- Melhor resultado salvo somente no navegador do próprio dispositivo.
 
-## Interface para validação com os estudantes
+O retorno positivo ajuda a manter o engajamento, mas não substitui compreender o motivo da resposta. Por isso, o jogo mantém a explicação visível após o acerto e deixa o aluno decidir quando avançar.
 
-- A entrada separa módulos/tópicos. Apenas **Conjuntos** está ativo nesta etapa; outros módulos aguardam a relação de conteúdos.
-- O mapa coloca as seis ilhas como escolhas grandes e tocáveis, com título, objetivo e indicação de conclusão.
-- Durante a atividade, o enunciado, a regra e as alternativas têm prioridade visual. A dica fica junto da questão; o tutor permanece disponível abaixo, sem cobrir respostas.
-- A correção imediata mantém a explicação visível. Um erro permite nova tentativa; um acerto exige que a criança escolha avançar depois de ler.
-- O jogo mostra acertos de primeira na sessão e conserva o melhor resultado de cada ilha neste dispositivo. Não há comparação entre crianças.
-- A validação deve observar se os alunos conseguem localizar uma ilha, entender a instrução, corrigir uma resposta e reconhecer o que aprenderam sem ajuda de um adulto.
+## Validação pendente
 
-## Avaliação
+Um professor do ensino fundamental deve revisar as 30 questões, as respostas corretas, a linguagem e a adequação dos três níveis antes de considerar o módulo finalizado. Um teste com estudantes deve observar se conseguem iniciar um nível, entender a instrução, identificar uma seleção, corrigir um erro e acompanhar seu progresso sem mediação constante.
 
-O projeto observará conclusão das atividades, quantidade de tentativas e tipos de dica utilizados. Na primeira etapa, essas informações permanecem apenas no dispositivo, sem cadastro de estudantes.
+Os futuros módulos/tópicos serão definidos depois com a equipe. Esta versão valida apenas Conjuntos.
