@@ -1,10 +1,10 @@
-# Matemática.já
+# Reforço Matemático · UNEMAT
 
-Jogo web de reforço de matemática para estudantes de 10 a 12 anos. O aluno entra sem cadastro, escolhe um módulo e um nível e começa a resolver. A entrada tem um desafio rápido opcional. Não há personagem, tela de teoria, cronômetro ou ranking. As aulas apresentam o conteúdo; o jogo serve para praticar.
+Jogo web de reforço de matemática para estudantes de 10 a 12 anos. O aluno entra sem cadastro, escolhe um módulo e um nível e começa a resolver. A entrada apresenta a iniciativa UNEMAT e o botão Iniciar. Não há personagem, tela de teoria, cronômetro ou ranking. As aulas apresentam o conteúdo; o jogo serve para praticar.
 
 ## Módulos e níveis
 
-O jogo tem seis módulos com três níveis livres cada, totalizando 120 questões. Conjuntos mantém as 30 atividades originais; os cinco módulos novos têm 18 atividades cada.
+O jogo tem oito módulos com três atividades livres cada, totalizando 156 questões. Conjuntos mantém as 30 questões originais; os sete temas do bimestre têm 18 questões cada.
 
 | Módulo | Nível 1 | Nível 2 | Nível 3 |
 | --- | --- | --- | --- |
@@ -14,10 +14,12 @@ O jogo tem seis módulos com três níveis livres cada, totalizando 120 questõe
 | Volume | Cubos | Paralelepípedos retângulos | Comparação e medidas faltantes |
 | Medidas de massa | kg, hg, dag e g | dg, cg e mg | Comparação e problemas |
 | Temperatura | Unidades e leitura | Comparações e variações | Temperaturas negativas e situações |
+| Tabelas e gráficos | Tabelas e barras | Linhas e setores | Pictogramas e interpretação |
+| Fluxogramas | Setas e sequências | Decisões sim/não | Construção e teste |
 
-As atividades alternam escolha de uma ou várias respostas e montagem da resposta por teclado numérico. Barras de fração, caixas, comparações de massas e termômetros ajudam a interpretar algumas questões. A criança recebe feedback explicativo imediatamente, pode alterar a seleção e tentar novamente sem perder pontos. Depois de acertar, ela escolhe quando avançar. A tela mostra o progresso por questão e os acertos de primeira; o melhor resultado de cada nível fica salvo apenas neste navegador.
+As atividades alternam escolha de uma ou várias respostas, resposta por teclado numérico e construção de fluxogramas por seleção ordenada de blocos. Barras de fração, caixas, comparações de massas e termômetros ajudam a interpretar algumas questões. A criança recebe feedback explicativo imediatamente, pode alterar a seleção e tentar novamente sem perder pontos. Depois de acertar, ela escolhe quando avançar. A tela mostra o progresso por questão e os acertos de primeira; o melhor resultado de cada nível fica salvo apenas neste navegador.
 
-A interface foi desenhada primeiro para celular. Os módulos são agrupados em Números e Medidas, com Conjuntos em destaque e filtros para encontrar o assunto rapidamente. Cada questão ocupa sua própria etapa, com uma barra de progresso segmentada, botões grandes, texto curto, foco visível para teclado e estados indicados também por palavras e símbolos, não só por cor. Não há vidas, punição por erro ou bloqueio de níveis.
+A interface foi desenhada primeiro para celular. O fluxo é Página inicial → Escolha da atividade → Prática. Cada tema mostra suas três atividades no próprio catálogo, sem uma tela intermediária de níveis. Cada questão ocupa sua própria etapa, com uma barra de progresso segmentada, botões grandes, texto curto, foco visível para teclado e estados indicados também por palavras e símbolos, não só por cor. Não há vidas, punição por erro ou bloqueio de níveis.
 
 ## Executar localmente
 
@@ -38,7 +40,8 @@ npm run build
 ## Arquivos principais
 
 - `src/gameData.ts`: as 30 questões de Conjuntos;
-- `src/moduleData.ts`: catálogo dos seis módulos, níveis e novas atividades;
+- `src/moduleData.ts`: catálogo dos oito módulos, níveis e atividades;
+- `src/dataAndFlowActivities.ts`: questões de tabelas, gráficos e fluxogramas;
 - `src/QuestionVisual.tsx`: visuais de apoio às questões;
 - `src/App.tsx`: navegação, tentativas, acertos e progresso;
 - `src/style.css`: interface responsiva;
@@ -57,3 +60,5 @@ O conteúdo das questões ainda precisa de revisão de um professor do ensino fu
 ## Licença
 
 MIT.
+
+A cobertura de cada item do bimestre está registrada em [docs/cobertura-bimestre.md](docs/cobertura-bimestre.md).

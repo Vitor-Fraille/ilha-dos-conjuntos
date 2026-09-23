@@ -12,11 +12,12 @@ function dataUrl(code) {
   return 'data:text/javascript;base64,' + Buffer.from(code).toString('base64')
 }
 const gameUrl = dataUrl(transpile('../src/gameData.ts'))
-const moduleCode = transpile('../src/moduleData.ts').replace(/from ['"]\.\/gameData['"]/, 'from "' + gameUrl + '"')
+const extraUrl = dataUrl(transpile('../src/dataAndFlowActivities.ts'))
+const moduleCode = transpile('../src/moduleData.ts').replace(/from ['"]\.\/gameData['"]/, 'from "' + gameUrl + '"').replace(/from ['"]\.\/dataAndFlowActivities['"]/, 'from "' + extraUrl + '"')
 const { modules, activitiesForLevel, isActivityCorrect } = await import(dataUrl(moduleCode))
 
-test('all six modules have three playable levels and unique activities', () => {
-  assert.deepEqual(modules.map(item => item.id), ['conjuntos', 'fracoes', 'decimais', 'volume', 'massa', 'temperatura'])
+test('all eight modules have three playable levels and unique activities', () => {
+  assert.deepEqual(modules.map(item => item.id), ['conjuntos', 'fracoes', 'decimais', 'volume', 'massa', 'temperatura', 'graficos', 'fluxogramas'])
   const ids = new Set()
   for (const module of modules) {
     assert.equal(module.levels.length, 3, module.id)
@@ -32,7 +33,7 @@ test('all six modules have three playable levels and unique activities', () => {
       }
     }
   }
-  assert.equal(ids.size, 120)
+  assert.equal(ids.size, 156)
 })
 
 test('every activity has a valid answer, explanation and retry path', () => {
@@ -80,5 +81,50 @@ test('single-choice fraction distractors are not equivalent to the right answer'
       const value = parse(option.label)
       if (value !== null) assert.notEqual(value, correct, activity.id)
     }
+  }
+})
+
+
+test('flow construction requires all blocks in the exact order', () => {
+  const activities = modules.find(item => item.id === 'fluxogramas').activities.filter(item => item.ordered)
+  assert.equal(activities.length, 6)
+  for (const activity of activities) {
+    assert.equal(activity.answer.length, activity.options.length)
+    assert.equal(new Set(activity.answer).size, activity.options.length)
+    assert.ok(!isActivityCorrect(activity, [...activity.answer].reverse()), activity.id)
+    assert.ok(!isActivityCorrect(activity, activity.answer.slice(1)), activity.id)
+    assert.ok(!isActivityCorrect(activity, [...activity.answer, activity.answer[0]]), activity.id)
+    const labels = activity.answer.map(id => activity.options.find(option => option.id === id).label)
+    assert.equal(labels[0], 'Início')
+    assert.equal(labels.at(-1), 'Fim')
+  }
+})
+
+test('all requested data representations have coherent values and answers', () => {
+  const activities = modules.find(item => item.id === 'graficos').activities
+  assert.deepEqual([...new Set(activities.map(item => item.visual.chart))].sort(), ['bar', 'line', 'pictogram', 'pie', 'table'])
+  for (const activity of activities) {
+    const visual = activity.visual
+    assert.ok(visual.rows.length >= 3)
+    assert.ok(visual.rows.every(row => row.value >= 0 && row.label))
+    if (visual.chart === 'pictogram') assert.ok(visual.rows.every(row => row.value % visual.perSymbol === 0))
+    if (visual.chart === 'pie') assert.equal(visual.rows.reduce((sum, row) => sum + row.value, 0), 20)
+  }
+  const correct = id => { const q = activities.find(item => item.id === id); return q.options.find(item => item.id === q.answer[0]).label }
+  const table = activities.find(item => item.id === 'g3').visual.rows
+  assert.equal(Number(correct('g3')), table.reduce((sum, row) => sum + row.value, 0))
+  const bars = activities.find(item => item.id === 'g6').visual.rows
+  assert.equal(Number(correct('g6')), bars.reduce((sum, row) => sum + row.value, 0))
+  const pictogram = activities.find(item => item.id === 'g15').visual.rows
+  assert.equal(Number(correct('g15')), pictogram.reduce((sum, row) => sum + row.value, 0))
+  assert.equal(correct('g11'), '1/4')
+  assert.equal(correct('g9'), '4 °C')
+})
+
+test('decision boundary includes equality on the no branch', () => {
+  const questions = modules.find(item => item.id === 'fluxogramas').activities
+  for (const [id, expected] of [['fl10', '13'], ['fl11', '12'], ['fl16', '10']]) {
+    const q = questions.find(item => item.id === id)
+    assert.equal(q.options.find(option => option.id === q.answer[0]).label, expected)
   }
 })

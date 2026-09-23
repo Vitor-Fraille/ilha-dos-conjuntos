@@ -158,3 +158,29 @@ Pendente: validar o novo fluxo com estudantes e revisar o conteúdo matemático 
 - testes automatizados dos conteúdos e verificação do fluxo em larguras de 320 e 390 px.
 
 Pendente: revisão pedagógica e matemática com professor e teste de usabilidade com crianças.
+
+## 23/09/2026 — Apresentação da iniciativa UNEMAT
+
+- atualização da página inicial com o título Reforço Matemático e a identificação da Universidade do Estado de Mato Grosso (UNEMAT);
+- botão Iniciar com acesso à seleção dos módulos e identificação da iniciativa no rodapé;
+- preservação do desafio opcional, das atividades e do progresso local.
+
+## 23/09/2026 — Identidade visual UNEMAT
+
+- aplicação dos logotipos oficiais colorido e branco fornecidos pela equipe no cabeçalho e rodapé, preservando proporções e desenho;
+- tema das telas com azul, verde e amarelo extraídos do logotipo e fundos claros para leitura;
+- tipografia da interface em Segoe UI/Arial, sem dependência externa: o pacote contém referência a Aller Italic no catálogo, mas não fornece uma fonte web licenciada;
+- título da página e metadados atualizados para Reforço Matemático · UNEMAT;
+- compilação e seis testes automatizados aprovados; conferência visual da entrada e navegação no navegador.
+
+## 23/09/2026 — Cobertura do bimestre e fluxo simplificado
+
+- conferência dos conteúdos existentes de frações, decimais, volume, massa e temperatura;
+- inclusão de 18 questões de tabelas/gráficos e 18 de fluxogramas, totalizando 156 questões em oito módulos;
+- visuais de tabela, barras, linhas, setores e pictogramas, com unidades e alternativas textuais;
+- fluxogramas de leitura, decisões sim/não e montagem por blocos com validação da ordem, nova tentativa e feedback explicativo;
+- página inicial sem atividade extra; catálogo com acesso direto às atividades de cada tema, eliminando a tela intermediária de níveis;
+- preservação da identidade UNEMAT e das chaves de melhores resultados locais;
+- nove testes automatizados aprovados e compilação validada; conferência de gráficos, navegação e erro/nova tentativa na montagem em 320 px.
+
+Pendente: revisão docente do conteúdo e teste com alunos antes da validação pedagógica final.

@@ -1,12 +1,15 @@
 import { isCorrect, levels as setLevels, questions as setQuestions, type LevelId, type Option } from './gameData'
+import { dataActivities, dataLevels, flowActivities, flowLevels } from './dataAndFlowActivities'
 
-export type ModuleId = 'conjuntos' | 'fracoes' | 'decimais' | 'volume' | 'massa' | 'temperatura'
+export type ModuleId = 'conjuntos' | 'fracoes' | 'decimais' | 'volume' | 'massa' | 'temperatura' | 'graficos' | 'fluxogramas'
 export type Visual =
   | { kind: 'fraction'; parts: number; filled: number; label: string }
   | { kind: 'decimal'; value: string }
   | { kind: 'box'; width: number; depth: number; height: number; unit: string }
   | { kind: 'mass'; left: string; right: string }
   | { kind: 'thermometer'; value: number }
+  | { kind: 'data'; chart: 'table' | 'bar' | 'line' | 'pie' | 'pictogram'; title: string; unit: string; rows: { label: string; value: number }[]; perSymbol?: number }
+  | { kind: 'flow'; steps: string[]; decision?: string; yes?: string; no?: string }
 
 export type Activity = {
   id: string
@@ -17,6 +20,7 @@ export type Activity = {
   options: Option[]
   answer: string[]
   many: boolean
+  ordered?: boolean
   explanation: string
   input?: 'number' | 'fraction'
   unit?: string
@@ -28,7 +32,7 @@ export type LearningModule = {
   title: string
   summary: string
   symbol: string
-  category: 'Comece aqui' | 'Números' | 'Medidas'
+  category: 'Comece aqui' | 'Números' | 'Medidas' | 'Dados e caminhos'
   levels: ModuleLevel[]
   activities: Activity[]
 }
@@ -183,6 +187,8 @@ export const modules: LearningModule[] = [
   { id: 'volume', title: 'Volume', summary: 'Descubra o espaço dentro de caixas.', symbol: '▣', category: 'Medidas', levels: volumeLevels, activities: volumeActivities },
   { id: 'massa', title: 'Medidas de massa', summary: 'Compare e transforme massas.', symbol: 'kg', category: 'Medidas', levels: massLevels, activities: massActivities },
   { id: 'temperatura', title: 'Temperatura', summary: 'Leia termômetros e compare graus.', symbol: '°C', category: 'Medidas', levels: temperatureLevels, activities: temperatureActivities },
+  { id: 'graficos', title: 'Tabelas e gráficos', summary: 'Leia dados, compare e descubra respostas.', symbol: '▥', category: 'Dados e caminhos', levels: dataLevels, activities: dataActivities },
+  { id: 'fluxogramas', title: 'Fluxogramas', summary: 'Siga setas e monte caminhos passo a passo.', symbol: '↓', category: 'Dados e caminhos', levels: flowLevels, activities: flowActivities },
 ]
 
 export function activitiesForLevel(moduleId: ModuleId, levelId: LevelId): Activity[] {
@@ -203,6 +209,7 @@ function fractionValue(value: string): number | null {
   return Number(match[1]) / Number(match[2])
 }
 export function isActivityCorrect(activity: Activity, selected: string[]): boolean {
+  if (activity.ordered) return selected.length === activity.answer.length && selected.every((id, index) => id === activity.answer[index])
   if (activity.input) {
     const parse = activity.input === 'fraction' ? fractionValue : numericValue
     const actual = parse(selected[0] ?? '')

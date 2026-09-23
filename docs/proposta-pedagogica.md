@@ -2,7 +2,7 @@
 
 ## Público e função da ferramenta
 
-Estudantes de 10 a 12 anos do ensino fundamental. O professor apresenta e discute o conteúdo em aula. O jogo é um complemento para prática: a criança entra sem cadastro, escolhe um módulo e um nível, e resolve questões curtas. O desafio rápido da entrada é opcional. Não há aula teórica dentro da aplicação.
+Estudantes de 10 a 12 anos do ensino fundamental. O professor apresenta e discute o conteúdo em aula. O jogo é um complemento para prática: a criança entra sem cadastro, escolhe um módulo e um nível, e resolve questões curtas. A entrada apresenta a iniciativa; a escolha do tema e da atividade acontece em uma única página. Não há aula teórica dentro da aplicação.
 
 ## Objetivo
 
@@ -27,6 +27,8 @@ Os novos módulos seguem esta progressão:
 | Volume | Volume do cubo | Volume do paralelepípedo retângulo | Comparações e medida desconhecida |
 | Medidas de massa | kg, hg, dag e g | dg, cg e mg | Conversões e situações |
 | Temperatura | Unidades e leituras | Comparações e variações | Negativos e interpretação |
+| Tabelas e gráficos | Tabelas e barras | Linhas e setores | Pictogramas e interpretação |
+| Fluxogramas | Sequências | Decisões sim/não | Montagem e teste |
 
 Há questões de uma resposta, de múltiplas respostas e de resposta montada pelo aluno, usando botões ou teclado. Visuais de frações, volume, massa e temperatura acompanham questões em que a representação ajuda. O enunciado mostra apenas os dados necessários para resolver; definições e explicações aparecem no feedback, não como leitura obrigatória antes da atividade.
 
@@ -44,4 +46,6 @@ O retorno positivo ajuda a manter o engajamento, mas não substitui compreender 
 
 ## Validação pendente
 
-Um professor do ensino fundamental deve revisar as 120 questões, as respostas corretas, a linguagem e a adequação dos níveis antes de considerar os módulos pedagogicamente finalizados. Em especial, a equipe deve conferir quando introduzir frações com denominadores diferentes, multiplicação e divisão de frações, e unidades de temperatura no percurso do 5º ano. Um teste com estudantes deve observar se conseguem escolher um módulo, iniciar um nível, usar o teclado de respostas, corrigir um erro e acompanhar o progresso sem mediação constante.
+Um professor do ensino fundamental deve revisar as 156 questões, as respostas corretas, a linguagem e a adequação dos níveis antes de considerar os módulos pedagogicamente finalizados. Em especial, a equipe deve conferir quando introduzir frações com denominadores diferentes, multiplicação e divisão de frações, e unidades de temperatura no percurso do 5º ano. Um teste com estudantes deve observar se conseguem escolher um módulo, iniciar um nível, usar o teclado de respostas, corrigir um erro e acompanhar o progresso sem mediação constante.
+
+Nos fluxogramas, o aluno seleciona os blocos na ordem desejada, vê o caminho com setas, pode retirar blocos ou recomeçar e confere a sequência. Gráficos apresentam títulos, unidades, legendas e alternativas textuais acessíveis. Os setores são identificados também por números. As novas atividades precisam de revisão docente, incluindo a adequação dos distratores e dos visuais.

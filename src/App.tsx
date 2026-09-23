@@ -1,9 +1,9 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { LevelId } from './gameData'
 import { activitiesForLevel, isActivityCorrect, modules, type ModuleId } from './moduleData'
 import QuestionVisual from './QuestionVisual'
 
-type Screen = 'entry' | 'modules' | 'levels' | 'play' | 'result'
+type Screen = 'entry' | 'modules' | 'play' | 'result'
 type Feedback = { correct: boolean; text: string }
 const SCORE_KEY = 'conjuntos-em-jogo-level-scores-v1'
 const MODULE_SCORE_KEY = 'matematica-ja-module-scores-v1'
@@ -33,8 +33,6 @@ function loadScores(): Scores {
 
 function App() {
   const [screen, setScreen] = useState<Screen>('entry')
-  const [warmupChoice, setWarmupChoice] = useState<string | null>(null)
-  const [moduleFilter, setModuleFilter] = useState<'Todos' | 'Números' | 'Medidas'>('Todos')
   const [moduleId, setModuleId] = useState<ModuleId>('conjuntos')
   const [levelId, setLevelId] = useState<LevelId>(1)
   const [questionIndex, setQuestionIndex] = useState(0)
@@ -51,13 +49,15 @@ function App() {
   const question = levelQuestions[questionIndex]
   const phase = question.phase
   const moduleScores = scores[moduleId]
-  const finishedLevels = moduleScores.filter(score => score !== null).length
+  const headingRef = useRef<HTMLHeadingElement>(null)
+  useEffect(() => { headingRef.current?.focus() }, [screen, questionIndex])
 
   function scrollToTop() {
     window.requestAnimationFrame(() => window.scrollTo({ top: 0, behavior: 'auto' }))
   }
 
-  function startLevel(id: LevelId) {
+  function startLevel(id: LevelId, nextModule: ModuleId = moduleId) {
+    setModuleId(nextModule)
     setLevelId(id)
     setQuestionIndex(0)
     setSelected([])
@@ -69,18 +69,6 @@ function App() {
     scrollToTop()
   }
 
-  function chooseModule(id: ModuleId) {
-    setModuleId(id)
-    setLevelId(1)
-    setQuestionIndex(0)
-    setSelected([])
-    setFeedback(null)
-    setHadWrongAttempt(false)
-    setFirstTryCorrect(0)
-    setSolved(0)
-    navigate('levels')
-  }
-
   function navigate(to: Screen) {
     setScreen(to)
     scrollToTop()
@@ -88,7 +76,7 @@ function App() {
 
   function choose(id: string) {
     if (feedback?.correct) return
-    setSelected(current => question.many
+    setSelected(current => question.many || question.ordered
       ? current.includes(id) ? current.filter(value => value !== id) : [...current, id]
       : [id])
     setFeedback(null)
@@ -139,95 +127,66 @@ function App() {
 
   return <div className={`game-shell screen-${screen} level-theme-${levelId}`}>
     <header className="game-header">
-      <button className="game-brand" onClick={() => navigate('entry')} aria-label="Voltar ao início"><span className="brand-symbol" aria-hidden="true"><i /><i /><i /><i /></span><span>matemática<span className="brand-dot">.</span>já</span></button>
+      <button className="game-brand" onClick={() => navigate('entry')} aria-label="UNEMAT — voltar ao início"><img className="institution-logo" src={`${import.meta.env.BASE_URL}brand/unemat-colorido.png`} alt="UNEMAT — Universidade do Estado de Mato Grosso" width="1200" height="464" /></button>
       {screen === 'entry' && <span className="header-progress">prática sem cadastro</span>}
-      {screen === 'levels' && <span className="header-progress">{finishedLevels}/3 níveis feitos</span>}
       {screen === 'play' && <span className="header-progress">✓ {solved} {solved === 1 ? 'acerto' : 'acertos'}</span>}
     </header>
 
     {screen === 'entry' && <main className="entry-screen">
       <section className="entry-hero">
         <div className="entry-copy">
-          <span className="eyebrow">SEU ESPAÇO DE PRÁTICA</span>
-          <h1>Matemática fica melhor <em>jogando.</em></h1>
-          <p>Escolha um módulo, resolva desafios curtos e descubra o quanto você já sabe.</p>
-          <button className="action-button entry-action" onClick={() => navigate('modules')}>Entrar para jogar <span aria-hidden="true">→</span></button>
+          <span className="eyebrow">UMA INICIATIVA UNEMAT</span>
+          <h1 ref={headingRef} tabIndex={-1}>Reforço <em>Matemático</em></h1>
+          <p className="entry-institution">Universidade do Estado de Mato Grosso</p>
+          <p>Escolha uma atividade e pratique no seu ritmo.</p>
+          <button className="action-button entry-action" onClick={() => navigate('modules')}>Iniciar <span aria-hidden="true">→</span></button>
           <span className="entry-assurance">Sem conta, sem senha e sem pressa.</span>
         </div>
-        <div className="entry-play" aria-label="Desafio rápido opcional">
-          <span className="play-sticker">TOQUE E TESTE</span>
-          <div className="pattern-shapes" aria-hidden="true"><span>2</span><span>4</span><span>6</span><span>?</span></div>
-          <strong>Que número vem depois?</strong>
-          <div className="warmup-options">
-            {['7', '8', '9'].map(value => <button key={value} className={warmupChoice === value ? 'chosen' : ''} aria-pressed={warmupChoice === value} onClick={() => setWarmupChoice(value)}>{value}</button>)}
-          </div>
-          <p className={`warmup-feedback ${warmupChoice === '8' ? 'warmup-correct' : ''}`} role="status" aria-live="polite">{warmupChoice === null ? 'Pode brincar aqui ou entrar direto.' : warmupChoice === '8' ? 'Boa! A sequência aumenta de 2 em 2.' : 'Quase! Conte de 2 em 2 e tente outra opção.'}</p>
-        </div>
       </section>
-      <div className="entry-steps" aria-label="Como funciona"><span><b>01</b> Escolha um módulo</span><span><b>02</b> Resolva questões</span><span><b>03</b> Veja seu avanço</span></div>
+      <div className="entry-steps" aria-label="Como funciona"><span><b>01</b> Escolha uma atividade</span><span><b>02</b> Resolva questões</span><span><b>03</b> Veja seu avanço</span></div>
     </main>}
 
     {screen === 'modules' && <main className="modules-screen">
-      <div className="section-heading"><button className="text-back" onClick={() => navigate('entry')}>← Voltar</button><span className="eyebrow">ESCOLHA O QUE PRATICAR</span><h1>Seus módulos</h1><p>Escolha um assunto. Todos têm três níveis para jogar no seu ritmo.</p></div>
-      <div className="module-filters" role="group" aria-label="Filtrar módulos">{(['Todos', 'Números', 'Medidas'] as const).map(filter => <button key={filter} aria-pressed={moduleFilter === filter} className={moduleFilter === filter ? 'active' : ''} onClick={() => setModuleFilter(filter)}>{filter}</button>)}</div>
-      <div className={`modules-grid ${moduleFilter !== 'Todos' ? 'modules-grid-filtered' : ''}`}>
-        {moduleFilter === 'Todos' && <button className="module-card" onClick={() => chooseModule('conjuntos')}>
-          <span className="module-illustration" aria-hidden="true"><span className="set-orbit set-orbit-one">A</span><span className="set-orbit set-orbit-two">B</span><span className="set-dot set-dot-one"/><span className="set-dot set-dot-two"/><span className="set-dot set-dot-three"/></span>
-          <span className="module-copy"><small>COMECE AQUI</small><strong>Conjuntos</strong><span>Encontre, compare e combine grupos.</span><em>30 questões · {scores.conjuntos.filter(score => score !== null).length}/3 níveis feitos</em></span>
-          <span className="module-link">Escolher módulo <b aria-hidden="true">↗</b></span>
-        </button>}
-        {(['Números', 'Medidas'] as const).filter(category => moduleFilter === 'Todos' || moduleFilter === category).map(category => <section className="module-group" key={category} aria-labelledby={'group-' + category}>
-          <h2 id={'group-' + category}>{category}</h2>
-          <div className="module-group-list">
-            {modules.filter(item => item.category === category).map(item => <button key={item.id} className={'module-tile module-tile-' + item.id} onClick={() => chooseModule(item.id)}>
-              <span className="module-tile-icon" aria-hidden="true">{item.symbol}</span>
-              <span className="module-tile-copy"><strong>{item.title}</strong><small>{item.summary}</small><em>{scores[item.id].filter(score => score !== null).length}/3 níveis feitos</em></span>
-              <span className="module-tile-arrow" aria-hidden="true">→</span>
-            </button>)}
-          </div>
+      <div className="section-heading"><button className="text-back" onClick={() => navigate('entry')}>← Início</button><h1 ref={headingRef} tabIndex={-1}>Escolha uma atividade</h1><p>Escolha um tema e toque no que quer praticar.</p></div>
+      <div className="activity-catalog">
+        {[...modules.filter(item => item.id !== 'conjuntos'), ...modules.filter(item => item.id === 'conjuntos')].map(item => <section className="activity-topic" key={item.id} aria-labelledby={`topic-${item.id}`}>
+          <h2 id={`topic-${item.id}`}><span aria-hidden="true">{item.symbol}</span>{item.title}</h2>
+          <p>{item.summary}</p>
+          <div className="activity-choices">{item.levels.map(entry => <button key={entry.id} onClick={() => startLevel(entry.id, item.id)}>
+            <span><strong>{entry.subtitle}</strong><small>{activitiesForLevel(item.id, entry.id).length} questões{scores[item.id][entry.id - 1] !== null ? ` · Melhor: ${scores[item.id][entry.id - 1]}/${activitiesForLevel(item.id, entry.id).length}` : ''}</small></span><b aria-hidden="true">→</b>
+          </button>)}</div>
         </section>)}
       </div>
     </main>}
 
-    {screen === 'levels' && <main className="home-screen">
-      <button className="text-back" onClick={() => navigate('modules')}>← Módulos</button>
-      <div className="home-intro">
-        <span className="eyebrow">MÓDULO · {module.title.toUpperCase()}</span>
-        <h1>{module.title}: escolha seu nível.</h1>
-        <p>Comece onde quiser. Você pode tentar cada questão de novo.</p>
-      </div>
-      <div className="level-list" aria-label="Níveis disponíveis">
-        {module.levels.map((entry, index) => <button key={entry.id} className={`level-card level-card-${entry.id}`} onClick={() => startLevel(entry.id)}>
-          <span className="level-art" aria-hidden="true">{entry.symbol}</span>
-          <span className="level-copy"><small>NÍVEL {entry.id} · {index === 0 ? 'FÁCIL' : index === 1 ? 'MÉDIO' : 'DESAFIO'}</small><strong>{entry.name}</strong><span>{entry.subtitle}</span><em>{entry.topics.join(' + ')}</em></span>
-          <span className="level-meta"><span>{moduleScores[index] === null ? `${activitiesForLevel(moduleId, entry.id).length} questões` : `Melhor: ${moduleScores[index]}/${activitiesForLevel(moduleId, entry.id).length}`}</span><b>{moduleScores[index] === null ? 'Jogar →' : 'Jogar de novo →'}</b></span>
-        </button>)}
-      </div>
-      <p className="home-note">Sem tempo e sem ranking. O importante é praticar.</p>
-    </main>}
-
     {screen === 'play' && <main className="play-screen">
-      <div className="play-topline"><button className="back-button" onClick={() => navigate('levels')} aria-label="Voltar aos níveis">←</button><div><small>{module.title.toUpperCase()} · NÍVEL {levelId}</small><strong>Questão {questionIndex + 1} de {levelQuestions.length}</strong></div><span className="question-count">{questionIndex + 1}/{levelQuestions.length}</span></div>
+      <div className="play-topline"><button className="back-button" onClick={() => navigate('modules')} aria-label="Voltar às atividades">←</button><div><small>{module.title.toUpperCase()} · NÍVEL {levelId}</small><strong>Questão {questionIndex + 1} de {levelQuestions.length}</strong></div><span className="question-count">{questionIndex + 1}/{levelQuestions.length}</span></div>
       <div className="progress-track" role="progressbar" aria-label="Questões resolvidas" aria-valuemin={0} aria-valuemax={levelQuestions.length} aria-valuenow={solved}>{levelQuestions.map((item, index) => <span key={item.id} className={index < solved ? 'done' : index === questionIndex ? 'current' : ''} />)}</div>
       <div className="phase-label"><span>FASE {phase} DE 2</span><strong>{level.topics[phase - 1]}</strong></div>
       <section className="question-panel" aria-labelledby="question-title">
-        <span className="question-kind">{question.input === 'fraction' ? 'ESCREVA UMA FRAÇÃO' : question.input ? 'MONTE SUA RESPOSTA' : question.many ? 'ESCOLHA TODAS AS RESPOSTAS' : 'ESCOLHA UMA RESPOSTA'}</span>
-        <h1 id="question-title">{question.prompt}</h1>
+        <span className="question-kind">{question.ordered ? 'MONTE O CAMINHO' : question.input === 'fraction' ? 'ESCREVA UMA FRAÇÃO' : question.input ? 'MONTE SUA RESPOSTA' : question.many ? 'ESCOLHA TODAS AS RESPOSTAS' : 'ESCOLHA UMA RESPOSTA'}</span>
+        <h1 id="question-title" ref={headingRef} tabIndex={-1}>{question.prompt}</h1>
         {question.visual && <QuestionVisual visual={question.visual} />}
         {question.context && <div className="question-context">{question.context}</div>}
+        {question.ordered && <div className="order-builder">
+          <p>Toque nos blocos na ordem certa. Para retirar um bloco, toque nele novamente.</p>
+          <ol aria-label="Seu fluxograma" aria-live="polite">{selected.map((id, index) => <li key={id}><span>{index + 1}. {question.options.find(option => option.id === id)?.label}</span>{index < selected.length - 1 && <b aria-hidden="true">↓</b>}</li>)}</ol>
+          {selected.length === 0 && <p className="order-empty">Seu caminho aparece aqui.</p>}
+          <button className="text-back" disabled={selected.length === 0 || feedback?.correct} onClick={() => { setSelected([]); setFeedback(null) }}>Recomeçar montagem</button>
+        </div>}
         {question.input ? <div className="number-activity">
           <label htmlFor="number-answer">{question.input === 'fraction' ? 'Sua fração' : 'Sua resposta'}</label>
           <div className="number-answer-wrap"><input id="number-answer" type="text" inputMode={question.input === 'fraction' ? 'text' : 'decimal'} autoComplete="off" value={selected[0] ?? ''} onChange={event => setInput(event.target.value)} disabled={feedback?.correct} placeholder={question.input === 'fraction' ? 'Ex.: 3/4' : 'Ex.: 2,5'} />{question.unit && <span>{question.unit}</span>}</div>
           <div className="number-keypad" aria-label="Teclado de resposta">{['1','2','3','4','5','6','7','8','9', question.input === 'fraction' ? '/' : ',', '0','⌫'].map(key => <button key={key} type="button" onClick={() => pressKey(key)} disabled={feedback?.correct} aria-label={key === '⌫' ? 'Apagar último caractere' : key}>{key}</button>)}</div>
         </div> : <div className={`options-grid ${question.options.length === 2 ? 'two-options' : ''}`} aria-label="Opções de resposta">
-          {question.options.map(option => <button key={option.id} className={`answer-option ${option.icon ? '' : 'text-only'} ${selected.includes(option.id) ? 'selected' : ''}`} aria-pressed={selected.includes(option.id)} disabled={feedback?.correct} onClick={() => choose(option.id)}>{option.icon && <span className="option-icon" aria-hidden="true">{option.icon}</span>}<span className="option-label">{option.label}</span><span className="option-check" aria-hidden="true">{selected.includes(option.id) ? '✓' : '+'}</span></button>)}
+          {question.options.map(option => <button key={option.id} className={`answer-option ${option.icon ? '' : 'text-only'} ${selected.includes(option.id) ? 'selected' : ''}`} aria-pressed={selected.includes(option.id)} disabled={feedback?.correct} onClick={() => choose(option.id)}>{option.icon && <span className="option-icon" aria-hidden="true">{option.icon}</span>}<span className="option-label">{option.label}</span><span className="option-check" aria-hidden="true">{selected.includes(option.id) ? question.ordered ? selected.indexOf(option.id) + 1 : '✓' : '+'}</span></button>)}
         </div>}
         {question.many && <p className="selected-count">{selected.length} {selected.length === 1 ? 'opção marcada' : 'opções marcadas'}</p>}
         <div className="answer-footer">
-          {feedback ? <p className={`answer-feedback ${feedback.correct ? 'is-correct' : 'is-retry'}`} role="status" aria-live="polite"><strong>{feedback.correct ? '✓ Acertou!' : '↻ Vamos tentar de novo'}</strong><span>{feedback.text}</span></p> : <p className="answer-prompt">{question.input === 'fraction' ? 'Use / para separar o número de cima e o de baixo.' : question.input ? 'Use os botões ou digite sua resposta.' : question.many ? 'Toque em todas as opções que combinam.' : 'Toque na resposta que você escolher.'}</p>}
+          {feedback ? <p className={`answer-feedback ${feedback.correct ? 'is-correct' : 'is-retry'}`} role="status" aria-live="polite"><strong>{feedback.correct ? '✓ Acertou!' : '↻ Vamos tentar de novo'}</strong><span>{feedback.text}</span></p> : <p className="answer-prompt">{question.ordered ? 'Monte todos os blocos e confira seu caminho.' : question.input === 'fraction' ? 'Use / para separar o número de cima e o de baixo.' : question.input ? 'Use os botões ou digite sua resposta.' : question.many ? 'Toque em todas as opções que combinam.' : 'Toque na resposta que você escolher.'}</p>}
           {feedback?.correct
-            ? <button className="action-button" onClick={nextQuestion}>{questionIndex === levelQuestions.length - 1 ? 'Ver meu resultado' : levelQuestions[questionIndex + 1].phase !== phase ? 'Ir para a fase 2' : 'Próxima questão'} <span aria-hidden="true">→</span></button>
-            : <button className="action-button" onClick={checkAnswer} disabled={selected.length === 0}>Conferir resposta <span aria-hidden="true">→</span></button>}
+            ? <button className="action-button" onClick={nextQuestion}>{questionIndex === levelQuestions.length - 1 ? 'Ver meu resultado' : 'Próxima questão'} <span aria-hidden="true">→</span></button>
+            : <button className="action-button" onClick={checkAnswer} disabled={selected.length === 0 || (question.ordered && selected.length !== question.options.length)}>Conferir resposta <span aria-hidden="true">→</span></button>}
         </div>
       </section>
     </main>}
@@ -235,13 +194,13 @@ function App() {
     {screen === 'result' && <main className="result-screen">
       <div className="result-symbol" aria-hidden="true">✓</div>
       <span className="eyebrow">{module.title.toUpperCase()} · NÍVEL {levelId} FINALIZADO</span>
-      <h1>Você completou o nível!</h1>
+      <h1 ref={headingRef} tabIndex={-1}>Atividade concluída!</h1>
       <p>Praticar, errar e tentar de novo faz parte do aprendizado.</p>
       <div className="result-numbers"><div><strong>{solved}/{levelQuestions.length}</strong><span>questões feitas</span></div><div><strong>{firstTryCorrect}/{levelQuestions.length}</strong><span>de primeira</span></div></div>
       <p className="best-result">Seu melhor resultado neste nível: <strong>{moduleScores[levelId - 1]}/{levelQuestions.length} de primeira</strong></p>
-      <div className="result-actions"><button className="action-button" onClick={() => navigate('levels')}>Escolher outro nível <span aria-hidden="true">→</span></button><button className="secondary-button" onClick={() => startLevel(levelId)}>Jogar este nível de novo</button></div>
+      <div className="result-actions"><button className="action-button" onClick={() => navigate('modules')}>Escolher outra atividade <span aria-hidden="true">→</span></button><button className="secondary-button" onClick={() => startLevel(levelId)}>Praticar de novo</button></div>
     </main>}
-    <footer className="game-footer">Projeto de extensão · Reforço de Matemática</footer>
+    <footer className="game-footer"><img src={`${import.meta.env.BASE_URL}brand/unemat-branco.png`} alt="UNEMAT" width="1200" height="464" /><div><strong>Reforço Matemático</strong><span>Uma iniciativa da Universidade do Estado de Mato Grosso</span></div></footer>
   </div>
 }
 
