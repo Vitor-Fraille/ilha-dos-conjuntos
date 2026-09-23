@@ -111,3 +111,16 @@ Resultado: cada ilha concluída agora produz uma mudança persistente e visível
 - verificação no navegador de entrada, oficina, salvamento após recarregar, cancelamento durante missão, teclado, dicas e avanço; conferência do layout em computador e celular.
 
 Resultado: `npm test` e `npm run build` aprovados. Nenhuma dependência adicional ou serviço de chat foi incluído. A validação pedagógica com professor permanece pendente.
+
+## 22/09/2026 — Primeira versão mobile para validação
+
+- reorganização da entrada em módulos: Conjuntos ativo e espaço para temas futuros, ainda não definidos;
+- criação de mapa próprio com seis ilhas de livre escolha e construção visual ligada à ilha realmente concluída;
+- simplificação dos cartões de pertinência e inclusão para seleção direta, com resumo do que está dentro;
+- destaque do enunciado e das opções no celular, com dica próxima da atividade e tutor abaixo dela;
+- feedback explicativo persistente após cada acerto ou erro, nova tentativa e avanço manual;
+- contagem de acertos de primeira e salvamento local do melhor resultado por ilha, sem alterar as chaves antigas de conclusão;
+- preservação da oficina de personalização do tutor e do conteúdo das 30 atividades.
+- entrada direta no jogo com o tutor padrão, deixando a personalização como escolha opcional.
+
+Pendente: teste com estudantes de 10 a 12 anos e validação do conteúdo matemático com um professor antes de considerar o módulo finalizado.

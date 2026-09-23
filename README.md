@@ -4,7 +4,7 @@ Jogo web educativo criado como projeto de extensão para apoiar estudantes do 5�
 
 ## Versão atual
 
-O jogo apresenta seis ilhas jogáveis, com cinco missões progressivas em cada uma — 30 atividades no total. A primeira trabalha a formação de conjuntos:
+O módulo **Conjuntos** apresenta seis ilhas jogáveis, com cinco atividades progressivas em cada uma — 30 atividades no total. A página inicial já está organizada para receber outros módulos futuramente, mas nenhum tema novo foi criado nesta versão. A criança pode escolher livremente qualquer ilha no mapa; a ordem numérica serve como sugestão de estudo. A primeira ilha trabalha a formação de conjuntos:
 
 - formação de conjuntos por características em comum;
 - identificação de elementos que pertencem a um conjunto;
@@ -22,12 +22,12 @@ A terceira ilha trabalha a inclusão entre conjuntos em três etapas:
 - apresentação simples da ideia de subconjunto;
 - leitura dos símbolos `⊂` e `⊄` depois da compreensão visual.
 
-Antes de explorar o mapa, a criança cria um tutor original e personalizável:
+A criança pode começar imediatamente com o tutor Lumi e, se quiser, criar ou personalizar seu próprio tutor:
 
 - robô vetorial original com rosto expressivo, mãos, calçados, bolsos e ferramentas;
 - nome fictício, 6 cores, 8 chapéus (incluindo ficar sem chapéu) e 5 acessórios;
 - 8 roupas e profissões: explorador, cientista, marinheiro, artista, astronauta, jardineiro, engenheiro e chef;
-- oficina com prévia, sugestões de nomes e combinação aleatória, sem salvar até a confirmação;
+- oficina opcional com prévia, sugestões de nomes e combinação aleatória, sem salvar até a confirmação;
 - reações a acertos, erros, movimentos e conquistas;
 - 24 curiosidades de profissões, 8 falas de incentivo e dicas em dois níveis para as 30 missões;
 - acompanhamento visual do progresso das ilhas.
@@ -54,7 +54,7 @@ A sexta ilha pratica operações com conjuntos:
 - interseção dos elementos em comum;
 - diferença entre dois conjuntos.
 
-A experiência não possui cronômetro, oferece explicações após tentativas incorretas e salva a conclusão de cada ilha localmente no dispositivo. Cada resposta correta rende uma estrela de progresso, sem perder pontos por erro, e o cenário muda de cor e atmosfera em cada ilha.
+A experiência foi reorganizada para celular, com enunciado e alternativas em destaque, botões grandes, dica sob pedido e tutor recolhível depois da atividade. Não há cronômetro nem perda de pontos. A correção explica o raciocínio imediatamente; após um erro, a criança pode alterar a escolha e tentar novamente. Após um acerto, ela lê a explicação e decide quando ir à próxima atividade. A tela mostra atividades resolvidas e acertos de primeira; o melhor resultado de primeira por ilha, assim como a conclusão, fica salvo localmente no dispositivo.
 
 Além do mapa de atividades, a criança constrói a **Ilha do Explorador**. Cada ilha concluída colore e acrescenta uma parte ao mundo — terreno, bosque, lagoa, vila, caverna e farol — até a construção ficar completa após a sexta etapa.
 
@@ -93,7 +93,7 @@ npm test
 - `src/TutorAvatar.tsx` e `src/TutorWardrobe.tsx`: personagem, roupas, acessórios e ferramentas em SVG.
 - `src/TutorStudio.tsx`: oficina de personalização.
 - `src/App.tsx`: navegação, integração do tutor e regras das seis ilhas.
-- `src/style.css`: base das atividades e cenários; `src/experience.css`: identidade visual, oficina e responsividade do tutor.
+- `src/style.css`: base das atividades e cenários; `src/experience.css`: identidade visual, oficina e tutor; `src/mobile-learning.css`: fluxo de módulos, mapa e atividades mobile-first.
 - `tests/tutor.test.mjs`: testes sem dependências adicionais.
 
 ## Colaboração

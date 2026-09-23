@@ -36,7 +36,7 @@ Reforçar a compreensão de conjuntos por meio de desafios visuais, curtos e pro
 
 ## Ilha do Explorador
 
-A conclusão de cada etapa constrói uma parte de uma grande ilha compartilhada pelas seis áreas do conteúdo. As partes ainda bloqueadas permanecem visíveis em silhueta, a próxima conquista é identificada por texto e as partes concluídas recebem cor e um marco próprio. A criança pode, assim, antecipar o próximo objetivo e perceber o caminho já percorrido.
+A conclusão de cada ilha constrói sua parte correspondente de uma grande ilha compartilhada pelas seis áreas do conteúdo. As partes ainda não construídas permanecem visíveis em silhueta e as concluídas recebem cor e um marco próprio. As ilhas podem ser escolhidas livremente; a ordem numérica sugere um percurso, sem impedir que o professor proponha outro.
 
 Essa construção funciona como uma meta de longo prazo, enquanto as estrelas de cada missão oferecem retorno imediato. A recompensa não libera vantagens competitivas, não compara estudantes e não substitui a explicação matemática. Ela torna o domínio acumulado visível.
 
@@ -76,6 +76,15 @@ Referências de apoio:
 - O tutor ocupa uma área própria, sem cobrir as alternativas. Sua conversa pode ser recolhida, e as animações respeitam a preferência por movimento reduzido.
 
 O conteúdo matemático e a linguagem das seis ilhas ainda devem ser validados com um professor do ensino fundamental antes de serem considerados finais.
+
+## Interface para validação com os estudantes
+
+- A entrada separa módulos/tópicos. Apenas **Conjuntos** está ativo nesta etapa; outros módulos aguardam a relação de conteúdos.
+- O mapa coloca as seis ilhas como escolhas grandes e tocáveis, com título, objetivo e indicação de conclusão.
+- Durante a atividade, o enunciado, a regra e as alternativas têm prioridade visual. A dica fica junto da questão; o tutor permanece disponível abaixo, sem cobrir respostas.
+- A correção imediata mantém a explicação visível. Um erro permite nova tentativa; um acerto exige que a criança escolha avançar depois de ler.
+- O jogo mostra acertos de primeira na sessão e conserva o melhor resultado de cada ilha neste dispositivo. Não há comparação entre crianças.
+- A validação deve observar se os alunos conseguem localizar uma ilha, entender a instrução, corrigir uma resposta e reconhecer o que aprenderam sem ajuda de um adulto.
 
 ## Avaliação
 

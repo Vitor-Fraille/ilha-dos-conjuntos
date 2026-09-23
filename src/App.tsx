@@ -6,7 +6,7 @@ import {
   type TutorExpression, type TutorProfile,
 } from './tutorProfile'
 
-type Screen = 'login' | 'avatar' | 'home' | 'lesson' | 'result'
+type Screen = 'login' | 'avatar' | 'home' | 'map' | 'lesson' | 'result'
 type Island = 1 | 2 | 3 | 4 | 5 | 6
 type Item = { id: string; symbol: string; label: string }
 type SetGroup = { id: string; name: string; label: string; elements: Item[] }
@@ -83,6 +83,17 @@ const EQUALITY_PROGRESS_KEY = 'ilha-dos-conjuntos-equality-progress'
 const CLASSIFICATION_PROGRESS_KEY = 'ilha-dos-conjuntos-classification-progress'
 const OPERATIONS_PROGRESS_KEY = 'ilha-dos-conjuntos-operations-progress'
 const TUTOR_PROFILE_KEY = 'ilha-dos-conjuntos-tutor-profile'
+const BEST_SCORES_KEY = 'ilha-dos-conjuntos-best-first-try-v1'
+
+function loadBestScores(): (number | null)[] {
+  try {
+    const scores: unknown = JSON.parse(localStorage.getItem(BEST_SCORES_KEY) ?? 'null')
+    if (Array.isArray(scores) && scores.length === 6) {
+      return scores.map(score => typeof score === 'number' && Number.isInteger(score) && score >= 0 && score <= 5 ? score : null)
+    }
+  } catch { /* Um navegador sem armazenamento ainda permite jogar. */ }
+  return Array(6).fill(null)
+}
 
 function loadTutorProfile(): TutorProfile | null {
   try {
@@ -183,7 +194,7 @@ const membershipChallenges: MembershipChallenge[] = [
   {
     eyebrow: 'Missão 1 de 5',
     title: 'Quem entra no conjunto?',
-    instruction: 'Mova para dentro do conjunto E somente os materiais escolares.',
+    instruction: 'Toque nos materiais escolares para colocá-los no conjunto E.',
     setName: 'Conjunto E',
     rule: 'materiais escolares',
     showNotation: false,
@@ -237,7 +248,7 @@ const membershipChallenges: MembershipChallenge[] = [
   {
     eyebrow: 'Missão 4 de 5',
     title: 'Entre 10 e 20',
-    instruction: 'Coloque dentro de I somente os números maiores que 10 e menores que 20.',
+    instruction: 'Toque nos números maiores que 10 e menores que 20.',
     setName: 'Conjunto I',
     rule: 'números entre 10 e 20',
     showNotation: true,
@@ -255,7 +266,7 @@ const membershipChallenges: MembershipChallenge[] = [
   {
     eyebrow: 'Missão 5 de 5',
     title: 'Pertinência na tabuada do 4',
-    instruction: 'Organize os números usando a regra “ser múltiplo de 4 e menor que 25”.',
+    instruction: 'Toque nos múltiplos de 4 menores que 25.',
     setName: 'Conjunto T',
     rule: 'múltiplos de 4 menores que 25',
     showNotation: true,
@@ -276,7 +287,7 @@ const inclusionChallenges: InclusionChallenge[] = [
   {
     eyebrow: 'Missão 1 de 5',
     title: 'Quais conjuntos cabem aqui?',
-    instruction: 'Mova para dentro de Alimentos os conjuntos em que todos os elementos são alimentos.',
+    instruction: 'Toque nos conjuntos em que todos os elementos são alimentos.',
     outerName: 'Alimentos',
     outerRule: 'tudo o que pode ser comido',
     groups: [
@@ -325,7 +336,7 @@ const inclusionChallenges: InclusionChallenge[] = [
   {
     eyebrow: 'Missão 2 de 5',
     title: 'Encontre os subconjuntos',
-    instruction: 'Coloque dentro de Seres vivos os conjuntos formados somente por seres vivos.',
+    instruction: 'Toque nos conjuntos formados somente por seres vivos.',
     outerName: 'Seres vivos',
     outerRule: 'seres que nascem e crescem',
     groups: [
@@ -374,7 +385,7 @@ const inclusionChallenges: InclusionChallenge[] = [
   {
     eyebrow: 'Missão 3 de 5',
     title: 'Leia os símbolos ⊂ e ⊄',
-    instruction: 'Coloque dentro de P os conjuntos formados somente por números pares menores que 10.',
+    instruction: 'Toque nos conjuntos formados somente por números pares menores que 10.',
     outerName: 'P = { pares menores que 10 }',
     outerRule: 'números 2, 4, 6 e 8',
     groups: [
@@ -423,7 +434,7 @@ const inclusionChallenges: InclusionChallenge[] = [
   {
     eyebrow: 'Missão 4 de 5',
     title: 'Subconjuntos dos divisores de 12',
-    instruction: 'Coloque dentro de D os conjuntos formados somente por divisores de 12.',
+    instruction: 'Toque nos conjuntos formados somente por divisores de 12.',
     outerName: 'D = { divisores de 12 }',
     outerRule: 'números 1, 2, 3, 4, 6 e 12',
     groups: [
@@ -895,19 +906,20 @@ const islandBuildSteps: Array<{ island: Island; name: string; shortName: string;
   { island: 6, name: 'Farol do conhecimento', shortName: 'Farol', icon: '⭐' },
 ]
 
-function ExplorerIsland({ completedCount, compact = false }: { completedCount: number; compact?: boolean }) {
+function ExplorerIsland({ completedIslands, compact = false }: { completedIslands: boolean[]; compact?: boolean }) {
+  const completedCount = completedIslands.filter(Boolean).length
   return (
     <div className={`explorer-island ${compact ? 'compact' : ''} ${completedCount === 6 ? 'complete' : ''}`} aria-label={`Ilha do Explorador com ${completedCount} de 6 partes construídas`}>
       <span className="builder-cloud builder-cloud-one" aria-hidden="true" />
       <span className="builder-cloud builder-cloud-two" aria-hidden="true" />
       <span className="builder-sun" aria-hidden="true">☀</span>
-      <div className={`builder-land ${completedCount >= 1 ? 'built' : 'waiting'}`}>
-        <span className={`builder-piece builder-beach ${completedCount >= 1 ? 'built' : 'waiting'}`} aria-hidden="true">🐚</span>
-        <span className={`builder-piece builder-forest ${completedCount >= 2 ? 'built' : 'waiting'}`} aria-hidden="true">🌴</span>
-        <span className={`builder-piece builder-lagoon ${completedCount >= 3 ? 'built' : 'waiting'}`} aria-hidden="true">💧</span>
-        <span className={`builder-piece builder-village ${completedCount >= 4 ? 'built' : 'waiting'}`} aria-hidden="true">🏡</span>
-        <span className={`builder-piece builder-cave ${completedCount >= 5 ? 'built' : 'waiting'}`} aria-hidden="true">💎</span>
-        <span className={`builder-piece builder-lighthouse ${completedCount >= 6 ? 'built' : 'waiting'}`} aria-hidden="true"><i>★</i><b /></span>
+      <div className={`builder-land ${completedCount > 0 ? 'built' : 'waiting'}`}>
+        <span className={`builder-piece builder-beach ${completedIslands[0] ? 'built' : 'waiting'}`} aria-hidden="true">🐚</span>
+        <span className={`builder-piece builder-forest ${completedIslands[1] ? 'built' : 'waiting'}`} aria-hidden="true">🌴</span>
+        <span className={`builder-piece builder-lagoon ${completedIslands[2] ? 'built' : 'waiting'}`} aria-hidden="true">💧</span>
+        <span className={`builder-piece builder-village ${completedIslands[3] ? 'built' : 'waiting'}`} aria-hidden="true">🏡</span>
+        <span className={`builder-piece builder-cave ${completedIslands[4] ? 'built' : 'waiting'}`} aria-hidden="true">💎</span>
+        <span className={`builder-piece builder-lighthouse ${completedIslands[5] ? 'built' : 'waiting'}`} aria-hidden="true"><i>★</i><b /></span>
       </div>
       <div className="builder-water" aria-hidden="true"><span /><span /><span /></div>
       {completedCount === 6 && <div className="builder-celebration" aria-hidden="true">✦ ★ ✦</div>}
@@ -926,14 +938,18 @@ function App() {
   const [tutorExpression, setTutorExpression] = useState<TutorExpression>('happy')
   const [interactionIndex, setInteractionIndex] = useState({ encourage: 0, profession: 0 })
   const [hintStep, setHintStep] = useState(0)
+  const [hintVisible, setHintVisible] = useState(false)
   const [tutorStorageError, setTutorStorageError] = useState('')
   const [activeIsland, setActiveIsland] = useState<Island>(1)
   const [challengeIndex, setChallengeIndex] = useState(0)
   const [selected, setSelected] = useState<string[]>([])
   const [message, setMessage] = useState('')
   const [movementMessage, setMovementMessage] = useState('')
-  const [rewardMessage, setRewardMessage] = useState('')
   const [earnedStars, setEarnedStars] = useState(0)
+  const [firstTryCorrect, setFirstTryCorrect] = useState(0)
+  const [hadWrongAttempt, setHadWrongAttempt] = useState(false)
+  const [answerConfirmed, setAnswerConfirmed] = useState(false)
+  const [bestScores, setBestScores] = useState<(number | null)[]>(loadBestScores)
   const [wasNewCompletion, setWasNewCompletion] = useState(false)
   const [firstIslandCompleted, setFirstIslandCompleted] = useState(
     () => localStorage.getItem(INTRO_PROGRESS_KEY) === '1',
@@ -981,16 +997,8 @@ function App() {
     () => membershipChallenge?.items.filter((item) => selected.includes(item.id)) ?? [],
     [membershipChallenge, selected],
   )
-  const outsideMembershipItems = useMemo(
-    () => membershipChallenge?.items.filter((item) => !selected.includes(item.id)) ?? [],
-    [membershipChallenge, selected],
-  )
   const insideInclusionGroups = useMemo(
     () => inclusionChallenge?.groups.filter((group) => selected.includes(group.id)) ?? [],
-    [inclusionChallenge, selected],
-  )
-  const outsideInclusionGroups = useMemo(
-    () => inclusionChallenge?.groups.filter((group) => !selected.includes(group.id)) ?? [],
     [inclusionChallenge, selected],
   )
   const operationSelectedLabels = useMemo(
@@ -1007,18 +1015,13 @@ function App() {
     sixthIslandCompleted,
   ]
   const completedCount = completedIslands.filter(Boolean).length
-  const nextBuildStep = islandBuildSteps[Math.min(completedCount, 5)]
-  const nextIslandToBuild = Math.min(completedCount + 1, 6) as Island
-  const mapProgressLabel = completedCount === 6
-    ? '6 ilhas concluídas'
-    : `${Math.min(completedCount + 1, 6)} de 6 ilhas abertas`
   const contextTutorMessage = screen === 'result'
     ? `Conseguimos! A Ilha ${activeIsland} ganhou uma nova parte.`
     : screen === 'lesson'
       ? `Estou com você na missão ${challengeIndex + 1}. Observe com calma e peça uma dica quando quiser.`
       : completedCount === 6
         ? 'As seis ilhas estão completas! Podemos revisitar qualquer missão para praticar.'
-        : `A Ilha ${nextIslandToBuild} está aberta. Vamos explorar ${islandAtmospheres[nextIslandToBuild].name}?`
+        : 'Escolha uma ilha do mapa para praticar conjuntos no seu ritmo.'
   const visibleTutorMessage = tutorMessage || contextTutorMessage
   const tutorOutfit = getTutorOutfit(tutorProfile.outfit)
   const activeChallenge = ({ 1: challenge, 2: membershipChallenge, 3: inclusionChallenge, 4: equalityChallenge, 5: classificationChallenge, 6: operationChallenge })[activeIsland]
@@ -1032,8 +1035,8 @@ function App() {
 
   function enterAdventure() {
     if (!profileReady) {
-      openTutorCustomizer('login')
-      return
+      setProfileReady(true)
+      try { localStorage.setItem(TUTOR_PROFILE_KEY, JSON.stringify(tutorProfile)) } catch { /* O jogo pode começar sem armazenamento. */ }
     }
     setTutorMessage(`Olá! Eu sou ${tutorProfile.name}. Que bom explorar com você outra vez!`)
     setTutorExpression('happy')
@@ -1072,12 +1075,9 @@ function App() {
   }
 
   function showTutorHint() {
-    setTutorMessage(hintStep === 0
-      ? tutorHints[activeIsland][challengeIndex] ?? activeChallenge.instruction
-      : activeChallenge.tip)
+    setHintVisible(true)
     setHintStep(current => (current + 1) % 2)
     setTutorExpression('thinking')
-    setTutorOpen(true)
   }
 
   function reactTutor(nextMessage: string, expression: TutorExpression = 'happy') {
@@ -1097,43 +1097,50 @@ function App() {
     scrollToTop()
   }
 
+  function goMap() {
+    setTutorMessage('')
+    setTutorOpen(false)
+    setScreen('map')
+    scrollToTop()
+  }
+
   function startIsland(island: Island) {
-    if (island === 2 && !firstIslandCompleted) return
-    if (island === 3 && !secondIslandCompleted) return
-    if (island === 4 && !thirdIslandCompleted) return
-    if (island === 5 && !fourthIslandCompleted) return
-    if (island === 6 && !fifthIslandCompleted) return
     setActiveIsland(island)
     setHintStep(0)
+    setHintVisible(false)
     setChallengeIndex(0)
     setSelected([])
     setMessage('')
     setMovementMessage('')
-    setRewardMessage('')
     setEarnedStars(0)
+    setFirstTryCorrect(0)
+    setHadWrongAttempt(false)
+    setAnswerConfirmed(false)
     setWasNewCompletion(false)
-    reactTutor(`Ilha ${island}, missão 1. Leia o desafio e observe antes de escolher.`, 'curious')
+    setTutorMessage(`Ilha ${island}, atividade 1. Leia e observe antes de escolher.`)
+    setTutorExpression('curious')
+    setTutorOpen(false)
     setScreen('lesson')
     scrollToTop()
   }
 
   function toggleItem(id: string) {
+    if (answerConfirmed) return
     setMessage('')
-    setRewardMessage('')
     setSelected((current) => current.includes(id) ? current.filter((item) => item !== id) : [...current, id])
     setTutorExpression('curious')
   }
 
   function selectSingleItem(id: string) {
+    if (answerConfirmed) return
     setMessage('')
-    setRewardMessage('')
     setSelected([id])
   }
 
   function moveMembershipItem(item: Item) {
+    if (answerConfirmed) return
     const movingInside = !selected.includes(item.id)
     setMessage('')
-    setRewardMessage('')
     setSelected((current) => movingInside ? [...current, item.id] : current.filter((id) => id !== item.id))
     setMovementMessage(`${item.label} foi movido para ${movingInside ? 'dentro' : 'fora'} do conjunto.`)
     setTutorMessage(`${item.label} foi para ${movingInside ? 'dentro' : 'fora'}. Agora compare com a regra do conjunto.`)
@@ -1142,9 +1149,9 @@ function App() {
   }
 
   function moveInclusionGroup(group: SetGroup) {
+    if (answerConfirmed) return
     const movingInside = !selected.includes(group.id)
     setMessage('')
-    setRewardMessage('')
     setSelected((current) => movingInside ? [...current, group.id] : current.filter((id) => id !== group.id))
     setMovementMessage(`${group.label} foi movido para ${movingInside ? 'dentro' : 'fora'} do conjunto maior.`)
     setTutorMessage(`${group.label} foi para ${movingInside ? 'dentro' : 'fora'}. Você conferiu todos os elementos?`)
@@ -1154,6 +1161,10 @@ function App() {
 
   function completeIsland(island: Island) {
     setWasNewCompletion(!completedIslands[island - 1])
+    const nextScores = [...bestScores]
+    nextScores[island - 1] = Math.max(bestScores[island - 1] ?? 0, firstTryCorrect)
+    setBestScores(nextScores)
+    try { localStorage.setItem(BEST_SCORES_KEY, JSON.stringify(nextScores)) } catch { /* A sessão atual continua disponível. */ }
     if (island === 1) {
       localStorage.setItem(INTRO_PROGRESS_KEY, '1')
       setFirstIslandCompleted(true)
@@ -1185,70 +1196,31 @@ function App() {
     }
     reactTutor(`Boa descoberta! Missão ${challengeIndex + 1} concluída. Agora vamos observar a próxima regra.`, 'celebrate')
     setHintStep(0)
+    setHintVisible(false)
     setChallengeIndex((value) => value + 1)
     setSelected([])
     setMessage('')
     setMovementMessage('')
+    setHadWrongAttempt(false)
+    setAnswerConfirmed(false)
+    setTutorOpen(false)
   }
 
-  function celebrateAndAdvance() {
-    setEarnedStars((value) => value + 1)
-    setRewardMessage('Muito bem! Sua estratégia funcionou. Você conquistou mais uma estrela.')
-    advanceChallenge()
-  }
-
-  function checkIntroAnswer() {
-    if (!selectionsMatch(selected, challenge.answers)) {
-      setMessage(challenge.tip)
-      reactTutor('Quase! Leia a explicação abaixo e compare cada figura com a regra.', 'thinking')
+  function checkAnswer(answers: string[], tip: string) {
+    if (answerConfirmed) return
+    if (!selectionsMatch(selected, answers)) {
+      setHadWrongAttempt(true)
+      setMessage(`Ainda não. ${tip} Tente novamente.`)
+      setTutorMessage(`Vamos pensar juntos: ${tip}`)
+      setTutorExpression('thinking')
       return
     }
-    celebrateAndAdvance()
-  }
-
-  function checkMembershipAnswer() {
-    if (!selectionsMatch(selected, membershipChallenge.answers)) {
-      setMessage(membershipChallenge.tip)
-      reactTutor('Vamos conferir de novo: quem segue a regra fica dentro e quem não segue fica fora.', 'thinking')
-      return
-    }
-    celebrateAndAdvance()
-  }
-
-  function checkInclusionAnswer() {
-    if (!selectionsMatch(selected, inclusionChallenge.answers)) {
-      setMessage(inclusionChallenge.tip)
-      reactTutor('Olhe um conjunto por vez. Todos os elementos precisam caber na regra do conjunto maior.', 'thinking')
-      return
-    }
-    celebrateAndAdvance()
-  }
-
-  function checkEqualityAnswer() {
-    if (!selectionsMatch(selected, equalityChallenge.answers)) {
-      setMessage(equalityChallenge.tip)
-      reactTutor('Vamos comparar de novo: não pode faltar nem sobrar elemento. A ordem não importa.', 'thinking')
-      return
-    }
-    celebrateAndAdvance()
-  }
-
-  function checkClassificationAnswer() {
-    if (!selectionsMatch(selected, classificationChallenge.answers)) {
-      setMessage(classificationChallenge.tip)
-      reactTutor('Vamos pensar na quantidade de elementos e se a contagem termina. A explicação ajuda!', 'thinking')
-      return
-    }
-    celebrateAndAdvance()
-  }
-
-  function checkOperationAnswer() {
-    if (!selectionsMatch(selected, operationChallenge.answers)) {
-      setMessage(operationChallenge.tip)
-      reactTutor('Veja o símbolo da operação. Ele diz se vamos juntar, encontrar o que é comum ou retirar.', 'thinking')
-      return
-    }
-    celebrateAndAdvance()
+    setEarnedStars(value => value + 1)
+    if (!hadWrongAttempt) setFirstTryCorrect(value => value + 1)
+    setAnswerConfirmed(true)
+    setMessage(`Isso mesmo! ${tip}`)
+    setTutorMessage(`Boa descoberta! ${tip}`)
+    setTutorExpression('celebrate')
   }
 
   function renderMembershipItem(item: Item, isInside: boolean) {
@@ -1259,6 +1231,7 @@ function App() {
         id={`membership-item-${item.id}`}
         key={item.id}
         className={`membership-item ${isInside ? 'inside' : 'outside'}`}
+        disabled={answerConfirmed}
         aria-pressed={isInside}
         aria-label={`${item.label}, ${isInside ? 'dentro' : 'fora'} do ${membershipChallenge.setName}. Mover para ${destination}`}
         onClick={() => moveMembershipItem(item)}
@@ -1266,7 +1239,7 @@ function App() {
         <span className="membership-symbol" aria-hidden="true">{item.symbol}</span>
         <strong>{item.label}</strong>
         {membershipChallenge.showNotation && <span className="membership-relation" aria-hidden="true">{item.symbol} {relation} {membershipChallenge.setName.replace('Conjunto ', '')}</span>}
-        <small>{isInside ? '← Mover para fora' : 'Mover para dentro →'}</small>
+        <small>{isInside ? '✓ Dentro · tocar para tirar' : '+ Tocar para colocar'}</small>
       </button>
     )
   }
@@ -1281,6 +1254,7 @@ function App() {
         id={`inclusion-group-${group.id}`}
         key={group.id}
         className={`set-group-card ${isInside ? 'inside' : 'outside'}`}
+        disabled={answerConfirmed}
         aria-pressed={isInside}
         aria-label={`${group.label}, formado por ${elementNames}, ${isInside ? 'dentro' : 'fora'} de ${inclusionChallenge.outerName}. Mover para ${destination}`}
         onClick={() => moveInclusionGroup(group)}
@@ -1289,9 +1263,18 @@ function App() {
         <span className="mini-set" aria-hidden="true"><i>{'{'}</i>{group.elements.map((element) => <b key={element.id}>{element.symbol}</b>)}<i>{'}'}</i></span>
         <strong>{group.label}</strong>
         {inclusionChallenge.showNotation && <span className="subset-relation" aria-hidden="true">{group.name} {relation} {outerSymbol}</span>}
-        <small>{isInside ? '← Mover para fora' : 'Mover para dentro →'}</small>
+        <small>{isInside ? '✓ Dentro · tocar para tirar' : '+ Tocar para colocar'}</small>
       </button>
     )
+  }
+
+  function renderChallengeFooter(answers: string[], tip: string, defaultMessage: string) {
+    return <div className="challenge-footer">
+      <p className={`feedback ${message ? 'visible' : ''} ${answerConfirmed ? 'correct' : message ? 'retry' : ''}`} role="status" aria-live="polite">{message || defaultMessage}</p>
+      {answerConfirmed
+        ? <button className="primary-button" onClick={advanceChallenge}>{challengeIndex === activeChallengesLength - 1 ? 'Ver minha conquista' : 'Próxima atividade'} <span aria-hidden="true">→</span></button>
+        : <button className="primary-button" disabled={selected.length === 0} onClick={() => checkAnswer(answers, tip)}>Conferir resposta</button>}
+    </div>
   }
 
   const resultContentByIsland: Record<Island, { kicker: string; title: string; description: string; symbol: string }> = {
@@ -1345,7 +1328,6 @@ function App() {
         {tutorOpen && <div className="guide-conversation" id="guide-conversation">
           <p className="guide-speech" aria-live="polite">{visibleTutorMessage}</p>
           <div className="guide-actions">
-            {screen === 'lesson' && <button className="guide-hint" onClick={showTutorHint}>💡 {hintStep === 0 ? 'Quero uma dica' : 'Mais ajuda'}</button>}
             <button onClick={() => tutorTalk('encourage')}>☺ Me anime</button>
             <button onClick={() => tutorTalk('profession')}>✦ Uma curiosidade</button>
           </div>
@@ -1377,22 +1359,22 @@ function App() {
             <div className="login-copy">
               <div className="entry-brand"><span className="brand-mark" aria-hidden="true">∴</span><strong>Ilha dos Conjuntos</strong></div>
               <span className="login-kicker">PEQUENAS IDEIAS. GRANDES DESCOBERTAS.</span>
-              <h1 id="login-title">Toda aventura começa com <em>uma conexão.</em></h1>
-              <p>Um mundo de ilhas, conjuntos e descobertas. E um companheiro feito por você para explorar tudo isso.</p>
+              <h1 id="login-title">Matemática para descobrir <em>jogando.</em></h1>
+              <p>Escolha uma ilha, resolva atividades e aprenda conjuntos no seu ritmo.</p>
               {profileReady ? (
                 <div className="returning-profile">
                   <span>Seu tutor está esperando:</span>
                   <strong>{tutorProfile.name}</strong>
                 </div>
               ) : (
-                <div className="first-access-note"><span aria-hidden="true">✨</span><p>Na primeira entrada, você vai criar seu próprio tutor.</p></div>
+                <div className="first-access-note"><span aria-hidden="true">✨</span><p>O tutor Lumi ajuda você. Se quiser, pode mudar o visual dele.</p></div>
               )}
-              <div className="entry-milestones"><span><b>01</b> Crie seu tutor</span><span><b>02</b> Explore as ilhas</span><span><b>03</b> Faça descobertas</span></div>
+              <div className="entry-milestones"><span><b>01</b> Escolha uma ilha</span><span><b>02</b> Resolva</span><span><b>03</b> Tente de novo</span></div>
               <div className="login-actions">
                 <button className="primary-button" onClick={enterAdventure}>
-                  {profileReady ? `Continuar com ${tutorProfile.name}` : 'Entrar e criar meu tutor'} <span aria-hidden="true">→</span>
+                  {profileReady ? 'Continuar a jogar' : 'Começar a jogar'} <span aria-hidden="true">→</span>
                 </button>
-                {profileReady && <button className="text-button" onClick={() => openTutorCustomizer('login')}>Mudar meu tutor</button>}
+                <button className="text-button" onClick={() => openTutorCustomizer('login')}>{profileReady ? 'Mudar meu tutor' : 'Criar meu tutor'}</button>
               </div>
               <p className="privacy-note"><span aria-hidden="true">🔒</span><span><strong>Entrada segura:</strong> sem e-mail, senha, foto ou nome da criança. Tudo fica somente neste dispositivo.</span></p>
             </div>
@@ -1412,86 +1394,66 @@ function App() {
       {screen === 'avatar' && <TutorStudio profile={tutorProfile} onSave={saveTutorProfile} onCancel={cancelTutorCustomizer} error={tutorStorageError} />}
 
       {screen === 'home' && (
-        <main>
-          <section className="hero-section">
-            <div className="hero-copy">
-              <div className="eyebrow"><span>★</span> Uma aventura matemática</div>
-              <h1>Descubra o poder de <em>agrupar!</em></h1>
-              <p>Explore ilhas, organize elementos e aprenda conjuntos brincando. Cada missão deixa o mapa um pouco mais colorido.</p>
-              <button className="primary-button" onClick={() => startIsland(nextIslandToBuild)}>{completedCount === 0 ? 'Começar aventura' : completedCount === 6 ? 'Revisitar a última ilha' : 'Continuar minha aventura'} <span aria-hidden="true">→</span></button>
-              <div className="hero-notes" aria-label="Características da atividade"><span>✓ Sem cronômetro</span><span>✓ Aprenda no seu ritmo</span></div>
-            </div>
-            <div className="expedition-card" aria-label={`Seu tutor ${tutorProfile.name}, ${tutorOutfit.label}`}>
-              <span className="expedition-stamp">PASSAPORTE DE DESCOBERTAS</span>
-              <div className="expedition-portrait"><span className="expedition-symbol symbol-one" aria-hidden="true">∈</span><span className="expedition-symbol symbol-two" aria-hidden="true">⊂</span><TutorAvatar profile={tutorProfile} size="large" animated /><span className="expedition-spark" aria-hidden="true">✦</span></div>
-              <div className="expedition-identity"><div><small>SEU PARCEIRO DE MISSÃO</small><h2>{tutorProfile.name}</h2><p>{tutorOutfit.symbol} {tutorOutfit.label}</p></div><button className="round-button" onClick={() => openTutorCustomizer('home')} aria-label="Abrir oficina do tutor">✎</button></div>
-              <div className="expedition-stats"><span><strong>{completedCount}/6</strong> ilhas concluídas</span><span><strong>30</strong> missões no mapa</span></div>
-            </div>
+        <main className="module-page">
+          <section className="module-intro">
+            <span className="section-kicker">ESCOLHA O QUE APRENDER</span>
+            <h1>Vamos aprender matemática?</h1>
+            <p>Escolha um módulo e resolva atividades no seu ritmo. Você pode tentar de novo sempre que precisar.</p>
           </section>
-          <div className="home-guide">{renderTutorCompanion()}</div>
-          <section className="island-builder-section" aria-labelledby="builder-title">
-            <div className="island-builder-copy">
-              <span className="section-kicker">SUA GRANDE CONQUISTA</span>
-              <h2 id="builder-title">Construa a Ilha do Explorador</h2>
-              <p>{completedCount === 0
-                ? 'A ilha ainda está sem cor. Termine a primeira etapa para fazer o terreno despertar.'
-                : completedCount === 6
-                  ? 'Você completou as seis etapas e deu vida à ilha inteira. Cada parte mostra uma habilidade que conquistou.'
-                  : `Você já construiu ${completedCount} de 6 partes. A próxima conquista libera: ${nextBuildStep.name}.`}</p>
-              <div className="builder-step-list" aria-label={`${completedCount} de 6 partes construídas`}>
-                {islandBuildSteps.map((step) => { const built = completedCount >= step.island; const current = !built && step.island === nextIslandToBuild; return <span key={step.island} className={`${built ? 'built' : 'waiting'} ${current ? 'current' : ''}`}><i aria-hidden="true">{built ? step.icon : step.island}</i><small>{step.shortName}</small><strong>{built ? 'Construído' : current ? 'Próximo' : 'Em espera'}</strong></span> })}
-              </div>
-              {completedCount < 6 && <button className="primary-button builder-cta" onClick={() => startIsland(nextIslandToBuild)}>Construir a próxima parte <span aria-hidden="true">→</span></button>}
-              {completedCount === 6 && <div className="island-complete-badge"><span aria-hidden="true">★</span><strong>ILHA COMPLETA</strong></div>}
-            </div>
-            <ExplorerIsland completedCount={completedCount} />
+          <section className="module-list" aria-label="Módulos de matemática">
+            <article className="module-card">
+              <span className="module-icon" aria-hidden="true">{'{ ★ }'}</span>
+              <div className="module-info"><span className="status-tag">DISPONÍVEL AGORA</span><h2>Conjuntos</h2><p>Descubra como agrupar, comparar e combinar elementos em seis ilhas.</p><small>{completedCount} de 6 ilhas concluídas • 30 atividades</small></div>
+              <button className="primary-button" onClick={goMap}>Explorar conjuntos <span aria-hidden="true">→</span></button>
+            </article>
+            <div className="future-module"><span aria-hidden="true">＋</span><div><strong>Mais módulos virão depois</strong><p>Por enquanto, vamos experimentar e melhorar o módulo de conjuntos.</p></div></div>
           </section>
-          <section className="trail-section" aria-labelledby="trail-title">
-            <div className="section-heading"><div><span className="section-kicker">SEU MAPA DE AVENTURAS</span><h2 id="trail-title">Uma descoberta de cada vez</h2></div><span className="progress-label">{mapProgressLabel}</span></div>
-            <div className="stage-grid">
-              <article className={`stage-card active ${firstIslandCompleted ? 'completed' : ''}`}><span className="stage-number">01</span><div className="stage-icon yellow">{firstIslandCompleted ? '★' : '🧺'}</div><span className="status-tag">{firstIslandCompleted ? 'ILHA CONCLUÍDA' : 'PRONTO PARA JOGAR'}</span><h3>O que é um conjunto?</h3><p>Agrupe objetos que possuem algo em comum.</p><small className="mission-count">5 missões • início tranquilo</small><button onClick={() => startIsland(1)}>{firstIslandCompleted ? 'Jogar novamente' : 'Explorar esta ilha'} <span>→</span></button></article>
-              <article className={`stage-card ${firstIslandCompleted ? 'active' : 'locked'} ${secondIslandCompleted ? 'completed' : ''}`}><span className="stage-number">02</span><div className="stage-icon coral">{secondIslandCompleted ? '★' : '∈'}</div><span className="status-tag">{secondIslandCompleted ? 'ILHA CONCLUÍDA' : firstIslandCompleted ? 'PRONTO PARA JOGAR' : 'BLOQUEADA'}</span><h3>Quem pertence?</h3><p>Descubra a relação de pertinência.</p><small className="mission-count">5 missões • novas regras</small>{firstIslandCompleted ? <button onClick={() => startIsland(2)}>{secondIslandCompleted ? 'Jogar novamente' : 'Explorar esta ilha'} <span>→</span></button> : <span className="locked-note">Conclua a Ilha 1 para liberar.</span>}</article>
-              <article className={`stage-card ${secondIslandCompleted ? 'active' : 'locked'} ${thirdIslandCompleted ? 'completed' : ''}`}><span className="stage-number">03</span><div className="stage-icon blue">{thirdIslandCompleted ? '★' : '⊂'}</div><span className="status-tag">{thirdIslandCompleted ? 'ILHA CONCLUÍDA' : secondIslandCompleted ? 'PRONTO PARA JOGAR' : 'BLOQUEADA'}</span><h3>Conjuntos dentro de conjuntos</h3><p>Conheça subconjuntos e inclusão.</p><small className="mission-count">5 missões • atenção a cada elemento</small>{secondIslandCompleted ? <button onClick={() => startIsland(3)}>{thirdIslandCompleted ? 'Jogar novamente' : 'Explorar esta ilha'} <span>→</span></button> : <span className="locked-note">Conclua a Ilha 2 para liberar.</span>}</article>
-              <article className={`stage-card ${thirdIslandCompleted ? 'active' : 'locked'} ${fourthIslandCompleted ? 'completed' : ''}`}><span className="stage-number">04</span><div className="stage-icon purple">{fourthIslandCompleted ? '★' : '='}</div><span className="status-tag">{fourthIslandCompleted ? 'ILHA CONCLUÍDA' : thirdIslandCompleted ? 'PRONTO PARA JOGAR' : 'BLOQUEADA'}</span><h3>Conjuntos iguais</h3><p>Compare coleções, mesmo em ordens diferentes.</p><small className="mission-count">5 missões • comparação cuidadosa</small>{thirdIslandCompleted ? <button onClick={() => startIsland(4)}>{fourthIslandCompleted ? 'Jogar novamente' : 'Explorar esta ilha'} <span>→</span></button> : <span className="locked-note">Conclua a Ilha 3 para liberar.</span>}</article>
-              <article className={`stage-card ${fourthIslandCompleted ? 'active' : 'locked'} ${fifthIslandCompleted ? 'completed' : ''}`}><span className="stage-number">05</span><div className="stage-icon mint">{fifthIslandCompleted ? '★' : '∅'}</div><span className="status-tag">{fifthIslandCompleted ? 'ILHA CONCLUÍDA' : fourthIslandCompleted ? 'PRONTO PARA JOGAR' : 'BLOQUEADA'}</span><h3>Tipos de conjuntos</h3><p>Conheça conjuntos vazios, unitários e finitos.</p><small className="mission-count">5 missões • ideias que se combinam</small>{fourthIslandCompleted ? <button onClick={() => startIsland(5)}>{fifthIslandCompleted ? 'Jogar novamente' : 'Explorar esta ilha'} <span>→</span></button> : <span className="locked-note">Conclua a Ilha 4 para liberar.</span>}</article>
-              <article className={`stage-card ${fifthIslandCompleted ? 'active' : 'locked'} ${sixthIslandCompleted ? 'completed' : ''}`}><span className="stage-number">06</span><div className="stage-icon orange">{sixthIslandCompleted ? '★' : '∪'}</div><span className="status-tag">{sixthIslandCompleted ? 'ILHA CONCLUÍDA' : fifthIslandCompleted ? 'PRONTO PARA JOGAR' : 'BLOQUEADA'}</span><h3>Operações com conjuntos</h3><p>Pratique união, interseção e diferença.</p><small className="mission-count">5 missões • desafio final</small>{fifthIslandCompleted ? <button onClick={() => startIsland(6)}>{sixthIslandCompleted ? 'Jogar novamente' : 'Explorar esta ilha'} <span>→</span></button> : <span className="locked-note">Conclua a Ilha 5 para liberar.</span>}</article>
+          <div className="module-tutor">{renderTutorCompanion()}</div>
+        </main>
+      )}
+
+      {screen === 'map' && (
+        <main className="map-page">
+          <div className="map-heading"><button className="back-button" onClick={goHome} aria-label="Voltar aos módulos">←</button><div><span className="section-kicker">MÓDULO DE MATEMÁTICA</span><h1>Conjuntos</h1><p>Escolha uma ilha. A ordem é uma sugestão; você pode praticar qualquer assunto.</p></div></div>
+          <section className="map-content" aria-label="Ilhas de conjuntos">
+            <div className="map-stages"><div className="map-progress"><strong>{completedCount}/6 ilhas concluídas</strong><span>Uma parte da Ilha do Explorador ganha cor ao concluir cada ilha.</span></div>
+              {islandBuildSteps.map((step) => { const island = step.island; const done = completedIslands[island - 1]; const best = bestScores[island - 1]; return (
+                <button key={island} className={`map-stage ${done ? 'completed' : ''}`} onClick={() => startIsland(island)}>
+                  <span className="map-stage-icon" aria-hidden="true">{step.icon}</span>
+                  <span className="map-stage-copy"><small>ILHA {island} · {done ? 'CONCLUÍDA' : '5 ATIVIDADES'}</small><strong>{['O que é um conjunto?', 'Quem pertence?', 'Conjuntos dentro de conjuntos', 'Conjuntos iguais', 'Tipos de conjuntos', 'Operações com conjuntos'][island - 1]}</strong><span>{['Encontre o que os elementos têm em comum.', 'Descubra quem segue a regra do conjunto.', 'Veja quais conjuntos cabem em outro.', 'Compare os elementos de dois conjuntos.', 'Reconheça vazio, unitário, finito e infinito.', 'Pratique união, interseção e diferença.'][island - 1]}</span>{best !== null && <em>Melhor resultado: {best}/5 de primeira</em>}</span>
+                  <span className="map-stage-arrow" aria-hidden="true">→</span>
+                </button>
+              ) })}
             </div>
+            <aside className="map-build"><div><span className="section-kicker">SUA CONQUISTA</span><h2>Ilha do Explorador</h2><p>{completedCount === 0 ? 'Ela começa sem cor. Complete qualquer ilha para construir uma parte!' : completedCount === 6 ? 'Você deu vida à ilha inteira!' : `${completedCount} partes já construídas. Continue no seu ritmo.`}</p></div><ExplorerIsland completedIslands={completedIslands} compact /><div className="map-build-legend">{islandBuildSteps.map((step, index) => <span key={step.island} className={completedIslands[index] ? 'built' : ''}>{completedIslands[index] ? '✓' : step.island} {step.shortName}</span>)}</div></aside>
           </section>
         </main>
       )}
 
       {screen === 'lesson' && (
         <main className="lesson-page">
-          <div className="lesson-progress" aria-label={`Progresso: ${Math.round(progress)}%`}><button className="back-button" onClick={goHome} aria-label="Sair da atividade">←</button><div className="progress-track"><span style={{ width: `${progress}%` }} /></div><strong>{challengeIndex + 1}/{activeChallengesLength}</strong><span className="star-counter" aria-label={`${earnedStars} estrelas conquistadas`}>★ {earnedStars}</span></div>
-          <section className="island-atmosphere" aria-label={`Cenário: ${atmosphere.name}`}><span aria-hidden="true">{atmosphere.symbols}</span><div><small>VOCÊ CHEGOU À</small><strong>{atmosphere.name}</strong><p>{atmosphere.detail}</p></div></section>
-          {renderTutorCompanion()}
-          {rewardMessage && <p className="reward-banner" role="status">★ {rewardMessage}</p>}
+          <div className="lesson-progress" aria-label={`Atividade ${challengeIndex + 1} de ${activeChallengesLength}`}><button className="back-button" onClick={goMap} aria-label="Voltar ao mapa de ilhas">←</button><div className="progress-info"><span>ILHA {activeIsland} · {atmosphere.name}</span><strong>Atividade {challengeIndex + 1} de {activeChallengesLength}</strong></div><span className="star-counter" aria-label={`${firstTryCorrect} acertos de primeira`}>★ {firstTryCorrect} de primeira</span></div>
+          <div className="progress-track" role="progressbar" aria-label="Atividades resolvidas" aria-valuemin={0} aria-valuemax={activeChallengesLength} aria-valuenow={earnedStars}><span style={{ width: `${progress + (answerConfirmed ? 100 / activeChallengesLength : 0)}%` }} /></div>
+          <div className="lesson-help"><button type="button" onClick={showTutorHint}>💡 {hintStep === 0 ? 'Quero uma dica' : 'Mais ajuda'}</button>{hintVisible && <p role="status">{hintStep === 1 ? tutorHints[activeIsland][challengeIndex] ?? activeChallenge.instruction : activeChallenge.tip}</p>}</div>
           {activeIsland === 1 ? (
             <section className="challenge-card">
               <div className="challenge-copy"><span className="section-kicker">{challenge.eyebrow}</span><h1>{challenge.title}</h1><p>{challenge.instruction}</p></div>
               <div className="set-board"><div className="set-label">{challenge.setName}</div><div className="selected-set" aria-live="polite"><span className="brace">{'{'}</span><div>{selectedLabels.length === 0 ? <span className="empty-hint">seus elementos aparecerão aqui</span> : selectedLabels.map((symbol, index) => <span className="selected-symbol" key={`${symbol}-${index}`}>{symbol}</span>)}</div><span className="brace">{'}'}</span></div></div>
               <div className="item-grid" aria-label="Elementos disponíveis">
-                {challenge.items.map((item) => { const isSelected = selected.includes(item.id); return <button key={item.id} className={`item-button ${isSelected ? 'selected' : ''}`} aria-pressed={isSelected} aria-label={`${item.label}${isSelected ? ', selecionado' : ''}`} onClick={() => toggleItem(item.id)}><span>{item.symbol}</span><small>{item.label}</small><i aria-hidden="true">{isSelected ? '✓' : '+'}</i></button> })}
+                {challenge.items.map((item) => { const isSelected = selected.includes(item.id); return <button key={item.id} className={`item-button ${isSelected ? 'selected' : ''}`} disabled={answerConfirmed} aria-pressed={isSelected} aria-label={`${item.label}${isSelected ? ', selecionado' : ''}`} onClick={() => toggleItem(item.id)}><span>{item.symbol}</span><small>{item.label}</small><i aria-hidden="true">{isSelected ? '✓' : '+'}</i></button> })}
               </div>
-              <div className="challenge-footer"><p className={message ? 'feedback visible' : 'feedback'} aria-live="polite">{message || 'Escolha com calma. Você pode mudar sua resposta.'}</p><button className="primary-button" disabled={selected.length === 0} onClick={checkIntroAnswer}>Conferir resposta</button></div>
+              {renderChallengeFooter(challenge.answers, challenge.tip, 'Escolha com calma. Você pode mudar sua resposta.')}
             </section>
           ) : activeIsland === 2 ? (
             <section className="challenge-card membership-card">
               <div className="challenge-copy"><span className="section-kicker">ILHA 2 • {membershipChallenge.eyebrow}</span><h1>{membershipChallenge.title}</h1><p>{membershipChallenge.instruction}</p></div>
               {membershipChallenge.showNotation && <div className="notation-guide" aria-label="Significado dos símbolos de pertinência"><span><strong>∈</strong> pertence ao conjunto</span><span><strong>∉</strong> não pertence ao conjunto</span></div>}
               <div className="membership-rule"><span>REGRA DO CONJUNTO</span><strong>{membershipChallenge.setName}: {membershipChallenge.rule}</strong></div>
-              <div className="membership-board">
-                <section className="membership-zone outside-zone" aria-labelledby="outside-title">
-                  <div className="membership-zone-heading"><span aria-hidden="true">○</span><div><small id="outside-title">{membershipChallenge.showNotation ? 'NÃO PERTENCE • ∉' : 'FORA DO CONJUNTO'}</small><strong>Elementos do lado de fora</strong></div></div>
-                  <div className="membership-item-grid">{outsideMembershipItems.length > 0 ? outsideMembershipItems.map((item) => renderMembershipItem(item, false)) : <p className="zone-empty">Todos os elementos estão dentro.</p>}</div>
-                </section>
-                <section className="membership-zone inside-zone" aria-labelledby="inside-title">
-                  <div className="membership-zone-heading"><span aria-hidden="true">{membershipChallenge.showNotation ? '∈' : '●'}</span><div><small id="inside-title">{membershipChallenge.showNotation ? 'PERTENCE • ∈' : 'DENTRO DO CONJUNTO'}</small><strong>{membershipChallenge.setName}</strong></div></div>
-                  <div className="membership-item-grid">{insideMembershipItems.length > 0 ? insideMembershipItems.map((item) => renderMembershipItem(item, true)) : <p className="zone-empty">Mova para cá quem segue a regra.</p>}</div>
-                </section>
-              </div>
+              <div className="selection-heading"><strong>Toque em quem pertence ao conjunto</strong><span>Os cartões escolhidos ficam marcados.</span></div>
+              <div className="membership-item-grid mobile-choice-grid">{membershipChallenge.items.map(item => renderMembershipItem(item, selected.includes(item.id)))}</div>
+              <p className="selection-summary" aria-live="polite"><strong>Dentro do conjunto:</strong> {insideMembershipItems.length ? insideMembershipItems.map(item => item.label).join(', ') : 'nenhum elemento ainda'}</p>
               <p className="sr-only" aria-live="polite">{movementMessage}</p>
-              <div className="challenge-footer"><p className={message ? 'feedback visible' : 'feedback'} aria-live="polite">{message || 'Toque em um elemento para movê-lo. Você pode mudar de ideia.'}</p><button className="primary-button" disabled={selected.length === 0} onClick={checkMembershipAnswer}>Conferir resposta</button></div>
+              {renderChallengeFooter(membershipChallenge.answers, membershipChallenge.tip, 'Toque em um elemento para movê-lo. Você pode mudar de ideia.')}
             </section>
           ) : activeIsland === 3 ? (
             <section className="challenge-card inclusion-card">
@@ -1499,19 +1461,11 @@ function App() {
               <div className="inclusion-concept"><span aria-hidden="true">💡</span><div><small>IDEIA IMPORTANTE</small><p>{inclusionChallenge.concept}</p></div></div>
               {inclusionChallenge.showNotation && <div className="notation-guide" aria-label="Significado dos símbolos de inclusão"><span><strong>⊂</strong> está contido</span><span><strong>⊄</strong> não está contido</span></div>}
               <div className="inclusion-rule"><span>CONJUNTO MAIOR</span><strong>{inclusionChallenge.outerName}</strong><small>Regra: {inclusionChallenge.outerRule}</small></div>
-              <div className="inclusion-board">
-                <section className="inclusion-zone group-palette" aria-labelledby="inclusion-outside-title">
-                  <div className="inclusion-zone-heading"><span aria-hidden="true">◇</span><div><small id="inclusion-outside-title">CONJUNTOS PARA ANALISAR</small><strong>Observe todos os elementos</strong></div></div>
-                  <div className="set-group-grid">{outsideInclusionGroups.length > 0 ? outsideInclusionGroups.map((group) => renderInclusionGroup(group, false)) : <p className="zone-empty">Todos os conjuntos foram colocados dentro.</p>}</div>
-                </section>
-                <section className="inclusion-zone outer-set-zone" aria-labelledby="inclusion-inside-title">
-                  <div className="inclusion-zone-heading"><span aria-hidden="true">{inclusionChallenge.showNotation ? '⊂' : '◎'}</span><div><small id="inclusion-inside-title">{inclusionChallenge.showNotation ? 'ESTÁ CONTIDO • ⊂' : 'DENTRO DO CONJUNTO MAIOR'}</small><strong>{inclusionChallenge.outerName}</strong></div></div>
-                  <p className="outer-rule-reminder">Aqui só entram conjuntos em que <strong>todos</strong> os elementos seguem a regra.</p>
-                  <div className="set-group-grid inside-group-grid">{insideInclusionGroups.length > 0 ? insideInclusionGroups.map((group) => renderInclusionGroup(group, true)) : <p className="zone-empty">Mova para cá os conjuntos menores que cabem por inteiro.</p>}</div>
-                </section>
-              </div>
+              <div className="selection-heading"><strong>Quais conjuntos cabem por inteiro?</strong><span>Olhe todos os elementos de cada cartão.</span></div>
+              <div className="set-group-grid mobile-choice-grid">{inclusionChallenge.groups.map(group => renderInclusionGroup(group, selected.includes(group.id)))}</div>
+              <p className="selection-summary" aria-live="polite"><strong>Dentro do conjunto maior:</strong> {insideInclusionGroups.length ? insideInclusionGroups.map(group => `Conjunto ${group.name}`).join(', ') : 'nenhum conjunto ainda'}</p>
               <p className="sr-only" aria-live="polite">{movementMessage}</p>
-              <div className="challenge-footer"><p className={message ? 'feedback visible' : 'feedback'} aria-live="polite">{message || 'Confira todos os elementos antes de mover um conjunto.'}</p><button className="primary-button" disabled={selected.length === 0} onClick={checkInclusionAnswer}>Conferir resposta</button></div>
+              {renderChallengeFooter(inclusionChallenge.answers, inclusionChallenge.tip, 'Confira todos os elementos antes de escolher.')}
             </section>
           ) : activeIsland === 4 ? (
             <section className="challenge-card equality-card">
@@ -1525,12 +1479,12 @@ function App() {
               </div>
               <div className="equality-grid" aria-label="Conjuntos para comparar">
                 {equalityChallenge.groups.map((group) => { const isSelected = selected.includes(group.id); return (
-                  <button key={group.id} className={`comparison-card ${isSelected ? 'selected' : ''}`} aria-pressed={isSelected} onClick={() => selectSingleItem(group.id)} aria-label={`${group.label}: ${group.elements.map((item) => item.label).join(', ')}`}>
+                  <button key={group.id} className={`comparison-card ${isSelected ? 'selected' : ''}`} disabled={answerConfirmed} aria-pressed={isSelected} onClick={() => selectSingleItem(group.id)} aria-label={`${group.label}: ${group.elements.map((item) => item.label).join(', ')}`}>
                     <span>CONJUNTO {group.name}</span><div className="large-mini-set" aria-hidden="true"><i>{'{'}</i>{group.elements.map((item) => <b key={`${group.id}-${item.id}`}>{item.symbol}</b>)}<i>{'}'}</i></div><strong>{isSelected ? '✓ Escolhido' : `Comparar com ${equalityChallenge.reference.name}`}</strong>
                   </button>
                 ) })}
               </div>
-              <div className="challenge-footer"><p className={message ? 'feedback visible' : 'feedback'} aria-live="polite">{message || 'Compare cada elemento. A ordem pode mudar, mas o conteúdo precisa ser o mesmo.'}</p><button className="primary-button" disabled={selected.length === 0} onClick={checkEqualityAnswer}>Conferir resposta</button></div>
+              {renderChallengeFooter(equalityChallenge.answers, equalityChallenge.tip, 'Compare cada elemento. A ordem não muda o conjunto.')}
             </section>
           ) : activeIsland === 5 ? (
             <section className="challenge-card classification-card">
@@ -1538,12 +1492,12 @@ function App() {
               <div className="inclusion-concept"><span aria-hidden="true">💡</span><div><small>IDEIA IMPORTANTE</small><p>{classificationChallenge.concept}</p></div></div>
               <div className="classification-grid" aria-label="Conjuntos para classificar">
                 {classificationChallenge.options.map((option) => { const isSelected = selected.includes(option.id); return (
-                  <button key={option.id} className={`classification-option ${isSelected ? 'selected' : ''}`} aria-pressed={isSelected} onClick={() => classificationChallenge.multiple ? toggleItem(option.id) : selectSingleItem(option.id)}>
+                  <button key={option.id} className={`classification-option ${isSelected ? 'selected' : ''}`} disabled={answerConfirmed} aria-pressed={isSelected} onClick={() => classificationChallenge.multiple ? toggleItem(option.id) : selectSingleItem(option.id)}>
                     <span className="classification-symbol" aria-hidden="true">{option.symbol}</span><small>CONJUNTO {option.name}</small><strong>{option.notation}</strong><p>{option.detail}</p><i aria-hidden="true">{isSelected ? '✓ Escolhido' : 'Toque para escolher'}</i>
                   </button>
                 ) })}
               </div>
-              <div className="challenge-footer"><p className={message ? 'feedback visible' : 'feedback'} aria-live="polite">{message || 'Observe quantos elementos existem e se a contagem termina.'}</p><button className="primary-button" disabled={selected.length === 0} onClick={checkClassificationAnswer}>Conferir resposta</button></div>
+              {renderChallengeFooter(classificationChallenge.answers, classificationChallenge.tip, 'Observe quantos elementos existem e se a contagem termina.')}
             </section>
           ) : (
             <section className="challenge-card operation-card">
@@ -1555,20 +1509,21 @@ function App() {
               </div>
               <div className="operation-result"><span>MONTE O RESULTADO</span><strong>{operationChallenge.setA.name} {operationChallenge.operator} {operationChallenge.setB.name} =</strong><div className="selected-set" aria-live="polite"><span className="brace">{'{'}</span><div>{operationSelectedLabels.length === 0 ? <span className="empty-hint">escolha os elementos</span> : operationSelectedLabels.map((symbol, index) => <span className="selected-symbol" key={`${symbol}-${index}`}>{symbol}</span>)}</div><span className="brace">{'}'}</span></div></div>
               <div className="item-grid operation-items" aria-label="Elementos disponíveis para o resultado">
-                {operationChallenge.items.map((item) => { const isSelected = selected.includes(item.id); return <button key={item.id} className={`item-button ${isSelected ? 'selected' : ''}`} aria-pressed={isSelected} aria-label={`${item.label}${isSelected ? ', selecionado' : ''}`} onClick={() => toggleItem(item.id)}><span>{item.symbol}</span><small>{item.label}</small><i aria-hidden="true">{isSelected ? '✓' : '+'}</i></button> })}
+                {operationChallenge.items.map((item) => { const isSelected = selected.includes(item.id); return <button key={item.id} className={`item-button ${isSelected ? 'selected' : ''}`} disabled={answerConfirmed} aria-pressed={isSelected} aria-label={`${item.label}${isSelected ? ', selecionado' : ''}`} onClick={() => toggleItem(item.id)}><span>{item.symbol}</span><small>{item.label}</small><i aria-hidden="true">{isSelected ? '✓' : '+'}</i></button> })}
               </div>
-              <div className="challenge-footer"><p className={message ? 'feedback visible' : 'feedback'} aria-live="polite">{message || 'Use a ideia importante para decidir o que entra no resultado.'}</p><button className="primary-button" disabled={selected.length === 0} onClick={checkOperationAnswer}>Conferir resposta</button></div>
+              {renderChallengeFooter(operationChallenge.answers, operationChallenge.tip, 'Observe a operação e escolha os elementos do resultado.')}
             </section>
           )}
+          {renderTutorCompanion()}
         </main>
       )}
 
       {screen === 'result' && (
-        <main className="result-page"><section className="result-card"><div className="confetti" aria-hidden="true">✦ • ▲ • ✦</div><div className="result-medal" aria-hidden="true">{resultContent.symbol}</div><span className="section-kicker">{resultContent.kicker}</span><h1>{resultContent.title}</h1><p>{resultContent.description}</p><div className="stars" aria-label={`${earnedStars} estrelas conquistadas`}>{Array.from({ length: activeChallengesLength }, () => '★').join(' ')}</div><strong className="result-stars">{earnedStars} missões vencidas no seu ritmo</strong><div className={`result-build-reward ${wasNewCompletion ? 'new' : 'replay'}`}><span>{wasNewCompletion ? 'NOVA PARTE CONSTRUÍDA' : 'PARTE REFORÇADA'}</span><h2><i aria-hidden="true">{activeBuildStep.icon}</i> {activeBuildStep.name}</h2><p>{wasNewCompletion
-          ? activeIsland === 6
+        <main className="result-page"><section className="result-card"><div className="confetti" aria-hidden="true">✦ • ▲ • ✦</div><div className="result-medal" aria-hidden="true">{resultContent.symbol}</div><span className="section-kicker">{resultContent.kicker}</span><h1>{resultContent.title}</h1><p>{resultContent.description}</p><strong className="result-stars">{earnedStars} atividades resolvidas • {firstTryCorrect} de primeira</strong><p>Precisou tentar de novo? Tudo bem! O importante é entender a explicação e continuar praticando.</p><div className={`result-build-reward ${wasNewCompletion ? 'new' : 'replay'}`}><span>{wasNewCompletion ? 'NOVA PARTE CONSTRUÍDA' : 'PARTE REFORÇADA'}</span><h2><i aria-hidden="true">{activeBuildStep.icon}</i> {activeBuildStep.name}</h2><p>{wasNewCompletion
+          ? completedCount === 6
             ? 'A Ilha do Explorador está completa! Todas as suas descobertas agora fazem parte deste mundo.'
             : `Sua ilha ganhou uma nova parte. Faltam ${6 - completedCount} para completar o mundo inteiro.`
-          : 'Você praticou novamente e deixou esta parte ainda mais forte.'}</p><ExplorerIsland completedCount={completedCount} compact /></div><button className="primary-button" onClick={goHome}>{completedCount === 6 ? 'Ver a ilha completa' : 'Ver minha ilha'}</button></section></main>
+          : 'Você praticou novamente e deixou esta parte ainda mais forte.'}</p><ExplorerIsland completedIslands={completedIslands} compact /></div><button className="primary-button" onClick={goMap}>Voltar ao mapa de ilhas</button></section></main>
       )}
       {screen === 'result' && <div className="result-guide">{renderTutorCompanion()}</div>}
       {screen !== 'login' && screen !== 'avatar' && <footer><span>Projeto de extensão • Reforço de Matemática</span><span>Feito para aprender brincando ♥</span></footer>}
