@@ -152,9 +152,15 @@ function App() {
         {[...modules.filter(item => item.id !== 'conjuntos'), ...modules.filter(item => item.id === 'conjuntos')].map(item => <section className="activity-topic" key={item.id} aria-labelledby={`topic-${item.id}`}>
           <h2 id={`topic-${item.id}`}><span aria-hidden="true">{item.symbol}</span>{item.title}</h2>
           <p>{item.summary}</p>
-          <div className="activity-choices">{item.levels.map(entry => <button key={entry.id} onClick={() => startLevel(entry.id, item.id)}>
-            <span><strong>{entry.subtitle}</strong><small>{activitiesForLevel(item.id, entry.id).length} questões{scores[item.id][entry.id - 1] !== null ? ` · Melhor: ${scores[item.id][entry.id - 1]}/${activitiesForLevel(item.id, entry.id).length}` : ''}</small></span><b aria-hidden="true">→</b>
-          </button>)}</div>
+          <div className="activity-choices">{item.levels.map(entry => {
+            const questionCount = activitiesForLevel(item.id, entry.id).length
+            const best = scores[item.id][entry.id - 1]
+            return <button key={entry.id} onClick={() => startLevel(entry.id, item.id)}>
+              <span className="activity-level-number" aria-hidden="true">{entry.id}</span>
+              <span className="activity-choice-copy"><strong>Nível {entry.id} · {entry.subtitle}</strong><small>{questionCount} questões{best !== null ? ` · ✓ Concluído · Melhor: ${best}/${questionCount}` : ''}</small></span>
+              <b className="activity-choice-arrow" aria-hidden="true">→</b>
+            </button>
+          })}</div>
         </section>)}
       </div>
     </main>}

@@ -184,3 +184,13 @@ Pendente: revisão pedagógica e matemática com professor e teste de usabilidad
 - nove testes automatizados aprovados e compilação validada; conferência de gráficos, navegação e erro/nova tentativa na montagem em 320 px.
 
 Pendente: revisão docente do conteúdo e teste com alunos antes da validação pedagógica final.
+
+## 23/09/2026 — Acabamento visual mobile na identidade UNEMAT
+
+- entrada com formas geométricas e cartões de orientação discretos, mantendo os logotipos e o azul, verde e amarelo da UNEMAT;
+- cartões dos oito módulos diferenciados por acentos da paleta, sem alterar a ordem nem o acesso direto às atividades;
+- identificação explícita dos níveis e do resultado salvo em cada atividade;
+- espaçamentos das questões ajustados para facilitar a leitura e o avanço no celular;
+- compilação e nove testes automatizados aprovados; entrada, catálogo e questão conferidos em 320 e 390 px.
+
+Pendente: testar a interface com estudantes e validar os conteúdos com um professor.
